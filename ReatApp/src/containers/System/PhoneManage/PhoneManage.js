@@ -127,14 +127,12 @@ class PhoneManage extends Component {
                                     <FormattedMessage id="manage-product.current-status" />
                                 </th>
                                 <th>
-                                    <FormattedMessage id="manage-product.delete" />
-                                </th>
-                                <th>
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
                             {arrProductPhone &&
                                 arrProductPhone.map((item) => {
+                                    const img = item.product_image
                                     const category = categoryRedux.find((category) => category.key === item.category);
                                     return (
                                         <tr key={item.id}>
@@ -145,7 +143,14 @@ class PhoneManage extends Component {
                                             <td>{item.quatity_stock} <FormattedMessage id="manage-product.items"/></td>
                                             <td>{item.brand}</td>
                                             <td>{language === LANGUAGES.VI ? category?.valueVi : category?.valueEn}</td>
-                                            <td>{item.product_image}</td>
+                                            <td>
+                                                <div
+                                                    className="preview-avatar"
+                                                    style={{
+                                                        backgroundImage: `url(http://localhost:8000/static${img})`,
+                                                    }}
+                                                ></div>
+                                            </td>
                                             <td>
                                                 {item.current_status ? (
                                                     <FormattedMessage id="manage-product.in-stock" />
@@ -153,7 +158,6 @@ class PhoneManage extends Component {
                                                     <FormattedMessage id="manage-product.out-of-stock" />
                                                 )}
                                             </td>
-                                            <td>{item.deleted ? "True" : "False"}</td>
                                             <td>
                                                 <button className="btn-edit" onClick={() => this.handleEditProduct(item)}>
                                                     <i className="fas fa-pencil-alt"></i>

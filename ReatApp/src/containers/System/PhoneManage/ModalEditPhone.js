@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { FormattedMessage } from "react-intl";
+import { injectIntl, FormattedMessage } from "react-intl";
 import * as actions from "../../../store/actions";
-import { LANGUAGES , DISCOUNT_CHOICES} from "../../../utils";
+import { LANGUAGES, DISCOUNT_CHOICES } from "../../../utils";
 
 class ModalEditPhone extends Component {
     constructor(props) {
@@ -11,14 +11,7 @@ class ModalEditPhone extends Component {
         this.state = {
             categoryArr: [],
             brandArr: [],
-            title: "",
-            selling_price: "",
-            description: "",
-            discount: "",
-            brand: "",
-            category: "",
-            quatity_stock: "",
-            product_image: "",
+            productPreviewUrl: "",
         };
     }
 
@@ -51,17 +44,40 @@ class ModalEditPhone extends Component {
         currentProduct[id] = e.target.value;
         this.setState({ currentProduct });
     };
-    // handle save user
     handleSaveProduct = () => {
-        this.props.editProduct(this.state.currentProduct).then(() => {
+        const { currentProduct } = this.props;
+
+        const formData = new FormData();
+        formData.append("id", currentProduct.id);
+        formData.append("title", currentProduct.title);
+        formData.append("selling_price", currentProduct.selling_price);
+        formData.append("quatity_stock", currentProduct.quatity_stock);
+        formData.append("description", currentProduct.description);
+        formData.append("discount", currentProduct.discount);
+        formData.append("brand", currentProduct.brand);
+        formData.append("category", currentProduct.category);
+        formData.append("current_status", currentProduct.current_status);
+        formData.append("product_image", currentProduct.product_image);
+
+        this.props.editProduct(formData).then(() => {
             this.toggle();
         });
     };
-
+    handleOnChangeImage = (e) => {
+        const file = e.target.files[0];
+        const { currentProduct } = this.props;
+        const previewUrl = URL.createObjectURL(file);
+        this.setState({
+            productPreviewUrl: previewUrl,
+            currentProduct : {
+                ...currentProduct,
+                product_image : file,
+            }
+        });
+    };
     render() {
         const { language, currentProduct } = this.props;
-        const { categoryArr, brandArr } = this.state;
-        console.log(currentProduct);
+        const { categoryArr, brandArr, productPreviewUrl } = this.state;
         return (
             <Modal isOpen={this.props.isOpen} toggle={() => this.toggle()} size="lg" className="modal-user-container">
                 <ModalHeader toggle={() => this.toggle()}>
@@ -114,7 +130,7 @@ class ModalEditPhone extends Component {
                                         onChange={(e) => this.onChangeInput(e, "description")}
                                     />
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>Discount</label>
                                     <select
                                         className="form-control"
@@ -128,7 +144,7 @@ class ModalEditPhone extends Component {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-product.category" />{" "}
                                     </label>
@@ -150,7 +166,7 @@ class ModalEditPhone extends Component {
                                             })}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-product.brand" />{" "}
                                     </label>
@@ -168,13 +184,30 @@ class ModalEditPhone extends Component {
                                             ))}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
+                                    <label>
+                                        <FormattedMessage id="manage-product.current-status" />{" "}
+                                    </label>
+                                    <select
+                                        className="form-control"
+                                        onChange={(e) => this.onChangeInput(e, "current_status")}
+                                        value={currentProduct.current_status}
+                                    >
+                                        <option value={true}>
+                                            {this.props.intl.formatMessage({ id: "manage-product.in-stock" })}
+                                        </option>
+                                        <option value={false}>
+                                            {this.props.intl.formatMessage({ id: "manage-product.out-of-stock" })}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-user.avatar" />{" "}
                                     </label>
                                     <div className="preview-img-container">
                                         <input
-                                            onChange={(e) => this.handleOnchangeImage(e)}
+                                            onChange={(e) => this.handleOnChangeImage(e)}
                                             id="previewImg"
                                             type="file"
                                             hidden
@@ -182,11 +215,27 @@ class ModalEditPhone extends Component {
                                         <label className="label-upload" htmlFor="previewImg">
                                             Tải ảnh <i className="fas fa-upload"></i>
                                         </label>
-                                        <div
-                                            className="preview-image"
-                                            style={{ backgroundImage: `url(${currentProduct.product_image})` }}
-                                            onClick={() => this.openPreviewImage()}
-                                        ></div>
+                                        {productPreviewUrl ? (
+                                            <div className="span-img">
+                                                <img
+                                                    src={productPreviewUrl}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            </div>
+                                        ) : currentProduct.product_image ? (
+                                            <div className="span-img">
+                                                <img
+                                                    src={`http://localhost:8000/static${currentProduct.product_image}`}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="span-img">
+                                                <FormattedMessage id="manage-user.no-avatar" />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -222,4 +271,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEditPhone);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ModalEditPhone));

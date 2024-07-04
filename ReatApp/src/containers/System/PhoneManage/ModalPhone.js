@@ -101,7 +101,6 @@ class ModalUser extends Component {
             quatity_stock,
             product_image,
         } = this.state;
-        console.log(discount);
         return (
             <Modal
                 isOpen={this.props.isOpen}

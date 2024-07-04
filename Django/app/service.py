@@ -308,56 +308,64 @@ def delete_product_by_id(product_id):
 
 
 # -----------------------------edit product by id--------------------------
-def edit_product_by_id(data):
+def check_id_product(product_id):
+    return Product.objects.filter(id=product_id).exists()
+
+def edit_product_by_id(data , files):
     response = {}
     product_id = data.get("id")
-    # selling_price = data.get("selling_price")
-    # description = data.get("description")
-    # discount = data.get("discount")
-    # deleted = data.get("deleted")
 
     if not product_id:
         response["errCode"] = 1
         response["errMessage"] = "Missing required parameter!"
         return response
+    is_exist = check_id_product(product_id)
+    if is_exist : 
+        product = Product.objects.get(id=product_id)
+        if not product:
+            response["errCode"] = 2
+            response["errMessage"] = "Product not found"
+        if "category" in data:
+            category_key = data["category"]
+            try:
+                category_instance = Allcode.objects.get(type="CATEGORY", key=category_key)
+                product.category = category_instance
+            except Allcode.DoesNotExist:
+                response["errCode"] = 3
+                response["errMessage"] = (
+                    f"Category with key '{category_key}' does not exist!"
+                )
+                return response
 
-    product = Product.objects.get(id=product_id)
-    if not product:
-        response["errCode"] = 2
-        response["errMessage"] = "Product not found"
-    if "category" in data:
-        category_key = data["category"]
-        try:
-            category_instance = Allcode.objects.get(type="CATEGORY", key=category_key)
-            product.category = category_instance
-        except Allcode.DoesNotExist:
-            response["errCode"] = 3
-            response["errMessage"] = (
-                f"Category with key '{category_key}' does not exist!"
-            )
+        if "brand" in data:
+            brand_name = data["brand"]
+            try:
+                # Query the Allcode model to get the brand instance
+                brand_instance = Brand.objects.get(name=brand_name)
+                product.brand = brand_instance
+            except Allcode.DoesNotExist:
+                response["errCode"] = 4
+                response["errMessage"] = f"Brand with name '{brand_name}' does not exist!"
+                return response
+            
+        if "product_image" in files:
+            product_image_file = files["product_image"]
+            product.product_image = product_image_file
+            
+        product_data = ProductSerializer(product, data=data, partial=True)
+        if product_data.is_valid():
+            product_data.save()
+            response["errCode"] = 0
+            response["errMessage"] = "Update success!"
+            response["data"] = product_data.data
             return response
-
-    if "brand" in data:
-        brand_name = data["brand"]
-        try:
-            # Query the Allcode model to get the brand instance
-            brand_instance = Brand.objects.get(name=brand_name)
-            product.brand = brand_instance
-        except Allcode.DoesNotExist:
+        else:
             response["errCode"] = 4
-            response["errMessage"] = f"Brand with name '{brand_name}' does not exist!"
+            response["errMessage"] = "Update failed!"
             return response
-
-    product_data = ProductSerializer(product, data=data, partial=True)
-    if product_data.is_valid():
-        product_data.save()
-        response["errCode"] = 0
-        response["errMessage"] = "Update success!"
-        response["data"] = product_data.data
-        return response
-    else:
-        response["errCode"] = 4
-        response["errMessage"] = "Update failed!"
+    else : 
+        response["errCode"] = 5
+        response["errMessage"] = "Id does not exist!"
         return response
 
 

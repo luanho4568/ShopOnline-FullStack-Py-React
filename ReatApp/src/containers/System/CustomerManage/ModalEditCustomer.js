@@ -11,16 +11,8 @@ class ModalEditUser extends Component {
         this.state = {
             genderArr: [],
             roleArr: [],
-            id: "",
-            username: "",
-            email: "",
             password: "HashPassword",
-            first_name: "",
-            last_name: "",
-            phone_number: "",
-            role: "",
-            gender: "",
-            avatar: "",
+            avatarPreviewUrl: "",
         };
     }
 
@@ -55,14 +47,35 @@ class ModalEditUser extends Component {
     };
     // handle save user
     handleSaveUser = () => {
-        this.props.editUser(this.props.currentUser).then(() => {
+        const { currentUser } = this.props;
+        const formData = new FormData();
+
+        // Thêm các trường thông tin người dùng vào FormData
+        formData.append("id", currentUser.id);
+        formData.append("first_name", currentUser.first_name);
+        formData.append("last_name", currentUser.last_name);
+        formData.append("phone_number", currentUser.phone_number);
+        formData.append("gender", currentUser.gender);
+        formData.append("role", currentUser.role);
+        formData.append("avatar", currentUser.avatar);
+
+        // Gọi action editUser với FormData
+        this.props.editUser(formData).then(() => {
             this.toggle();
         });
     };
-
+    handleOnChangeImage = (e) => {
+        const file = e.target.files[0];
+        const { currentUser } = this.props;
+        const previewUrl = URL.createObjectURL(file);
+        currentUser.avatar = file;
+        this.setState({
+            avatarPreviewUrl: previewUrl,
+        });
+    };
     render() {
         const { language, currentUser } = this.props;
-        const { genderArr, roleArr, password } = this.state;
+        const { genderArr, roleArr, password  , avatarPreviewUrl} = this.state;
         return (
             <Modal isOpen={this.props.isOpen} toggle={() => this.toggle()} size="lg" className="modal-user-container">
                 <ModalHeader toggle={() => this.toggle()}>
@@ -182,7 +195,7 @@ class ModalEditUser extends Component {
                                     </label>
                                     <div className="preview-img-container">
                                         <input
-                                            onChange={(e) => this.onChangeInput(e , "avatar")}
+                                            onChange={(e) => this.handleOnChangeImage(e)}
                                             id="previewImg"
                                             type="file"
                                             hidden
@@ -190,11 +203,27 @@ class ModalEditUser extends Component {
                                         <label className="label-upload" htmlFor="previewImg">
                                             Tải ảnh <i className="fas fa-upload"></i>
                                         </label>
-                                        <div
-                                            className="preview-image"
-                                            style={{ backgroundImage: `url(${currentUser.avatar})` }}
-                                            onClick={() => this.openPreviewImage()}
-                                        ></div>
+                                        {avatarPreviewUrl ? (
+                                            <div className="span-img">
+                                                <img
+                                                    src={avatarPreviewUrl}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            </div>
+                                        ) : currentUser.avatar ? (
+                                            <div className="span-img">
+                                                <img
+                                                    src={`http://localhost:8000/static${currentUser.avatar}`}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="span-img">
+                                                <FormattedMessage id="manage-user.no-avatar" />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

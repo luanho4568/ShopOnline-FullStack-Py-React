@@ -47,7 +47,6 @@ class ProductAdmin(admin.ModelAdmin):
         "category",
         "created_date",
         "updated_date",
-        "deleted",
     ]
     search_fields = ["title", "selling_price", "brand", "category"]
     readonly_fields = ["image"]

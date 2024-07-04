@@ -120,11 +120,15 @@ class CustomerManage extends Component {
                                     <FormattedMessage id="manage-user.role" />
                                 </th>
                                 <th>
+                                    <FormattedMessage id="manage-user.avatar" />
+                                </th>
+                                <th>
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
                             {arrUserCustomer &&
                                 arrUserCustomer.map((item) => {
+                                    const avatar = item.avatar;
                                     const role = roleRedux.find((role) => role.key === item.role);
                                     const gender = genderRedux.find((gender) => gender.key === item.gender);
                                     return (
@@ -137,6 +141,14 @@ class CustomerManage extends Component {
 
                                             <td>{language === LANGUAGES.VI ? gender?.valueVi : gender?.valueEn}</td>
                                             <td>{language === LANGUAGES.VI ? role?.valueVi : role?.valueEn}</td>
+                                            <td>
+                                                <div
+                                                    className="preview-avatar"
+                                                    style={{
+                                                        backgroundImage: `url(http://localhost:8000/static${avatar})`,
+                                                    }}
+                                                ></div>
+                                            </td>
                                             <td>
                                                 <button className="btn-edit" onClick={() => this.handleEditUser(item)}>
                                                     <i className="fas fa-pencil-alt"></i>

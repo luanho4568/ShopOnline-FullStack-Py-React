@@ -191,7 +191,6 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     current_status = models.BooleanField(default=True)
-    deleted = models.BooleanField(default=False)
     product_image = models.ImageField(upload_to="products/%Y/%m", null=True, blank=True)
 
     def __str__(self):

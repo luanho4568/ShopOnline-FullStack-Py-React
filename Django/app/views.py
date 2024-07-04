@@ -191,7 +191,8 @@ class EditProductAPIView(APIView):
     def put(self, request):
         try:
             data = request.data
-            response = service.edit_product_by_id(data)
+            files = request.FILES
+            response = service.edit_product_by_id(data , files)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(

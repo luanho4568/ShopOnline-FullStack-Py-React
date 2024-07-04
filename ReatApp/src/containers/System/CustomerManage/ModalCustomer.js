@@ -19,6 +19,7 @@ class ModalUser extends Component {
             phone_number: "",
             role: "",
             gender: "",
+            avatarPreviewUrl: "",
             avatar: "",
         };
     }
@@ -83,11 +84,30 @@ class ModalUser extends Component {
     handleAddNewUser = () => {
         const isValid = this.checkvalidateInput();
         if (!isValid) return;
-        this.props.createNewUser(this.state).then(() => {
+
+        // Tạo FormData để gửi lên server
+        const formData = new FormData();
+        formData.append("username", this.state.username);
+        formData.append("email", this.state.email);
+        formData.append("password", this.state.password);
+        formData.append("first_name", this.state.first_name);
+        formData.append("last_name", this.state.last_name);
+        formData.append("phone_number", this.state.phone_number);
+        formData.append("role", this.state.role);
+        formData.append("gender", this.state.gender);
+        formData.append("avatar", this.state.avatar);
+        this.props.createNewUser(formData).then(() => {
             this.toggle();
         });
     };
-
+    handleOnChangeImage = (e) => {
+        const file = e.target.files[0];
+        const previewUrl = URL.createObjectURL(file);
+        this.setState({
+            avatar: file,
+            avatarPreviewUrl: previewUrl,
+        });
+    };
     render() {
         const { language } = this.props;
         const {
@@ -102,6 +122,7 @@ class ModalUser extends Component {
             role,
             avatar,
             username,
+            avatarPreviewUrl,
         } = this.state;
         return (
             <Modal
@@ -234,7 +255,7 @@ class ModalUser extends Component {
                                     </label>
                                     <div className="preview-img-container">
                                         <input
-                                            onChange={(e) => this.handleOnchangeImage(e)}
+                                            onChange={(e) => this.handleOnChangeImage(e)}
                                             id="previewImg"
                                             type="file"
                                             hidden
@@ -242,11 +263,17 @@ class ModalUser extends Component {
                                         <label className="label-upload" htmlFor="previewImg">
                                             Tải ảnh <i className="fas fa-upload"></i>
                                         </label>
-                                        <div
-                                            className="preview-image"
-                                            style={{ backgroundImage: `url(${this.state.previewImgUrl})` }}
-                                            onClick={() => this.openPreviewImage()}
-                                        ></div>
+                                        <div className="span-img">
+                                            {avatarPreviewUrl ? (
+                                                <img
+                                                    src={avatarPreviewUrl}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            ) : (
+                                                <FormattedMessage id="manage-user.no-avatar" />
+                                            )}{" "}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -264,8 +291,7 @@ class ModalUser extends Component {
                         <FormattedMessage id="manage-user.addnewuser" />
                     </Button>{" "}
                     <Button color="secondary" onClick={() => this.toggle()} className="px-3">
-                    <FormattedMessage id="manage-user.close" />
-
+                        <FormattedMessage id="manage-user.close" />
                     </Button>
                 </ModalFooter>
             </Modal>
