@@ -1,0 +1,111 @@
+.main {
+    cursor: default;
+    user-select: none;
+    .home-header-container {
+        height: 76px;
+        width: 100%;
+        background-color: #CD1818;
+
+        .home-header-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            .left-content {
+                width: 20%;
+
+                .header-logo {
+                    background: url(../../assets/logo.svg) center no-repeat;
+                    height: 100%;
+                    width: 100%;
+                    cursor: pointer;
+                    background-size: 50%;
+                }
+            }
+            .center-content {
+                width: 60%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+
+                .child-content {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: #fff;
+                    display: flex;
+
+                    .search {
+                        width: fit-content;
+                        display: flex;
+                        justify-content: center;
+                        border-radius: 25px;
+                        background-color: #fff;
+
+                        i {
+                            color: #333;
+                            font-size: 20px;
+                            padding: 16px 10px;
+                        }
+
+                        input {
+                            border: none;
+                            border-radius: 25px;
+                            font-size: 20px;
+                            padding: 10px;
+                            background-color: transparent;
+                            outline: none;
+                        }
+                    }
+                }
+            }
+            .right-content {
+                width: 20%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                font-size: 20px;
+                color: #fff;
+                font-weight: 500;
+
+                .language-vi {
+                    cursor: pointer;
+                    opacity: 0.2;
+                    &.active {
+                        opacity: 1;
+                        span {
+                            color: #fff;
+                        }
+                    }
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+                .language-en {
+                    cursor: pointer;
+                    opacity: 0.2;
+
+                    &.active {
+                        opacity: 1;
+                        span {
+                            color: #fff;
+                        }
+                    }
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+
+                .btn-login {
+                    border: none;
+                    border-radius: 20px;
+                    padding: 5px 10px;
+                    background-color: sandybrown;
+
+                    &:hover {
+                        opacity: 0.8;
+                        
+                    }
+                }
+            }
+        }
+    }
+}

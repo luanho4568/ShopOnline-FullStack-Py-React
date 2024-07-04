@@ -1,0 +1,72 @@
+{
+    "homepage": {
+        "home": "Trang chủ",
+        "phone": "Điện thoại",
+        "laptop": "Laptop",
+        "accessory": "Phụ kiện",
+        "login": "Đăng nhập",
+        "search": "Tìm kiếm...",
+        "welcome": "Xin chào"
+    },
+    "menu": {
+        "admin": {
+            "manage-user": "Người dùng",
+            "manage-staff": "Quản lý nhân viên",
+            "manage-admin": "Quản lý admin",
+            "manage-customer": "Quản lý khách hàng",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "product": "Sản phẩm",
+            "manage-category-phone": "Quản lý điện thoại",
+            "manage-category-tablet": "Quản lý máy tính bảng",
+            "manage-category-laptop": "Quản lý laptop",
+            "manage-category-accessory": "Quản lý phụ kiện",
+            "manage-category-smartwatch": "Quản lý đồng hồ thông minh",
+            "manage-category-bluetooth": "Quản lý tai nghe",
+            "manage-category-keyboard": "Quản lý bàn phím",
+            "manage-category-mouse": "Quản lý chuột",
+            "manage-category-screen": "Quản lý màn hình",
+            "order": "Đơn hàng",
+            "manage-order": "Quản lý đơn hàng"
+        }
+    },
+    "manage-user": {
+        "manage-admin" : "Quản lý admin",
+        "manage-staff" : "Quản lý nhân viên",
+        "manage-customer" : "Quản lý khách hàng",
+        "addnewuser" : "Thêm mới tài khoản",
+        "username": "Tài khoản",
+        "firstname": "Họ",
+        "lastname": "Tên",
+        "phonenumber": "Số điện thoại",
+        "gender": "Giới tính",
+        "role": "Vai trò",
+        "action" : "Hoạt động",
+        "password" : "Mật khẩu",
+        "save" : "Lưu người dùng",
+        "close" : "Thoát",
+        "avatar" : "Ảnh đại diện",
+        "no-avatar": "Chưa chọn ảnh",
+        "edit-user" : "Chỉnh sửa người dùng"
+    },
+    "manage-product" : {
+        "manage-phone" : "Quản lý điện thoại",
+        "manage-tablet" : "Quản lý máy tính bảng",
+        "manage-laptop" : "Quản lý máy tính xách tay",
+        "manage-accessory" : "Quản lý phụ kiện",
+        "add-product" : "Thêm sản phẩm",
+        "title" : "Tên sản phẩm",
+        "price" : "Giá",
+        "description" : "Mô tả",
+        "discount" : "Giảm giá",
+        "quatity-stock" : "Số lượng trong kho",
+        "brand" : "Thương hiệu",
+        "category" : "Thể loại",
+        "image" : "Hình ảnh",
+        "current-status" : "Tình trạng hiện tại",
+        "delete" : "Trạng thái hiện thị",
+        "in-stock" : "Còn hàng",
+        "items": "cái",
+        "out-of-stock" : "Hết hàng"
+    }
+}

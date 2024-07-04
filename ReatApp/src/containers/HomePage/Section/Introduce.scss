@@ -1,0 +1,102 @@
+.introduce-container {
+    height: 350px;
+    margin: 0 160px;
+    max-width: 100%;
+    .introduce-content {
+        height: 100%;
+        display: flex;
+        .left-content {
+            width: 60%;
+
+            .introduce-customize {
+                width: 100%;
+                height: 340px !important;
+
+                .bg-img {
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    height: 100%;
+                    &.img {
+                        background-image: url(../../../assets/body/introduce/image.png);
+                    }
+                    &.img1 {
+                        background-image: url(../../../assets/body/introduce/image1.png);
+                    }
+                    &.img2 {
+                        background-image: url(../../../assets/body/introduce/image2.png);
+                    }
+                    &.img3 {
+                        background-image: url(../../../assets/body/introduce/image3.png);
+                    }
+                }
+            }
+        }
+        .right-content {
+            width: 40%;
+            .right-content-col {
+                padding-top: 33px;
+                padding-bottom: 41px;
+                margin-left: 7px;
+                height: 100%;
+                .up-col {
+                    height: 50%;
+                    .img-up {
+                        height: 100%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        background-image: url(../../../assets/body/introduce/image6.png);
+                    }
+                }
+                .lw-col {
+                    height: 50%;
+                    .img-lw {
+                        height: 100%;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        background-image: url(../../../assets/body/introduce/image7.png);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.slick-prev {
+    left: 25px !important;
+    z-index: 1 !important;
+    height: 50px !important;
+    width: 50px !important;
+    background-color: #fff !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+    border-radius: 50%;
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+.slick-prev::before {
+    content: "❮" !important;
+    color: #333 !important;
+}
+
+.slick-next {
+    right: 25px !important;
+    height: 50px !important;
+    width: 50px !important;
+    background-color: #fff !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+    border-radius: 50%;
+    opacity: 0.8;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.slick-next::before {
+    color: #333 !important;
+    content: "❯" !important;
+}

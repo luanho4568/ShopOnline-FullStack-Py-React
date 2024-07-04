@@ -1,0 +1,59 @@
+.category-container {
+    height: 150px;
+    margin: 20px 160px;
+    user-select: none;
+    border-radius: 6px;
+    box-shadow: 0 0 3px 0 #333;
+    .category-content {
+        height: 150px;
+        border-radius: 6px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .category-box {
+            width: calc(100% / 4);
+            height: 100%;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+            transition: all 0.1s ease-in;
+            &:hover {
+                border-color: rgba(0, 0, 0, 0.12);
+                -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+            }
+            .category-img {
+                height: 80%;
+
+                .img {
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    height: 110px;
+                    width: 100px;
+                    margin: 3px auto;
+                    border-radius: 50%;
+                    background-color: #f4f4f4;
+
+                    &.phone {
+                        background-image: url(../../../assets/body/category/Phone.png);
+                    }
+                    &.accessory {
+                        background-image: url(../../../assets/body/category/Accessory.png);
+                    }
+                    &.laptop {
+                        background-image: url(../../../assets/body/category/Laptop.png);
+                    }
+                    &.tablet {
+                        background-image: url(../../../assets/body/category/Tablet.png);
+                    }
+                }
+            }
+
+            .category-text {
+                height: 20%;
+                font-weight: 200;
+                font-size: 20px;
+            }
+        }
+    }
+}

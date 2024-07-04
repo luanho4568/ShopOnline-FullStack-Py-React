@@ -1,0 +1,173 @@
+.slick-prev {
+    top: 150px;
+    left: 18px !important;
+    z-index: 1 !important;
+    height: 50px !important;
+    width: 50px !important;
+    background-color: #fff !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+    border-radius: 50%;
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+.slick-prev::before {
+    content: "❮" !important;
+    color: #333 !important;
+}
+
+.slick-next {
+    top: 150px;
+    right: 18px !important;
+    height: 50px !important;
+    width: 50px !important;
+    background-color: #fff !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+    border-radius: 50%;
+    opacity: 0.8;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.slick-next::before {
+    color: #333 !important;
+    content: "❯" !important;
+}
+
+.ctglaptop-container {
+    height: 550px;
+    margin: 20px 160px;
+    cursor: default;
+    .ctglaptop-content {
+        box-shadow: 0 0 3px 0 #333;
+        border-radius: 6px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0;
+    }
+    .ctglaptop-header {
+        height: 15%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 40px;
+        .title-ctglaptop {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .btn-ctglaptop {
+            float: right;
+            padding: 10px 15px;
+            border: none;
+            display: block;
+            color: black;
+            background-color: #ebebeb;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 30px;
+            &:hover {
+                background-color: #f7d800;
+            }
+        }
+    }
+    .ctglaptop-body {
+        height: 85%;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+
+        .ctglaptop-customize {
+            box-shadow: 0 0 3px 0 #dee2e6;
+            height: 460px !important;
+            padding: 10px;
+            border-radius: 6px;
+
+            &:hover {
+                border-radius: 6px;
+                border-color: #dee2e680;
+                transform: scale(1.03);
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+                .ctglaptop-image {
+                    transform: scale(1.03);
+                }
+            }
+            .ctglaptop-customize-max-height {
+                height: 100%;
+                width: 100%;
+                text-align: center;
+                .ctglaptop-image {
+                    height: 50%;
+                    position: relative;
+                    background: url(../../../assets/body/background-product.png);
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+
+                    .bg-img {
+                        height: 214px;
+                        width: 140px;
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        .img {
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            background: url(../../../assets/body/laptop/laptop.png);
+                            background-position: center center;
+                            background-repeat: no-repeat;
+                            background-size: 100%;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-55%, -45%);
+                        }
+                    }
+                }
+                .ctglaptop-name-price {
+                    height: 20%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .name {
+                        font-size: 17px;
+                        font-weight: 600;
+                    }
+                    .price {
+                        margin: 5px 0;
+                        border-radius: 15px;
+                        background-color: #cb1c22;
+                        font-weight: 500;
+                        color: #fff;
+                        padding: 10px 25px;
+                        &:hover {
+                            background-color: #ae1427;
+                        }
+                    }
+                }
+                .ctglaptop-descript {
+                    height: 20%;
+                    font-size: 17px;
+                    background-color: #f8f9fa;
+                }
+                .ctglaptop-btn {
+                    background-color: #f8f9fa;
+                    height: 10%;
+                    .btn-buy {
+                        border: none;
+                        padding: 8px;
+                        width: 160px;
+                        background-color: #cb1c22;
+                        border-radius: 6px;
+                        color: #fff;
+                        &:hover {
+                            background-color: #ae1427;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,32 @@
+.background-body {
+    background: url(../../assets/body/background.png);
+    height: initial;
+    overflow: hidden;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    position: relative;
+    padding-top: 0;
+    .mk-sale-body {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin: 0px 160px;
+        &.sale-header {
+            height: 208px;
+            background-image: url(../../assets/body/sale-header.png);
+        }
+        &.sale-body {
+            height: 100px;
+            &.img-phone {
+                background-image: url(../../assets/body/sale-phone.png);
+            }
+            &.img-laptop {
+                background-image: url(../../assets/body/sale-laptop.png);
+            }
+            &.img-tablet {
+                background-image: url(../../assets/body/sale-tapblet.png);
+            }
+        }
+    }
+}

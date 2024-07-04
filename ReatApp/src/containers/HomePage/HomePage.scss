@@ -1,0 +1,150 @@
+.slick-prev {
+    left: -20px !important;
+    z-index: 1 !important;
+    height: 48px !important;
+    width: 44px !important;
+    background-color: #d7d7d7 !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+.slick-prev::before {
+    content: "❮" !important;
+    color: #fff !important;
+}
+
+.slick-next {
+    right: -20px !important;
+    height: 48px !important;
+    width: 44px !important;
+    background-color: #d7d7d7 !important;
+    border: 2px solid rgba(116, 104, 104, 0.104) !important;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.slick-next::before {
+    color: #fff !important;
+    content: "❯" !important;
+}
+
+.section-share {
+    &.section-specialty {
+        background-color: #f5f5f5;
+    }
+    &.section-outstanding-doctor {
+        background-color: #f5f5f5;
+    }
+    &.section-about {
+        height: 500px;
+    }
+    .section-body {
+        .section-customize {
+            .bg-image {
+                background-color: #eee;
+                height: 150px;
+                width: 278px;
+
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                &.section-specialty {
+                    background-image: url("../../assets/specialty/co-xuong-khop.png");
+                }
+                &.section-medical-facility {
+                    background-image: url("../../assets/MedicalFacility/lo-go-viet-duc.jpg");
+                }
+                &.section-outStanding-doctor {
+                    background-image: url("../../assets/OutStandingDoctor/doctor.jpg");
+                    width: 120px;
+                    height: 120px;
+                    margin: 0 auto;
+                    border-radius: 50%;
+                }
+                &.section-handbook {
+                    background-image: url("../../assets/HandBook/handbook.png");
+                }
+            }
+        }
+    }
+}
+
+.section-share {
+    height: 330px;
+    .section-container {
+        margin: 0 200px;
+        display: flex;
+        flex-direction: column;
+        .section-header {
+            height: 60px;
+            margin-bottom: 30px;
+            padding-top: 30px;
+            .title-section {
+                font-size: 22px;
+                font-weight: 600;
+            }
+            .btn-section {
+                float: right;
+                padding: 10px 15px;
+                border: none;
+                display: block;
+                color: black;
+                background-color: #ebebeb;
+                cursor: pointer;
+                text-transform: uppercase;
+
+                &:hover {
+                    background-color: #f7d800;
+                }
+            }
+        }
+    }
+}
+
+.section-outstanding-doctor {
+    .section-customize {
+        padding: 10px;
+
+        .customize-border {
+            border: 2px solid #333;
+            padding: 20px;
+        }
+    }
+}
+
+.home-footer {
+    text-align: center;
+    padding-top: 8px;
+    a {
+        text-decoration: none;
+    }
+}
+
+.section-about {
+    padding: 0 200px;
+    .section-about-header {
+        padding: 20px 10px;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .section-about-content{
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        height: 100%;
+        .content-left {
+            width: 60%;
+        }
+        .content-right {
+            width: 40%;
+            p{
+                text-align: justify;
+                font-style: italic;
+                padding: 15px;
+            }
+        }
+    }
+}

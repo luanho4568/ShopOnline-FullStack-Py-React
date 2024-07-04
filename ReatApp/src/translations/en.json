@@ -1,0 +1,74 @@
+{
+    "homepage": {
+        "home": "Home",
+        "phone": "Phone",
+        "laptop": "Laptop",
+        "accessory": "Accessory",
+        "login": "Login",
+        "search": "Search...",
+        "welcome": "Welcome"
+    },
+
+    "menu": {
+        "admin": {
+            "manage-user": "Users",
+            "manage-staff": "Staff manage",
+            "manage-customer": "Customer manage",
+            "manage-admin": "Admin manage",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD Redux",
+            "product": "Product",
+            "manage-category-phone": "Phone product management",
+            "manage-category-tablet": "Tablet product management",
+            "manage-category-laptop": "Laptop product management",
+            "manage-category-accessory": "Accessory product management",
+            "manage-category-smartwatch": "Smartwatch product management",
+            "manage-category-bluetooth": "Bluetooth product management",
+            "manage-category-keyboard": "Keyboard product management",
+            "manage-category-mouse": "Mouse product management",
+            "manage-category-screen": "Screen product management",
+            "order": "Oder",
+            "manage-order": "Order management"
+        }
+    },
+    "manage-user": {
+        "manage-admin": "Admin manage",
+        "manage-staff": "Staff manage",
+        "manage-customer": "Customer manage",
+        "addnewuser": "Add new user",
+        "username": "Username",
+        "firstname": "First name",
+        "lastname": "Last name",
+        "phonenumber": "Phone number",
+        "gender": "Gender",
+        "role": "Role",
+        "action": "Action",
+        "password": "Password",
+        "avatar": "Avatar",
+        "save": "Save user",
+        "close": "Close",
+        "edit-user": "Edit user",
+        "no-avatar": "No avatar"
+    },
+    "manage-product": {
+        "manage-phone": "Phone manage",
+        "manage-tablet": "Tablet manage",
+        "manage-laptop": "Laptop manage",
+        "manage-accessory": "Accessory manage",
+        "title": "Title",
+        "add-product": "Add product",
+        "price": "Price",
+        "description": "Description",
+        "discount": "Discount",
+        "quatity-stock": "Quatity",
+        "brand": "Brand",
+        "category": "Category",
+        "image": "Image",
+        "current-status": "Status",
+        "delete": "Delete",
+        "in-stock": "In stock",
+        "out-of-stock": "Out of stock",
+        "items": "items"
+        
+    }
+}
