@@ -102,11 +102,6 @@ class PhoneManage extends Component {
                 <div className="title text-center">
                     <FormattedMessage id="manage-product.manage-phone" />
                 </div>
-                <div className="mx-1">
-                    <button className="btn btn-primary px-3" onClick={() => this.handleAddNewProduct()}>
-                        <i className="fas fa-plus"></i> <FormattedMessage id="manage-product.add-product" />
-                    </button>
-                </div>
                 <div className="users-table mt-4 mx-1">
                     <table id="customers">
                         <tbody>
@@ -173,6 +168,12 @@ class PhoneManage extends Component {
                                                 )}
                                             </td>
                                             <td>
+                                                <button
+                                                    className="btn-add"
+                                                    onClick={() => this.handleAddNewProduct()}
+                                                >
+                                                    <i className="fas fa-plus"></i>
+                                                </button>
                                                 <button
                                                     className="btn-edit"
                                                     onClick={() => this.handleEditProduct(item)}

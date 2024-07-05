@@ -90,7 +90,18 @@
         color: rgb(231, 112, 16);
     }
 }
+.btn-add {
+    width: 50px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: rgb(18, 73, 225);
 
+    &:hover {
+        background-color: transparent;
+        color: rgb(18, 73, 225);
+    }
+}
 .btn-delete {
     width: 50px;
     border: none;
