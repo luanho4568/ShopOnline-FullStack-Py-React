@@ -6,14 +6,19 @@ import ModalEditPhone from "./ModalEditPhone";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import "../StyleImage.scss";
+import Pagination from "@mui/material/Pagination"; // Correct import
+import Stack from "@mui/material/Stack"; // Correct import
 
 class PhoneManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            arrProductPhone: [],
             isOpenModalPhone: false,
             isOpenModalEidtPhone: false,
             productEdit: {},
+            currentPage: 1,
+            itemPerPage: 7,
         };
     }
 
@@ -22,7 +27,14 @@ class PhoneManage extends Component {
         this.props.fetchCategoryStartRedux();
     }
 
-    // handle add new product
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.listProducts !== this.props.listProducts) {
+            this.setState({
+                arrProductPhone: this.props.listProducts,
+            });
+        }
+    }
+
     handleAddNewProduct = () => {
         this.setState({
             isOpenModalPhone: true,
@@ -45,12 +57,10 @@ class PhoneManage extends Component {
         this.props.createNewProductRedux(data, "C1");
     };
 
-    // handle delete product
     handleDeleteProduct = async (productId) => {
         await this.props.deleteOneProductRedux(productId, "C1");
     };
 
-    // handle edit product
     handleEditProduct = (product) => {
         this.setState({
             isOpenModalEidtPhone: true,
@@ -62,9 +72,18 @@ class PhoneManage extends Component {
         await this.props.editOneProductRedux(product, "C1");
     };
 
+    handlePageChange = (event, value) => {
+        this.setState({ currentPage: value });
+    };
+
     render() {
-        const { currentItemsProduct } = this.props;
+        const { arrProductPhone, currentPage, itemPerPage } = this.state;
         const { categoryRedux, language } = this.props;
+        const indexOfLastRecord = currentPage * itemPerPage;
+        const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
+        const currentItems = arrProductPhone.slice(indexOfFirstRecord, indexOfLastRecord);
+        const nPages = Math.ceil(arrProductPhone.length / itemPerPage);
+
         return (
             <div className="users-container">
                 <ModalPhone
@@ -123,8 +142,8 @@ class PhoneManage extends Component {
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
-                            {currentItemsProduct &&
-                                currentItemsProduct.map((item) => {
+                            {currentItems &&
+                                currentItems.map((item) => {
                                     const img = item.product_image;
                                     const category = categoryRedux.find((category) => category.key === item.category);
                                     return (
@@ -162,7 +181,7 @@ class PhoneManage extends Component {
                                                 </button>
                                                 <button
                                                     className="btn-delete"
-                                                    onClick={() => this.handleDeleteProduct(item)}
+                                                    onClick={() => this.handleDeleteProduct(item.id)}
                                                 >
                                                     <i className="fas fa-trash"></i>
                                                 </button>
@@ -173,6 +192,15 @@ class PhoneManage extends Component {
                         </tbody>
                     </table>
                 </div>
+                <Stack spacing={2} className="mt-4">
+                    <Pagination
+                        count={nPages}
+                        page={currentPage}
+                        onChange={this.handlePageChange}
+                        showFirstButton
+                        showLastButton
+                    />
+                </Stack>
             </div>
         );
     }
@@ -191,8 +219,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllProductStartRedux: (category_key) => dispatch(actions.fetchAllProductStart(category_key)),
         fetchCategoryStartRedux: () => dispatch(actions.fetchCategoryStart()),
         createNewProductRedux: (data, category_key) => dispatch(actions.createNewProduct(data, category_key)),
-        deleteOneProductRedux: (productId, category_key) =>
-            dispatch(actions.deleteOneProduct(productId, category_key)),
+        deleteOneProductRedux: (data, category_key) => dispatch(actions.deleteOneProduct(data, category_key)),
         editOneProductRedux: (data, category_key) => dispatch(actions.editOneProduct(data, category_key)),
     };
 };
