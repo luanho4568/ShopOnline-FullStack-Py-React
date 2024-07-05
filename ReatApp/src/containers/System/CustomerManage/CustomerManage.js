@@ -15,6 +15,7 @@ class CustomerManage extends Component {
             isOpenModalUser: false,
             isOpenModalEidtUser: false,
             userEdit: {},
+            
         };
     }
 

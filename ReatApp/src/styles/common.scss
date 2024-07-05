@@ -15,3 +15,13 @@
 .text-red {
     color: $common-red !important;
 }
+
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    font-size: 20px !important;
+    opacity: 0.8 !important;
+    &.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+        opacity: 1 !important;
+        background-color: rgba(0, 0, 0, 0.1) !important;
+        font-weight: 500;
+    }
+}

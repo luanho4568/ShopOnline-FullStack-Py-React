@@ -353,6 +353,7 @@ def edit_product_by_id(data , files):
             product.product_image = product_image_file
             
         product_data = ProductSerializer(product, data=data, partial=True)
+        print(product_data)
         if product_data.is_valid():
             product_data.save()
             response["errCode"] = 0

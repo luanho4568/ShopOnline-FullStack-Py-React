@@ -11,7 +11,6 @@ class PhoneManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            arrProductPhone: [],
             isOpenModalPhone: false,
             isOpenModalEidtPhone: false,
             productEdit: {},
@@ -22,13 +21,7 @@ class PhoneManage extends Component {
         this.props.fetchAllProductStartRedux("C1");
         this.props.fetchCategoryStartRedux();
     }
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.listProducts !== this.props.listProducts) {
-            this.setState({
-                arrProductPhone: this.props.listProducts,
-            });
-        }
-    }
+
     // handle add new product
     handleAddNewProduct = () => {
         this.setState({
@@ -70,7 +63,7 @@ class PhoneManage extends Component {
     };
 
     render() {
-        const { arrProductPhone } = this.state;
+        const { currentItemsProduct } = this.props;
         const { categoryRedux, language } = this.props;
         return (
             <div className="users-container">
@@ -130,9 +123,9 @@ class PhoneManage extends Component {
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
-                            {arrProductPhone &&
-                                arrProductPhone.map((item) => {
-                                    const img = item.product_image
+                            {currentItemsProduct &&
+                                currentItemsProduct.map((item) => {
+                                    const img = item.product_image;
                                     const category = categoryRedux.find((category) => category.key === item.category);
                                     return (
                                         <tr key={item.id}>
@@ -140,7 +133,9 @@ class PhoneManage extends Component {
                                             <td>{item.selling_price}</td>
                                             <td>{item.description}</td>
                                             <td>{item.discount}%</td>
-                                            <td>{item.quatity_stock} <FormattedMessage id="manage-product.items"/></td>
+                                            <td>
+                                                {item.quatity_stock} <FormattedMessage id="manage-product.items" />
+                                            </td>
                                             <td>{item.brand}</td>
                                             <td>{language === LANGUAGES.VI ? category?.valueVi : category?.valueEn}</td>
                                             <td>
@@ -159,7 +154,10 @@ class PhoneManage extends Component {
                                                 )}
                                             </td>
                                             <td>
-                                                <button className="btn-edit" onClick={() => this.handleEditProduct(item)}>
+                                                <button
+                                                    className="btn-edit"
+                                                    onClick={() => this.handleEditProduct(item)}
+                                                >
                                                     <i className="fas fa-pencil-alt"></i>
                                                 </button>
                                                 <button
@@ -193,7 +191,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllProductStartRedux: (category_key) => dispatch(actions.fetchAllProductStart(category_key)),
         fetchCategoryStartRedux: () => dispatch(actions.fetchCategoryStart()),
         createNewProductRedux: (data, category_key) => dispatch(actions.createNewProduct(data, category_key)),
-        deleteOneProductRedux: (data, category_key) => dispatch(actions.deleteOneProduct(data, category_key)),
+        deleteOneProductRedux: (productId, category_key) =>
+            dispatch(actions.deleteOneProduct(productId, category_key)),
         editOneProductRedux: (data, category_key) => dispatch(actions.editOneProduct(data, category_key)),
     };
 };

@@ -13,6 +13,7 @@ class ModalEditUser extends Component {
             roleArr: [],
             password: "HashPassword",
             avatarPreviewUrl: "",
+            isAvtExist: false,
         };
     }
 
@@ -48,6 +49,7 @@ class ModalEditUser extends Component {
     // handle save user
     handleSaveUser = () => {
         const { currentUser } = this.props;
+        const { isAvtExist } = this.state;
         const formData = new FormData();
 
         // Thêm các trường thông tin người dùng vào FormData
@@ -57,8 +59,10 @@ class ModalEditUser extends Component {
         formData.append("phone_number", currentUser.phone_number);
         formData.append("gender", currentUser.gender);
         formData.append("role", currentUser.role);
-        formData.append("avatar", currentUser.avatar);
 
+        if (isAvtExist) {
+            formData.append("avatar", currentUser.avatar);
+        }
         // Gọi action editUser với FormData
         this.props.editUser(formData).then(() => {
             this.toggle();
@@ -71,6 +75,7 @@ class ModalEditUser extends Component {
         currentUser.avatar = file;
         this.setState({
             avatarPreviewUrl: previewUrl,
+            isAvtExist: true,
         });
     };
     render() {

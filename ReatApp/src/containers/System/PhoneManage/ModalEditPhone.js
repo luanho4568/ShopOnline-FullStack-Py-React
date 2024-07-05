@@ -12,6 +12,7 @@ class ModalEditPhone extends Component {
             categoryArr: [],
             brandArr: [],
             productPreviewUrl: "",
+            isImgExist: false,
         };
     }
 
@@ -46,7 +47,7 @@ class ModalEditPhone extends Component {
     };
     handleSaveProduct = () => {
         const { currentProduct } = this.props;
-
+        const { isImgExist } = this.state;
         const formData = new FormData();
         formData.append("id", currentProduct.id);
         formData.append("title", currentProduct.title);
@@ -57,8 +58,10 @@ class ModalEditPhone extends Component {
         formData.append("brand", currentProduct.brand);
         formData.append("category", currentProduct.category);
         formData.append("current_status", currentProduct.current_status);
-        formData.append("product_image", currentProduct.product_image);
 
+        if (isImgExist) {
+            formData.append("product_image", currentProduct.product_image);
+        }
         this.props.editProduct(formData).then(() => {
             this.toggle();
         });
@@ -67,12 +70,10 @@ class ModalEditPhone extends Component {
         const file = e.target.files[0];
         const { currentProduct } = this.props;
         const previewUrl = URL.createObjectURL(file);
+        currentProduct.product_image = file;
         this.setState({
             productPreviewUrl: previewUrl,
-            currentProduct : {
-                ...currentProduct,
-                product_image : file,
-            }
+            isImgExist: true,
         });
     };
     render() {

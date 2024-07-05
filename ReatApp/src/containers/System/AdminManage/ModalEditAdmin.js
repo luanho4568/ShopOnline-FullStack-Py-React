@@ -13,6 +13,7 @@ class ModalEditUser extends Component {
             roleArr: [],
             password: "HashPassword",
             avatarPreviewUrl: "",
+            isAvtExist: false,
         };
     }
 
@@ -48,23 +49,25 @@ class ModalEditUser extends Component {
 
     handleSaveUser = () => {
         const { currentUser } = this.props;
+        const { isAvtExist } = this.state;
         const formData = new FormData();
-    
+
         // Thêm các trường thông tin người dùng vào FormData
-        formData.append('id', currentUser.id);
-        formData.append('first_name', currentUser.first_name);
-        formData.append('last_name', currentUser.last_name);
-        formData.append('phone_number', currentUser.phone_number);
-        formData.append('gender', currentUser.gender);
-        formData.append('role', currentUser.role);
-        formData.append('avatar', currentUser.avatar)
-    
+        formData.append("id", currentUser.id);
+        formData.append("first_name", currentUser.first_name);
+        formData.append("last_name", currentUser.last_name);
+        formData.append("phone_number", currentUser.phone_number);
+        formData.append("gender", currentUser.gender);
+        formData.append("role", currentUser.role);
+
+        if (isAvtExist) {
+            formData.append("avatar", currentUser.avatar);
+        }
         // Gọi action editUser với FormData
         this.props.editUser(formData).then(() => {
             this.toggle();
         });
     };
-    
 
     handleOnChangeImage = (e) => {
         const file = e.target.files[0];
@@ -73,6 +76,7 @@ class ModalEditUser extends Component {
         currentUser.avatar = file;
         this.setState({
             avatarPreviewUrl: previewUrl,
+            isAvtExist: true,
         });
     };
 

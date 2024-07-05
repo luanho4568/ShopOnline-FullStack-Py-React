@@ -46,7 +46,6 @@ class App extends Component {
                                 </Switch>
                             </CustomScrollbars>
                         </div>
-
                         <ToastContainer
                             position="top-center"
                             autoClose={3000}
