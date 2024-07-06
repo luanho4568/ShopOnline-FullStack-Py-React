@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ModalPhone from "./ModalPhone";
+import ModalTablet from "./ModalTablet";
 import * as actions from "../../../store/actions";
-import ModalEditPhone from "./ModalEditPhone";
+import ModalEditTablet from "./ModalEditTablet";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import "../StyleImage.scss";
 import Pagination from "@mui/material/Pagination"; 
 import Stack from "@mui/material/Stack"; 
 
-class PhoneManage extends Component {
+class TabletManage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             arrProductPhone: [],
-            isOpenModalPhone: false,
+            isOpenModalTablet: false,
             isOpenModalEidtPhone: false,
             productEdit: {},
             currentPage: 1,
@@ -23,7 +23,7 @@ class PhoneManage extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchAllProductStartRedux("C1");
+        this.props.fetchAllProductStartRedux("C3");
         this.props.fetchCategoryStartRedux();
     }
 
@@ -37,13 +37,13 @@ class PhoneManage extends Component {
 
     handleAddNewProduct = () => {
         this.setState({
-            isOpenModalPhone: true,
+            isOpenModalTablet: true,
         });
     };
 
     toogleProductModal = () => {
         this.setState({
-            isOpenModalPhone: !this.state.isOpenModalPhone,
+            isOpenModalTablet: !this.state.isOpenModalTablet,
         });
     };
 
@@ -54,11 +54,11 @@ class PhoneManage extends Component {
     };
 
     createNewProduct = async (data) => {
-        this.props.createNewProductRedux(data, "C1");
+        this.props.createNewProductRedux(data, "C3");
     };
 
     handleDeleteProduct = async (product) => {
-        await this.props.deleteOneProductRedux(product, "C1");
+        await this.props.deleteOneProductRedux(product, "C3");
     };
 
     handleEditProduct = (product) => {
@@ -69,7 +69,7 @@ class PhoneManage extends Component {
     };
 
     doEditProduct = async (product) => {
-        await this.props.editOneProductRedux(product, "C1");
+        await this.props.editOneProductRedux(product, "C3");
     };
 
     handlePageChange = (event, value) => {
@@ -86,13 +86,13 @@ class PhoneManage extends Component {
 
         return (
             <div className="users-container">
-                <ModalPhone
-                    isOpen={this.state.isOpenModalPhone}
+                <ModalTablet
+                    isOpen={this.state.isOpenModalTablet}
                     toggleFromParent={this.toogleProductModal}
                     createNewProduct={this.createNewProduct}
                 />
                 {this.state.isOpenModalEidtPhone && (
-                    <ModalEditPhone
+                    <ModalEditTablet
                         isOpen={this.state.isOpenModalEidtPhone}
                         toggleFromParent={this.toogleproductEditModal}
                         currentProduct={this.state.productEdit}
@@ -226,4 +226,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhoneManage);
+export default connect(mapStateToProps, mapDispatchToProps)(TabletManage);

@@ -1,26 +1,21 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { injectIntl, FormattedMessage } from "react-intl";
 import * as actions from "../../../store/actions";
 import { LANGUAGES, DISCOUNT_CHOICES } from "../../../utils";
-class ModalPhone extends Component {
+
+class ModalEditSmartWatch extends Component {
     constructor(props) {
         super(props);
         this.state = {
             categoryArr: [],
             brandArr: [],
-            title: "",
-            selling_price: "",
-            description: "",
-            discount: DISCOUNT_CHOICES[0].value,
-            brand: "",
-            category: "",
-            quatity_stock: "",
-            product_image: "",
             productPreviewUrl: "",
+            isImgExist: false,
         };
     }
+
     componentDidMount() {
         this.props.fetchCategoryRedux();
         this.props.fetchBrandRedux();
@@ -40,106 +35,54 @@ class ModalPhone extends Component {
                 brand: arrBrands && arrBrands.length > 0 ? arrBrands[0].name : "",
             });
         }
-        if (prevProps.listProducts !== this.props.listProducts) {
-            this.setState({
-                title: "",
-                selling_price: "",
-                description: "",
-                discount: DISCOUNT_CHOICES[0].value,
-                brand: "",
-                category: "",
-                quatity_stock: "",
-                product_image: "",
-            });
-        }
     }
     toggle = () => {
         this.props.toggleFromParent();
     };
 
     onChangeInput = (e, id) => {
-        const copyState = { ...this.state };
-        copyState[id] = e.target.value;
-        this.setState({
-            ...copyState,
-        });
+        const { currentProduct } = this.props;
+        currentProduct[id] = e.target.value;
+        this.setState({ currentProduct });
     };
-
-    // validate input
-    checkvalidateInput = () => {
-        let isValid = true;
-        const arrCheck = ["title", "selling_price", "description", "quatity_stock"];
-        for (let i = 0; i < arrCheck.length; i++) {
-            if (!this.state[arrCheck[i]]) {
-                isValid = false;
-                alert(`This input is required: ${arrCheck[i]}`);
-                break;
-            }
-        }
-        return isValid;
-    };
-
-    // handle add new user
-    handleAddNewProduct = () => {
-        const isValid = this.checkvalidateInput();
-        if (!isValid) return;
-        const {
-            title,
-            selling_price,
-            description,
-            discount,
-            brand,
-            category,
-            quatity_stock,
-            product_image,
-        } = this.state;
+    handleSaveProduct = () => {
+        const { currentProduct } = this.props;
+        const { isImgExist } = this.state;
         const formData = new FormData();
-        formData.append("title", title);
-        formData.append("selling_price", selling_price);
-        formData.append("quatity_stock", quatity_stock);
-        formData.append("description", description);
-        formData.append("discount", discount);
-        formData.append("brand", brand);
-        formData.append("category", category);
-        formData.append("product_image", product_image);
+        formData.append("id", currentProduct.id);
+        formData.append("title", currentProduct.title);
+        formData.append("selling_price", currentProduct.selling_price);
+        formData.append("quatity_stock", currentProduct.quatity_stock);
+        formData.append("description", currentProduct.description);
+        formData.append("discount", currentProduct.discount);
+        formData.append("brand", currentProduct.brand);
+        formData.append("category", currentProduct.category);
+        formData.append("current_status", currentProduct.current_status);
 
-        this.props.createNewProduct(formData).then(() => {
+        if (isImgExist) {
+            formData.append("product_image", currentProduct.product_image);
+        }
+        this.props.editProduct(formData).then(() => {
             this.toggle();
         });
     };
     handleOnChangeImage = (e) => {
         const file = e.target.files[0];
+        const { currentProduct } = this.props;
         const previewUrl = URL.createObjectURL(file);
+        currentProduct.product_image = file;
         this.setState({
-            product_image: file,
             productPreviewUrl: previewUrl,
+            isImgExist: true,
         });
     };
     render() {
-        const { language } = this.props;
-        const {
-            categoryArr,
-            brandArr,
-            title,
-            selling_price,
-            description,
-            discount,
-            brand,
-            category,
-            quatity_stock,
-            product_image,
-            productPreviewUrl,
-        } = this.state;
+        const { language, currentProduct } = this.props;
+        const { categoryArr, brandArr, productPreviewUrl } = this.state;
         return (
-            <Modal
-                isOpen={this.props.isOpen}
-                toggle={() => this.toggle()}
-                {...this.args}
-                size="lg"
-                className="modal-user-container"
-            >
+            <Modal isOpen={this.props.isOpen} toggle={() => this.toggle()} size="lg" className="modal-user-container">
                 <ModalHeader toggle={() => this.toggle()}>
-                    <FormattedMessage id="manage-product.add-product" />
+                    <FormattedMessage id="manage-user.edit-user" />
                 </ModalHeader>
                 <ModalBody>
                     <div className="user-redux-body">
@@ -152,7 +95,7 @@ class ModalPhone extends Component {
                                     <input
                                         className="form-control"
                                         type="text"
-                                        value={title}
+                                        value={currentProduct.title}
                                         onChange={(e) => this.onChangeInput(e, "title")}
                                     />
                                 </div>
@@ -163,7 +106,7 @@ class ModalPhone extends Component {
                                     <input
                                         className="form-control"
                                         type="text"
-                                        value={selling_price}
+                                        value={currentProduct.selling_price}
                                         onChange={(e) => this.onChangeInput(e, "selling_price")}
                                     />
                                 </div>
@@ -174,7 +117,7 @@ class ModalPhone extends Component {
                                     <input
                                         className="form-control"
                                         type="text"
-                                        value={quatity_stock}
+                                        value={currentProduct.quatity_stock}
                                         onChange={(e) => this.onChangeInput(e, "quatity_stock")}
                                     />
                                 </div>
@@ -184,16 +127,16 @@ class ModalPhone extends Component {
                                     </label>
                                     <textarea
                                         className="form-control"
-                                        value={description}
+                                        value={currentProduct.description}
                                         onChange={(e) => this.onChangeInput(e, "description")}
                                     />
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>Discount</label>
                                     <select
                                         className="form-control"
                                         onChange={(e) => this.onChangeInput(e, "discount")}
-                                        value={discount}
+                                        value={currentProduct.discount}
                                     >
                                         {DISCOUNT_CHOICES.map(({ value, label }) => (
                                             <option key={value} value={value}>
@@ -202,14 +145,14 @@ class ModalPhone extends Component {
                                         ))}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-product.category" />{" "}
                                     </label>
                                     <select
                                         className="form-control"
                                         onChange={(e) => this.onChangeInput(e, "category")}
-                                        value={category}
+                                        value={currentProduct.category}
                                     >
                                         {categoryArr &&
                                             categoryArr.length > 0 &&
@@ -224,14 +167,14 @@ class ModalPhone extends Component {
                                             })}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-product.brand" />{" "}
                                     </label>
                                     <select
                                         className="form-control"
                                         onChange={(e) => this.onChangeInput(e, "brand")}
-                                        value={brand}
+                                        value={currentProduct.brand}
                                     >
                                         {brandArr &&
                                             brandArr.length > 0 &&
@@ -242,7 +185,24 @@ class ModalPhone extends Component {
                                             ))}
                                     </select>
                                 </div>
-                                <div className="col-3">
+                                <div className="col-4">
+                                    <label>
+                                        <FormattedMessage id="manage-product.current-status" />{" "}
+                                    </label>
+                                    <select
+                                        className="form-control"
+                                        onChange={(e) => this.onChangeInput(e, "current_status")}
+                                        value={currentProduct.current_status}
+                                    >
+                                        <option value={true}>
+                                            {this.props.intl.formatMessage({ id: "manage-product.in-stock" })}
+                                        </option>
+                                        <option value={false}>
+                                            {this.props.intl.formatMessage({ id: "manage-product.out-of-stock" })}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div className="col-4">
                                     <label>
                                         <FormattedMessage id="manage-user.avatar" />{" "}
                                     </label>
@@ -256,17 +216,27 @@ class ModalPhone extends Component {
                                         <label className="label-upload" htmlFor="previewImg">
                                             Tải ảnh <i className="fas fa-upload"></i>
                                         </label>
-                                        <div className="span-img">
-                                            {productPreviewUrl ? (
+                                        {productPreviewUrl ? (
+                                            <div className="span-img">
                                                 <img
                                                     src={productPreviewUrl}
                                                     alt="avatar preview"
                                                     style={{ maxWidth: "100%" }}
                                                 />
-                                            ) : (
+                                            </div>
+                                        ) : currentProduct.product_image ? (
+                                            <div className="span-img">
+                                                <img
+                                                    src={`http://localhost:8000/static${currentProduct.product_image}`}
+                                                    alt="avatar preview"
+                                                    style={{ maxWidth: "100%" }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="span-img">
                                                 <FormattedMessage id="manage-user.no-avatar" />
-                                            )}{" "}
-                                        </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -274,14 +244,8 @@ class ModalPhone extends Component {
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <Button
-                        color="primary"
-                        onClick={() => {
-                            this.handleAddNewProduct();
-                        }}
-                        className="px-3"
-                    >
-                        <FormattedMessage id="manage-product.add-product" />
+                    <Button color="primary" onClick={() => this.handleSaveProduct()} className="px-3">
+                        <FormattedMessage id="manage-user.save" />
                     </Button>{" "}
                     <Button color="secondary" onClick={() => this.toggle()} className="px-3">
                         <FormattedMessage id="manage-user.close" />
@@ -308,4 +272,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalPhone);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ModalEditSmartWatch));

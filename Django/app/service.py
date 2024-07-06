@@ -284,34 +284,41 @@ def get_all_products_by_category(category_key):
 
 
 # -----------------------------delete product by id--------------------------
-def delete_product_by_id(product_id):
+def check_id_product(product_id):
+    return Product.objects.filter(id=product_id).exists()
+
+
+def delete_product_by_id(data):
     response = {}
+    product_id = data.get("id")
+    print('id product ' ,product_id)
     if not product_id:
         response["errCode"] = 1
         response["errMessage"] = "Missing required parameter!"
         return response
 
-    product = Product.objects.filter(id=product_id).first()
+    is_exist = check_id_product(product_id)
+    if is_exist:
+        product = Product.objects.get(id=product_id)
+        if not product:
+            response["errCode"] = 2
+            response["errMessage"] = "Product not found"
+            return response
 
-    if not product:
-        response["errCode"] = 2
-        response["errMessage"] = "Product not found"
+        product.delete()
+        response["errCode"] = 0
+        response["errMessage"] = "Delete product successful!"
         return response
-
-    product_data = ProductSerializer(product).data
-
-    product.delete()
-    response["errCode"] = 0
-    response["errMessage"] = "Delete product successful!"
-    response["data"] = product_data
-    return response
+    else:
+        response["errCode"] = 2
+        response["errMessage"] = "Product ID does not exist!"
+        return response
 
 
 # -----------------------------edit product by id--------------------------
-def check_id_product(product_id):
-    return Product.objects.filter(id=product_id).exists()
 
-def edit_product_by_id(data , files):
+
+def edit_product_by_id(data, files):
     response = {}
     product_id = data.get("id")
 
@@ -320,7 +327,7 @@ def edit_product_by_id(data , files):
         response["errMessage"] = "Missing required parameter!"
         return response
     is_exist = check_id_product(product_id)
-    if is_exist : 
+    if is_exist:
         product = Product.objects.get(id=product_id)
         if not product:
             response["errCode"] = 2
@@ -328,7 +335,9 @@ def edit_product_by_id(data , files):
         if "category" in data:
             category_key = data["category"]
             try:
-                category_instance = Allcode.objects.get(type="CATEGORY", key=category_key)
+                category_instance = Allcode.objects.get(
+                    type="CATEGORY", key=category_key
+                )
                 product.category = category_instance
             except Allcode.DoesNotExist:
                 response["errCode"] = 3
@@ -345,13 +354,15 @@ def edit_product_by_id(data , files):
                 product.brand = brand_instance
             except Allcode.DoesNotExist:
                 response["errCode"] = 4
-                response["errMessage"] = f"Brand with name '{brand_name}' does not exist!"
+                response["errMessage"] = (
+                    f"Brand with name '{brand_name}' does not exist!"
+                )
                 return response
-            
+
         if "product_image" in files:
             product_image_file = files["product_image"]
             product.product_image = product_image_file
-            
+
         product_data = ProductSerializer(product, data=data, partial=True)
         print(product_data)
         if product_data.is_valid():
@@ -364,7 +375,7 @@ def edit_product_by_id(data , files):
             response["errCode"] = 4
             response["errMessage"] = "Update failed!"
             return response
-    else : 
+    else:
         response["errCode"] = 5
         response["errMessage"] = "Id does not exist!"
         return response
@@ -372,7 +383,7 @@ def edit_product_by_id(data , files):
 
 # -----------------------------API create product--------------------------
 # hàm xử lý create new user
-def create_new_product_service(data):
+def create_new_product_service(data, files):
     response = {}
     category_key = data.get("category")
     if category_key:
@@ -397,7 +408,7 @@ def create_new_product_service(data):
         brand=brand_instance,
         category=category_instance,
         quatity_stock=data.get("quatity_stock"),
-        product_image=data.get("product_image"),
+        product_image=files.get("product_image"),
     )
 
     # kiểm tra user vừa tạo có thành công không

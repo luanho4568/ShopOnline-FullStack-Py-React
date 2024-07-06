@@ -110,7 +110,6 @@ export const fetchAllUserFailed = () => ({
 });
 
 export const deleteOneUser = (data,role_key) => {
-    console.log(data);
     return async (dispatch) => {
         try {
             const res = await deleteUserService(data.id);

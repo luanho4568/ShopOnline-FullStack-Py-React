@@ -6,7 +6,8 @@ import ModalEditAdmin from "./ModalEditAdmin";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import "../StyleImage.scss";
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 class AdminManage extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,8 @@ class AdminManage extends Component {
             isOpenModalUser: false,
             isOpenModalEidtUser: false,
             userEdit: {},
+            currentPage: 1,
+            itemPerPage: 7,
         };
     }
 
@@ -69,10 +72,16 @@ class AdminManage extends Component {
     doEditUser = async (user) => {
         await this.props.editOneUserRedux(user, "R1");
     };
-
+    handlePageChange = (event, value) => {
+        this.setState({ currentPage: value });
+    };
     render() {
-        const { arrUserAdmin } = this.state;
+        const { arrUserAdmin, currentPage, itemPerPage } = this.state;
         const { roleRedux, language, genderRedux } = this.props;
+        const indexOfLastRecord = currentPage * itemPerPage;
+        const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
+        const currentItems = arrUserAdmin.slice(indexOfFirstRecord, indexOfLastRecord);
+        const nPages = Math.ceil(arrUserAdmin.length / itemPerPage);
         return (
             <div className="users-container">
                 <ModalUserAdmin
@@ -126,9 +135,9 @@ class AdminManage extends Component {
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
-                            {arrUserAdmin &&
-                                arrUserAdmin.map((item) => {
-                                    const avatar = item.avatar
+                            {currentItems &&
+                                currentItems.map((item) => {
+                                    const avatar = item.avatar;
                                     const role = roleRedux.find((role) => role.key === item.role);
                                     const gender = genderRedux.find((gender) => gender.key === item.gender);
                                     return (
@@ -164,6 +173,15 @@ class AdminManage extends Component {
                                 })}
                         </tbody>
                     </table>
+                    <Stack spacing={2} className="mt-4">
+                        <Pagination
+                            count={nPages}
+                            page={currentPage}
+                            onChange={this.handlePageChange}
+                            showFirstButton
+                            showLastButton
+                        />
+                    </Stack>
                 </div>
             </div>
         );

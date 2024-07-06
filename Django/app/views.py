@@ -173,8 +173,8 @@ class GetAllProductByCategoryAPIView(APIView):
 class DeleteProductAPIView(APIView):
     def delete(self, request):
         try:
-            product_id = request.data.get("id")
-            response = service.delete_product_by_id(product_id)
+            data = request.data
+            response = service.delete_product_by_id(data)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
@@ -209,7 +209,8 @@ class CreateProductAPIView(APIView):
     def post(self, request):
         try:
             data = request.data
-            response = service.create_new_product_service(data)
+            files = request.FILES
+            response = service.create_new_product_service(data,files)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(

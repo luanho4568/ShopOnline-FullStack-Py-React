@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import * as actions from "../../../store/actions";
 import { LANGUAGES, DISCOUNT_CHOICES } from "../../../utils";
-class ModalPhone extends Component {
+class ModalTablet extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -308,4 +308,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalPhone);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalTablet);

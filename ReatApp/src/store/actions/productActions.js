@@ -113,7 +113,7 @@ export const fetchAllProductFailed = () => ({
 export const deleteOneProduct = (data, category_key) => {
     return async (dispatch) => {
         try {
-            const res = await deleteProductService(data.id);
+            const res = await deleteProductService(data);
             if (res && res.errCode === 0) {
                 dispatch(deleteProductSuccess());
                 toast.success(res.errMessage);

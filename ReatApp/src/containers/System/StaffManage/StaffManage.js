@@ -6,7 +6,8 @@ import ModalEditStaff from "./ModalEditStaff";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../../utils";
 import "../StyleImage.scss";
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 class StaffManage extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +16,8 @@ class StaffManage extends Component {
             isOpenModalUser: false,
             isOpenModalEidtUser: false,
             userEdit: {},
+            currentPage: 1,
+            itemPerPage: 7,
         };
     }
 
@@ -69,10 +72,16 @@ class StaffManage extends Component {
     doEditUser = async (user) => {
         await this.props.editOneUserRedux(user, "R2");
     };
-
+    handlePageChange = (event, value) => {
+        this.setState({ currentPage: value });
+    };
     render() {
-        const { arrUserStaff } = this.state;
+        const { arrUserStaff, currentPage, itemPerPage } = this.state;
         const { roleRedux, language, genderRedux } = this.props;
+        const indexOfLastRecord = currentPage * itemPerPage;
+        const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
+        const currentItems = arrUserStaff.slice(indexOfFirstRecord, indexOfLastRecord);
+        const nPages = Math.ceil(arrUserStaff.length / itemPerPage);
         return (
             <div className="users-container">
                 <ModalStaff
@@ -126,8 +135,8 @@ class StaffManage extends Component {
                                     <FormattedMessage id="manage-user.action" />
                                 </th>
                             </tr>
-                            {arrUserStaff &&
-                                arrUserStaff.map((item) => {
+                            {currentItems &&
+                                currentItems.map((item) => {
                                     const avatar = item.avatar;
                                     const role = roleRedux.find((role) => role.key === item.role);
                                     const gender = genderRedux.find((gender) => gender.key === item.gender);
@@ -165,6 +174,15 @@ class StaffManage extends Component {
                                 })}
                         </tbody>
                     </table>
+                    <Stack spacing={2} className="mt-4">
+                        <Pagination
+                            count={nPages}
+                            page={currentPage}
+                            onChange={this.handlePageChange}
+                            showFirstButton
+                            showLastButton
+                        />
+                    </Stack>
                 </div>
             </div>
         );
