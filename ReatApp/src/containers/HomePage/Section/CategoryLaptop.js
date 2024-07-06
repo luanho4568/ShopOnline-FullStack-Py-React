@@ -4,9 +4,25 @@ import "./CategoryLaptop.scss";
 import Slider from "react-slick/lib/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import * as actions from "../../../store/actions";
 
 class CategoryLaptop extends Component {
-    componentDidMount() {}
+    constructor(props) {
+        super(props);
+        this.state = {
+            arrProductLaptop: [],
+        };
+    }
+    componentDidMount() {
+        this.props.fetchAllProductStartRedux("C2");
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.listProducts !== this.props.listProducts) {
+            this.setState({
+                arrProductLaptop: this.props.listProducts,
+            });
+        }
+    }
     render() {
         const settings = {
             dots: false,
@@ -17,6 +33,7 @@ class CategoryLaptop extends Component {
             autoplay: true,
             autoplaySpeed: 2000,
         };
+        const { arrProductLaptop } = this.state;
         return (
             <>
                 <div className="ctglaptop-container">
@@ -26,146 +43,32 @@ class CategoryLaptop extends Component {
                             <button className="btn-ctglaptop">Xem tất cả</button>
                         </div>
                         <div className="ctglaptop-body">
-                            <Slider {...settings}>
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
+                        <Slider {...settings}>
+                                {arrProductLaptop &&
+                                    arrProductLaptop.length > 0 &&
+                                    arrProductLaptop.map((item) => {
+                                        return (
+                                            <div className="ctgphone-customize">
+                                                <div className="ctgphone-customize-max-height">
+                                                    <div className="ctgphone-image">
+                                                        <div className="bg-img">
+                                                            <div className="img"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="ctgphone-name-price">
+                                                        <div className="name">{item.title}</div>
+                                                        <div className="price">{item.selling_price}VND</div>
+                                                    </div>
+                                                    <div className="ctgphone-descript">
+                                                        {item.description}
+                                                    </div>
+                                                    <div className="ctgphone-btn">
+                                                        <button className="btn-buy">Mua ngay</button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$400</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
-                                            </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$350</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
-                                            </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$350</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
-                                            </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$350</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
-                                            </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$350</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="ctglaptop-customize">
-                                    <div className="ctglaptop-customize-max-height">
-                                        <div className="ctglaptop-image">
-                                            <div className="bg-img">
-                                                <div className="img"></div>
-                                            </div>
-                                        </div>
-                                        <div className="ctglaptop-name-price">
-                                            <div className="name">HP 240 G10 i3-N305 (8U7D8PA)</div>
-                                            <div className="price">$350</div>
-                                        </div>
-                                        <div className="ctglaptop-descript">
-                                            Intel UHD Graphics - 14 inch
-                                            <br />
-                                            Core i3 - 8GB(1 thanh 8GB)
-                                            <br/>
-                                            SSD 256GB - 1.37 kg
-                                        </div>
-                                        <div className="ctglaptop-btn">
-                                            <button className="btn-buy">Mua ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                        );
+                                    })}
                             </Slider>
                         </div>
                     </div>
@@ -176,11 +79,15 @@ class CategoryLaptop extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        listProducts: state.product.products,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        fetchAllProductStartRedux: (category_key) => dispatch(actions.fetchAllProductStart(category_key)),
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryLaptop);

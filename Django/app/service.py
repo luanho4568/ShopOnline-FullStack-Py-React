@@ -291,7 +291,6 @@ def check_id_product(product_id):
 def delete_product_by_id(data):
     response = {}
     product_id = data.get("id")
-    print('id product ' ,product_id)
     if not product_id:
         response["errCode"] = 1
         response["errMessage"] = "Missing required parameter!"
@@ -364,7 +363,6 @@ def edit_product_by_id(data, files):
             product.product_image = product_image_file
 
         product_data = ProductSerializer(product, data=data, partial=True)
-        print(product_data)
         if product_data.is_valid():
             product_data.save()
             response["errCode"] = 0
