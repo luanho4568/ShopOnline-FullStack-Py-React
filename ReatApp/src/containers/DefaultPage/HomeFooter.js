@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { changeLanguageApp } from "../../store/actions/appActions";
 import payment from "../../assets/footer/payment.png";
-
+import { FormattedMessage } from "react-intl";
 class HomeFooter extends Component {
     componentDidMount() {}
 
@@ -16,14 +16,18 @@ class HomeFooter extends Component {
                 <footer className="container-fluid bg-danger text-white py-4 mt-3 px-5">
                     <div className="row">
                         <div className="col-md-3">
-                            <h5>Thông tin liên hệ</h5>
+                            <h5>
+                                <FormattedMessage id="homepage.contact-info" />
+                            </h5>
                             <p>
-                                <i className="fas fa-map-marker-alt"></i> Địa chỉ: 225 Nguyễn Thông, Phú Hài, Thành phố
-                                Phan Thiết, Bình Thuận
+                                <i className="fas fa-map-marker-alt"></i>
+                                <FormattedMessage id="homepage.address" />: 225 Nguyễn Thông, Phú Hài, Thành phố Phan
+                                Thiết, Bình Thuận
                             </p>
 
                             <p>
-                                <i className="fas fa-phone"></i> Điện thoại: 0824-525-127
+                                <i className="fas fa-phone"></i>
+                                <FormattedMessage id="homepage.telephone" />: 0824-525-127
                             </p>
                             <p>
                                 <i className="fas fa-envelope"></i> Email: hotro@upt-shopping.com
@@ -31,7 +35,9 @@ class HomeFooter extends Component {
                         </div>
 
                         <div className="col-md-3">
-                            <h5>Liên kết mạng xã hội</h5>
+                            <h5>
+                                <FormattedMessage id="homepage.social-network" />
+                            </h5>
                             <ul className="list-unstyled">
                                 <li>
                                     <a to="https://www.facebook.com" className="text-white" target="_blank">
@@ -48,53 +54,57 @@ class HomeFooter extends Component {
                                         <i className="fab fa-twitter"></i> Twitter
                                     </a>
                                 </li>
-                                <li>
-                                    <a to="https://www.aedin.com" className="text-white" target="_blank">
-                                        <i className="fab fa-aedin"></i> aedIn
-                                    </a>
-                                </li>
                             </ul>
                         </div>
 
                         <div className="col-md-3">
-                            <h5>Thông tin pháp lý</h5>
+                            <h5>
+                                <FormattedMessage id="homepage.method-information" />
+                            </h5>
                             <ul className="list-unstyled">
                                 <li>
                                     <a to="/securitypolicy" className="text-white">
-                                        <i className="fas fa-shield-alt"></i> Chính sách bảo mật
+                                        <i className="fas fa-shield-alt"></i>
+                                        <FormattedMessage id="homepage.privacy-policy" />
                                     </a>
                                 </li>
                                 <li>
                                     <a to="#" className="text-white">
-                                        <i className="fas fa-file-contract"></i> Điều khoản sử dụng
+                                        <i className="fas fa-file-contract"></i>
+                                        <FormattedMessage id="homepage.terms-of-use" />
                                     </a>
                                 </li>
                             </ul>
                         </div>
 
                         <div className="col-md-3">
-                            <h5>Liên kết hữu ích</h5>
+                            <h5>
+                                <FormattedMessage id="homepage.useful" />
+                            </h5>
                             <ul className="list-unstyled">
                                 <li>
                                     <a to="#" className="text-white">
-                                        <i className="fas fa-info-circle"></i> Về chúng toi
+                                        <i className="fas fa-info-circle"></i>
+                                        <FormattedMessage id="homepage.about-us" />
                                     </a>
                                 </li>
                                 <li>
                                     <a to="#" className="text-white">
-                                        <i className="fas fa-question-circle"></i> Các câu hỏi thường gặp
+                                        <i className="fas fa-question-circle"></i>
+                                        <FormattedMessage id="homepage.frequently-asked-questions" />
                                     </a>
                                 </li>
                                 <li>
                                     <a to="#" className="text-white">
-                                        <i className="fas fa-shopping-cart"></i> Hướng dẫn mua hàng
+                                        <i className="fas fa-shopping-cart"></i>
+                                        <FormattedMessage id="homepage.shopping-guide" />
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="text-center mt-3">
-                        <small>Bản quyền &copy; 2024 || Được thiết kế bởi SV-UPT || </small>
+                        <small><FormattedMessage id="homepage.copyright" /> &copy; 2024 || <FormattedMessage id="homepage.designed-by" /> SV-UPT || </small>
                         <div>
                             <img src={payment} alt="Payment Methods" className="img-fluid mt-2" height="30" />
                         </div>

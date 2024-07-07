@@ -11,6 +11,9 @@ import Login from "./Auth/Login";
 import System from "../routes/System";
 import HomePage from "./HomePage/HomePage";
 import CustomScrollbars from "../components/CustomScrollbars";
+import PhonePage from "./CategoryPage/PhonePage/PhonePage";
+import LaptopPage from "./CategoryPage/LaptopPage/LaptopPage";
+import TabletPage from "./CategoryPage/TabletPage/TabletPage";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -43,6 +46,10 @@ class App extends Component {
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
+                                    <Route path={path.PHONEPAGE} component={PhonePage} />
+                                    <Route path={path.LAPTOPPAGE} component={LaptopPage} />
+                                    <Route path={path.TABLETPAGE} component={TabletPage} />
+                                    {/* <Route path={path.ACCESSORYPAGE} component={HomePage} /> */}
                                 </Switch>
                             </CustomScrollbars>
                         </div>

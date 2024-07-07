@@ -112,6 +112,7 @@ BRAND_CHOICES = (
     ("Samsung", "Samsung"),
     ("LG", "LG"),
     ("Nokia", "Nokia"),
+    ("Google", "Google"),
 )
 
 # USER_ROLE_CHOICES = (

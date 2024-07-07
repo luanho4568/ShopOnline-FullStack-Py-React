@@ -1,0 +1,203 @@
+.container {
+    .content {
+        .row {
+            .col-md-3 {
+                border-right: 1px solid rgba($color: #000000, $alpha: 0.1);
+                .brands {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    justify-content: space-between;
+                    .input {
+                        font-size: 18px;
+                        flex: 35%;
+                        margin-left: 38px;
+                        input {
+                            margin-right: 5px;
+                        }
+                    }
+                }
+                .price {
+                    display: flex;
+                    justify-content: space-between;
+                    flex-direction: column;
+                    .input {
+                        font-size: 18px;
+                        flex: 35%;
+                        margin-left: 38px;
+                        margin-bottom: 5px;
+                        input {
+                            margin-right: 5px;
+                        }
+                        .flex-price {
+                            display: flex;
+                            justify-content: space-between;
+                            
+                            input {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+            .col-md-9 {
+                .product-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    justify-content:left ;
+                    .ctgphone-customize {
+                        width: calc(33.33% - 20px); // Chiếm 33.33% của container và cách nhau 20px
+                        margin-bottom: 20px;
+                        box-shadow: 0 0 3px 0 #dee2e6;
+                        padding: 10px;
+                        border-radius: 6px;
+                        height: 400px; // Đặt chiều cao cho sản phẩm, bạn có thể thay đổi theo nhu cầu
+
+                        &:hover {
+                            border-radius: 6px;
+                            border-color: #dee2e680;
+                            transform: scale(1.03);
+                            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+                            .ctgphone-image {
+                                transform: scale(1.03);
+                            }
+                        }
+
+                        .ctgphone-customize-max-height {
+                            height: 100%;
+                            width: 100%;
+                            text-align: center;
+
+                            .ctgphone-image {
+                                height: 50%;
+                                position: relative;
+                                background: url(../../assets/body/background-product.png);
+                                background-position: center center;
+                                background-repeat: no-repeat;
+                                background-size: contain;
+
+                                .bg-img {
+                                    height: 214px;
+                                    width: 140px;
+                                    position: absolute;
+                                    left: 50%;
+                                    top: 50%;
+                                    transform: translate(-50%, -50%);
+
+                                    .img {
+                                        height: 100%;
+                                        width: 100%;
+                                        position: absolute;
+                                        background-position: center center;
+                                        background-repeat: no-repeat;
+                                        background-size: 100%;
+                                        left: 50%;
+                                        top: 50%;
+                                        transform: translate(-55%, -45%);
+                                    }
+                                }
+                            }
+
+                            .ctgphone-name {
+                                height: 10%;
+                                font-size: 17px;
+                                font-weight: 600;
+                            }
+
+                            .ctgphone-price {
+                                height: 10%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                margin: 0 70px 5px;
+                                border-radius: 15px;
+                                font-weight: 500;
+                                color: #fff;
+
+                                &:hover {
+                                    background-color: #ae1427;
+                                }
+                            }
+
+                            .ctgphone-price-discount {
+                                height: 10%;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                margin-bottom: 5px;
+
+                                .reduced-price {
+                                    margin: 5px 0;
+                                    border-radius: 15px;
+                                    font-weight: 500;
+                                    color: #fff;
+                                    padding: 10px;
+                                }
+
+                                .main-price {
+                                    display: flex;
+                                    flex-direction: column-reverse;
+
+                                    .main-price-discount {
+                                        margin: 5px 0;
+                                        border-radius: 15px;
+                                        background-color: #cb1c22;
+                                        font-weight: 500;
+                                        color: #fff;
+                                        padding: 10px;
+                                        text-decoration: line-through;
+                                        opacity: 0.5;
+                                    }
+
+                                    .discount {
+                                        font-size: 12px;
+                                        margin: -25px 0 0 55px;
+                                        color: #dc2626;
+                                    }
+                                }
+                            }
+
+                            .ctgphone-descript {
+                                height: 20%;
+                                font-size: 17px;
+                                background-color: #f8f9fa;
+                            }
+
+                            .ctgphone-btn {
+                                background-color: #f8f9fa;
+                                height: 10%;
+                                display: flex;
+                                justify-content: space-around;
+                                align-items: center;
+                                .btn-buy {
+                                    border: none;
+                                    padding: 8px 25px;
+                                    background-color: #cb1c22;
+                                    border-radius: 6px;
+                                    color: #fff;
+
+                                    &:hover {
+                                        background-color: #ae1427;
+                                    }
+                                }
+                                .btn-cart {
+                                    border: none;
+                                    padding: 20px 35px;
+                                    background-color: #ff9e37;
+                                    border-radius: 6px;
+                                    background-repeat: no-repeat;
+                                    background-position: center;
+                                    background-size: contain;
+                                    &:hover {
+                                        background-color: #ca6b07;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

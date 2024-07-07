@@ -4,6 +4,7 @@ import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../utils/constant";
 import { changeLanguageApp } from "../../store/actions/appActions";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class HomeHeader extends Component {
     componentDidMount() {}
@@ -22,18 +23,21 @@ class HomeHeader extends Component {
                                 <div className="header-logo"></div>
                             </div>
                             <div className="center-content">
-                                <div className="child-content">
+                                <Link to="/home" className="child-content">
                                     <FormattedMessage id="homepage.home" />
-                                </div>
-                                <div className="child-content">
+                                </Link>
+                                <Link to="/phone" className="child-content">
                                     <FormattedMessage id="homepage.phone" />
-                                </div>
-                                <div className="child-content">
+                                </Link>
+                                <Link to="/laptop" className="child-content">
                                     <FormattedMessage id="homepage.laptop" />
-                                </div>
-                                <div className="child-content">
+                                </Link>
+                                <Link to="/tablet" className="child-content">
+                                    <FormattedMessage id="homepage.tablet" />
+                                </Link>
+                                <Link to="/accessory" className="child-content">
                                     <FormattedMessage id="homepage.accessory" />
-                                </div>
+                                </Link>
                                 <div className="child-content">
                                     <div className="search">
                                         <i className="fas fa-search"></i>

@@ -165,6 +165,6 @@ const mapDispatchToProps = (dispatch) => {
         userLoginSuccess: (useInfo) =>
             dispatch(actions.userLoginSuccess(useInfo)),
     };
-};
+};  
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

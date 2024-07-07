@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import "./CategoryTablet.scss";
+import "./CategoryPhone.scss";
 import Slider from "react-slick/lib/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as actions from "../../../store/actions";
-
+import { FormattedMessage } from "react-intl";
 class CategoryTablet extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +14,7 @@ class CategoryTablet extends Component {
         };
     }
     componentDidMount() {
-        this.props.fetchAllProductStartRedux("C3");
+        this.props.fetchAllProductTabletStartRedux("C3");
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.listProducts !== this.props.listProducts) {
@@ -36,14 +36,14 @@ class CategoryTablet extends Component {
         const { arrProductTablet } = this.state;
         return (
             <>
-                <div className="ctgtablet-container">
-                    <div className="ctgtablet-content">
-                        <div className="ctgtablet-header">
-                            <span className="title-ctgtablet">Máy tính bảng nổi bật</span>
-                            <button className="btn-ctgtablet">Xem tất cả</button>
+                <div className="ctgphone-container">
+                    <div className="ctgphone-content">
+                        <div className="ctgphone-header">
+                        <span className="title-ctgphone"><FormattedMessage id="homepage.outstanding-tablet"/></span>
+                        <button className="btn-ctgphone"><FormattedMessage id="homepage.view-all-products"/></button>
                         </div>
-                        <div className="ctgtablet-body">
-                        <Slider {...settings}>
+                        <div className="ctgphone-body">
+                            <Slider {...settings}>
                                 {arrProductTablet &&
                                     arrProductTablet.length > 0 &&
                                     arrProductTablet.map((item) => {
@@ -52,18 +52,47 @@ class CategoryTablet extends Component {
                                                 <div className="ctgphone-customize-max-height">
                                                     <div className="ctgphone-image">
                                                         <div className="bg-img">
-                                                            <div className="img"></div>
+                                                            <div
+                                                                className="img"
+                                                                style={{
+                                                                    backgroundImage: `URL(http://localhost:8000/static${item.product_image})`,
+                                                                }}
+                                                            ></div>{" "}
                                                         </div>
                                                     </div>
-                                                    <div className="ctgphone-name-price">
-                                                        <div className="name">{item.title}</div>
-                                                        <div className="price">{item.selling_price}VND</div>
-                                                    </div>
-                                                    <div className="ctgphone-descript">
-                                                        {item.description}
-                                                    </div>
+                                                    <div className="ctgphone-name">{item.title}</div>
+                                                    {item.discount && item.discount > 0 ? (
+                                                        <div className="ctgphone-price-discount">
+                                                            <div
+                                                                className="reduced-price"
+                                                                style={{
+                                                                    background: `linear-gradient(to left, #E58D90  ${
+                                                                        item.discount
+                                                                    }%, #cb1c22 ${100 - item.discount}%)`,
+                                                                }}
+                                                            >
+                                                                {item.selling_price * ((100 - item.discount) / 100)}₫
+                                                            </div>
+
+                                                            <div className="main-price">
+                                                                <div className="main-price-discount">
+                                                                    {item.selling_price}₫{" "}
+                                                                </div>
+                                                                <span className="discount"> {-item.discount}%</span>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div
+                                                            className="ctgphone-price"
+                                                            style={{ backgroundColor: "#cb1c22" }}
+                                                        >
+                                                            <div className="main-price">{item.selling_price}₫</div>
+                                                        </div>
+                                                    )}
+
+                                                    <div className="ctgphone-descript">{item.description}</div>
                                                     <div className="ctgphone-btn">
-                                                        <button className="btn-buy">Mua ngay</button>
+                                                        <button className="btn-buy"><FormattedMessage id="homepage.buy-now"/></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,13 +109,13 @@ class CategoryTablet extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        listProducts: state.product.products,
+        listProducts: state.product.productsTablet,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchAllProductStartRedux: (category_key) => dispatch(actions.fetchAllProductStart(category_key)),
+        fetchAllProductTabletStartRedux: (category_key) => dispatch(actions.fetchAllProductTabletStart(category_key)),
     };
 };
 

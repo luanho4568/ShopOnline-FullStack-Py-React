@@ -1,6 +1,10 @@
 export const path = {
     HOME: "/",
     HOMEPAGE: "/home",
+    PHONEPAGE : "/phone",
+    LAPTOPPAGE : "/laptop",
+    TABLETPAGE : "/tablet",
+    ACCESSORYPAGE : "/accessory",
     LOGIN: "/login",
     LOG_OUT: "/logout",
     SYSTEM: "/system",

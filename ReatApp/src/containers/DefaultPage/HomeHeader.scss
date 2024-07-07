@@ -4,7 +4,7 @@
     .home-header-container {
         height: 76px;
         width: 100%;
-        background-color: #CD1818;
+        background-color: #cd1818;
 
         .home-header-content {
             width: 100%;
@@ -26,13 +26,13 @@
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
-
+                
                 .child-content {
                     font-size: 20px;
                     font-weight: 500;
                     color: #fff;
                     display: flex;
-
+                    text-decoration: none;
                     .search {
                         width: fit-content;
                         display: flex;
@@ -102,7 +102,6 @@
 
                     &:hover {
                         opacity: 0.8;
-                        
                     }
                 }
             }

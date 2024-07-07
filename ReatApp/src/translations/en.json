@@ -3,10 +3,31 @@
         "home": "Home",
         "phone": "Phone",
         "laptop": "Laptop",
+        "tablet": "Tablet",
         "accessory": "Accessory",
         "login": "Login",
         "search": "Search...",
-        "welcome": "Welcome"
+        "welcome": "Welcome",
+        "outstanding-phone": "Outstanding phone",
+        "outstanding-laptop": "Outstanding laptop",
+        "outstanding-tablet": "Outstanding tablet",
+        "view-all-products" : "View all",
+        "buy-now" : "Buy now",
+        "contact-info" : "Contact info",
+        "address" : "Address",
+        "telephone" : "Telephone",
+        "social-network" : "Social network",
+        "method-information" : "Method information",
+        "privacy-policy" : "Privacy policy",
+        "terms-of-use":"Terms of use",
+        "useful" : "Useful",
+        "about-us" : "About us",
+        "frequently-asked-questions" : "Frequently asked Questions",
+        "shopping-guide" : "Shopping guide",
+        "copyright" : "Copyright",
+        "designed-by" : "Designed by"
+
+
     },
 
     "menu": {
@@ -69,6 +90,5 @@
         "in-stock": "In stock",
         "out-of-stock": "Out of stock",
         "items": "items"
-        
     }
 }

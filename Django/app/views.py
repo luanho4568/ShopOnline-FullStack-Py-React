@@ -185,7 +185,7 @@ class DeleteProductAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-
+    
 # ----------------------------------API edit product by id---------------------
 class EditProductAPIView(APIView):
     def put(self, request):

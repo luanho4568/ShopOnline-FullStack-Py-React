@@ -116,7 +116,6 @@
                             height: 100%;
                             width: 100%;
                             position: absolute;
-                            background: url(../../../assets/body/phone/phone.png);
                             background-position: center center;
                             background-repeat: no-repeat;
                             background-size: 100%;
@@ -126,24 +125,54 @@
                         }
                     }
                 }
-                .ctgphone-name-price {
-                    height: 20%;
+                .ctgphone-name {
+                    height: 10%;
+                    font-size: 17px;
+                    font-weight: 600;
+                }
+                .ctgphone-price {
+                    height: 10%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 5px 70px;
+                    border-radius: 15px;
+                    font-weight: 500;
+                    color: #fff;
+
+                    &:hover {
+                        background-color: #ae1427;
+                    }
+                }
+                .ctgphone-price-discount {
+                    height: 10%;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    .name {
-                        font-size: 17px;
-                        font-weight: 600;
-                    }
-                    .price {
+                    .reduced-price {
                         margin: 5px 0;
                         border-radius: 15px;
-                        background-color: #cb1c22;
                         font-weight: 500;
                         color: #fff;
-                        padding: 10px 25px;
-                        &:hover {
-                            background-color: #ae1427;
+                        padding: 10px;
+                    }
+                    .main-price {
+                        display: flex;
+                        flex-direction: column-reverse;
+                        .main-price-discount {
+                            margin: 5px 0;
+                            border-radius: 15px;
+                            background-color: #cb1c22;
+                            font-weight: 500;
+                            color: #fff;
+                            padding: 10px;
+                            text-decoration: line-through;
+                            opacity: 0.5;
+                        }
+                        .discount {
+                            font-size: 12px;
+                            margin: -25px 0 0 55px;
+                            color : #dc2626;
                         }
                     }
                 }
