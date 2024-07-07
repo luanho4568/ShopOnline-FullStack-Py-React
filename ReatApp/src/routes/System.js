@@ -8,11 +8,6 @@ import CustomerManage from "../containers/System/CustomerManage/CustomerManage";
 import PhoneManage from "../containers/System/PhoneManage/PhoneManage";
 import LaptopManage from "../containers/System/LaptopManage/LaptopManage";
 import TabletManage from "../containers/System/TabletManage/TabletManage";
-import SmartWatchManage from "../containers/System/SmartWatchManage/SmartWatchManage";
-import BluetoothManage from "../containers/System/BluetoothManage/BluetoothManage";
-import KeyboardManage from "../containers/System/KeyboardManage/KeyboardManage";
-import MouseManage from "../containers/System/MouseManage/MouseManage";
-import ScreenManage from "../containers/System/ScreenManage/ScreenManage";
 
 class System extends Component {
     render() {
@@ -29,11 +24,6 @@ class System extends Component {
                             <Route path="/system/manage-category-phone" component={PhoneManage} />
                             <Route path="/system/manage-category-laptop" component={LaptopManage} />
                             <Route path="/system/manage-category-tablet" component={TabletManage} />
-                            <Route path="/system/manage-category-smartwatch" component={SmartWatchManage} />
-                            <Route path="/system/manage-category-bluetooth" component={BluetoothManage} />
-                            <Route path="/system/manage-category-keyboard" component={KeyboardManage} />
-                            <Route path="/system/manage-category-mouse" component={MouseManage} />
-                            <Route path="/system/manage-category-screen" component={ScreenManage} />
                             <Route
                                 component={() => {
                                     return <Redirect to={systemMenuPath} />;

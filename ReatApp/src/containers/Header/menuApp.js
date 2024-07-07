@@ -32,16 +32,6 @@ export const adminMenu = [
                 name: "menu.admin.manage-category-laptop",
                 link: "/system/manage-category-laptop",
             },
-            {
-                name: "menu.admin.manage-category-accessory",
-                subMenus: [
-                    { name: "menu.admin.manage-category-smartwatch", link: "/system/manage-category-smartwatch" },
-                    { name: "menu.admin.manage-category-bluetooth", link: "/system/manage-category-bluetooth" },
-                    { name: "menu.admin.manage-category-keyboard", link: "/system/manage-category-keyboard" },
-                    { name: "menu.admin.manage-category-mouse", link: "/system/manage-category-mouse" },
-                    { name: "menu.admin.manage-category-screen", link: "/system/manage-category-screen" },
-                ],
-            },
         ],
     },
     {

@@ -49,7 +49,6 @@ class App extends Component {
                                     <Route path={path.PHONEPAGE} component={PhonePage} />
                                     <Route path={path.LAPTOPPAGE} component={LaptopPage} />
                                     <Route path={path.TABLETPAGE} component={TabletPage} />
-                                    {/* <Route path={path.ACCESSORYPAGE} component={HomePage} /> */}
                                 </Switch>
                             </CustomScrollbars>
                         </div>

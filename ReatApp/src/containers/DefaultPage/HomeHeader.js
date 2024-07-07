@@ -35,9 +35,6 @@ class HomeHeader extends Component {
                                 <Link to="/tablet" className="child-content">
                                     <FormattedMessage id="homepage.tablet" />
                                 </Link>
-                                <Link to="/accessory" className="child-content">
-                                    <FormattedMessage id="homepage.accessory" />
-                                </Link>
                                 <div className="child-content">
                                     <div className="search">
                                         <i className="fas fa-search"></i>
