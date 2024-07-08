@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as actions from "../../../store/actions";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class CategoryPhone extends Component {
     constructor(props) {
@@ -40,8 +41,14 @@ class CategoryPhone extends Component {
                 <div className="ctgphone-container">
                     <div className="ctgphone-content">
                         <div className="ctgphone-header">
-                            <span className="title-ctgphone"><FormattedMessage id="homepage.outstanding-phone"/></span>
-                            <button className="btn-ctgphone"><FormattedMessage id="homepage.view-all-products"/></button>
+                            <span className="title-ctgphone">
+                                <FormattedMessage id="homepage.outstanding-phone" />
+                            </span>
+                            <Link to="/phone">
+                                <button className="btn-ctgphone">
+                                    <FormattedMessage id="homepage.view-all-products" />
+                                </button>
+                            </Link>
                         </div>
                         <div className="ctgphone-body">
                             <Slider {...settings}>
@@ -49,11 +56,16 @@ class CategoryPhone extends Component {
                                     arrProductPhone.length > 0 &&
                                     arrProductPhone.map((item) => {
                                         return (
-                                            <div className="ctgphone-customize">
+                                            <Link to={`/product-detail/${item.id}`} className="ctgphone-customize">
                                                 <div className="ctgphone-customize-max-height">
                                                     <div className="ctgphone-image">
                                                         <div className="bg-img">
-                                                            <div className="img" style={{backgroundImage: `URL(http://localhost:8000/static${item.product_image})`}}></div>
+                                                            <div
+                                                                className="img"
+                                                                style={{
+                                                                    backgroundImage: `URL(http://localhost:8000/static${item.product_image})`,
+                                                                }}
+                                                            ></div>
                                                         </div>
                                                     </div>
                                                     <div className="ctgphone-name">{item.title}</div>
@@ -86,12 +98,19 @@ class CategoryPhone extends Component {
                                                         </div>
                                                     )}
 
-                                                    <div className="ctgphone-descript">{item.description}</div>
+                                                    <div className="ctgphone-descript">
+                                                        {item.description &&
+                                                            item.description.split("\n").map((item, key) => {
+                                                                return <p key={key}>{item}</p>;
+                                                            })}
+                                                    </div>
                                                     <div className="ctgphone-btn">
-                                                        <button className="btn-buy"><FormattedMessage id="homepage.buy-now"/></button>
+                                                        <button className="btn-buy">
+                                                            <FormattedMessage id="homepage.see-more" />
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         );
                                     })}
                             </Slider>

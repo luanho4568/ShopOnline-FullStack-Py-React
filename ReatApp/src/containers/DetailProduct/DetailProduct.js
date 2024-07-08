@@ -1,18 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import HomeHeader from "../DefaultPage/HomeHeader";
-import HomeBody from "./HomeBody";
 import HomeFooter from "../DefaultPage/HomeFooter";
+import DetailProductBody from "./DetailProductBody";
 
-class HomePage extends Component {
-
+class DetailProduct extends Component {
     componentDidMount() {}
 
     render() {
         return (
             <>
                 <HomeHeader />
-                <HomeBody />
+                <DetailProductBody />
                 <HomeFooter />
             </>
         );
@@ -21,12 +20,12 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.user.isLoggedIn,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(DetailProduct);

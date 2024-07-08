@@ -5,6 +5,7 @@ import "../CategoryBody.scss";
 import Stack from "@mui/material/Stack";
 import * as actions from "../../../store/actions";
 import cart from "../../../assets/images/add-to-cart.png";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 class TabletBody extends Component {
     state = {
         currentPage: 1,
@@ -109,7 +110,7 @@ class TabletBody extends Component {
                                     {brandRedux &&
                                         brandRedux.length > 0 &&
                                         brandRedux.map((item) => (
-                                            <div key={item.id} className="input">
+                                            <div className="input">
                                                 <input
                                                     type="checkbox"
                                                     id={item.id}
@@ -201,7 +202,7 @@ class TabletBody extends Component {
                                     {filteredProducts &&
                                         filteredProducts.length > 0 &&
                                         filteredProducts.map((item) => (
-                                            <div key={item.id} className="ctgphone-customize">
+                                            <Link to={`/product-detail/${item.id}`} className="ctgphone-customize">
                                                 <div className="ctgphone-customize-max-height">
                                                     <div className="ctgphone-image">
                                                         <div className="bg-img">
@@ -243,7 +244,12 @@ class TabletBody extends Component {
                                                         </div>
                                                     )}
 
-                                                    <div className="ctgphone-descript">{item.description}</div>
+                                                    <div className="ctgphone-descript">
+                                                        {item.description &&
+                                                            item.description.split("\n").map((item, key) => {
+                                                                return <p key={key}>{item}</p>;
+                                                            })}
+                                                    </div>
                                                     <div className="ctgphone-btn">
                                                         <button className="btn-buy">Mua ngay</button>
                                                         <button
@@ -252,7 +258,7 @@ class TabletBody extends Component {
                                                         ></button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         ))}
                                 </div>
                                 <Stack spacing={2} className="mt-4">

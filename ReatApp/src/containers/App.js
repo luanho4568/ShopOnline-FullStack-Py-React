@@ -14,6 +14,7 @@ import CustomScrollbars from "../components/CustomScrollbars";
 import PhonePage from "./CategoryPage/PhonePage/PhonePage";
 import LaptopPage from "./CategoryPage/LaptopPage/LaptopPage";
 import TabletPage from "./CategoryPage/TabletPage/TabletPage";
+import DetailProduct from "./DetailProduct/DetailProduct";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -49,6 +50,7 @@ class App extends Component {
                                     <Route path={path.PHONEPAGE} component={PhonePage} />
                                     <Route path={path.LAPTOPPAGE} component={LaptopPage} />
                                     <Route path={path.TABLETPAGE} component={TabletPage} />
+                                    <Route path={path.DETAILPRODUCTPAGE} component={DetailProduct} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

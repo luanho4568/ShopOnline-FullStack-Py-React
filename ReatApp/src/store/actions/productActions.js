@@ -6,6 +6,7 @@ import {
     getBrand,
     getAllCode,
     getAllProductByCategory,
+    getDetailProduct,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -105,9 +106,33 @@ export const fetchAllProductSuccess = (data) => ({
     type: actionTypes.FETCH_ALL_PRODUCT_SUCCESS,
     data,
 });
-
 export const fetchAllProductFailed = () => ({
     type: actionTypes.FETCH_ALL_PRODUCT_FAILED,
+});
+export const fetchDetailProductStart = (id) => {
+    return async (dispatch) => {
+        try {
+            const res = await getDetailProduct(id);
+            if (res && res.errCode === 0) {
+                dispatch(fetchDetailProductSuccess(res.data));
+            } else {
+                toast.error(res.errMessage);
+                dispatch(fetchDetailProductFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch all Product failed!");
+            dispatch(fetchDetailProductFailed());
+            console.log("fetchAllProductFailed", error);
+        }
+    };
+};
+
+export const fetchDetailProductSuccess = (data) => ({
+    type: actionTypes.FETCH_DETAIL_PRODUCT_SUCCESS,
+    data,
+});
+export const fetchDetailProductFailed = () => ({
+    type: actionTypes.FETCH_DETAIL_PRODUCT_FAILED,
 });
 export const fetchAllProductPhoneStart = (category_key) => {
     return async (dispatch) => {

@@ -35,14 +35,6 @@ class Category extends Component {
                                 <div><FormattedMessage id="homepage.tablet"/></div>
                             </div>
                         </Link>
-                        <Link to="/accessory" className="category-box">
-                            <div className="category-img">
-                                <div className="img accessory"></div>
-                            </div>
-                            <div className="category-text">
-                                <div><FormattedMessage id="homepage.accessory"/></div>
-                            </div>
-                        </Link>
                     </div>
                 </div>
             </>

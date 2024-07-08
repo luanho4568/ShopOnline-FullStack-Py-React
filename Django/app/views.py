@@ -221,11 +221,26 @@ class CreateProductAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+# -----------------------------API details product--------------------------
+class GetDetailsProductAPIView(APIView):
+    def get(self, request):
+        try:
+            product_id = request.query_params.get("id")
+            response = service.get_product_details_service(product_id)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
 
 # -----------------------------API address user--------------------------
 class CreateAddressAPIView(APIView):
     permission_classes = [IsAuthenticated]
-
     def post(self, request):
         try:
             user = request.data
@@ -239,3 +254,4 @@ class CreateAddressAPIView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+

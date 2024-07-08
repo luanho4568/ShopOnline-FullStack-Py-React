@@ -33,6 +33,11 @@
                     color: #fff;
                     display: flex;
                     text-decoration: none;
+                    opacity: 0.8;
+                    &.active {
+                        opacity: 1;
+                        font-weight: 600;
+                    }
                     .search {
                         width: fit-content;
                         display: flex;

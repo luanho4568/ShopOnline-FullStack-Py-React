@@ -4,6 +4,7 @@ export const path = {
     PHONEPAGE : "/phone",
     LAPTOPPAGE : "/laptop",
     TABLETPAGE : "/tablet",
+    DETAILPRODUCTPAGE: "/product-detail/:id",
     LOGIN: "/login",
     LOG_OUT: "/logout",
     SYSTEM: "/system",

@@ -33,7 +33,10 @@ const getAllCode = (type) => {
 const getAllProductByCategory = (category_key) => {
     return axios.get(`/api/products-by-category?category_id=${category_key}`);
 };
-
+// API GET DETAIL PRODUCT BY ID
+const getDetailProduct = (id) => {
+    return axios.get(`/api/product-details?id=${id}`);
+};
 // API Create New Product
 const createNewProductService = (data) => {
     return axios.post("/api/create-new-product", data);
@@ -62,4 +65,5 @@ export {
     getAllProductByCategory,
     createNewProductService,
     getBrand,
+    getDetailProduct,
 };

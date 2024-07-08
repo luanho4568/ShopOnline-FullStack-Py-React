@@ -7,6 +7,7 @@ const initialState = {
     productsPhone: [],
     productsLaptop: [],
     productsTablet: [],
+    productDetail: null,
 };
 
 const productReducer = (state = initialState, action) => {
@@ -68,6 +69,16 @@ const productReducer = (state = initialState, action) => {
             };
         case actionTypes.FETCH_ALL_PRODUCT_FAILED:
             state.products = [];
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_DETAIL_PRODUCT_SUCCESS:
+            state.productDetail = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_DETAIL_PRODUCT_FAILED:
+            state.productDetail = null;
             return {
                 ...state,
             };

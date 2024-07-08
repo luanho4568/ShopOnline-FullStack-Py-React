@@ -32,7 +32,7 @@
                         .flex-price {
                             display: flex;
                             justify-content: space-between;
-                            
+
                             input {
                                 width: 100%;
                             }
@@ -45,15 +45,16 @@
                     display: flex;
                     flex-wrap: wrap;
                     gap: 20px;
-                    justify-content:left ;
+                    justify-content: left;
                     .ctgphone-customize {
-                        width: calc(33.33% - 20px); // Chiếm 33.33% của container và cách nhau 20px
+                        width: calc(33.33% - 20px);
                         margin-bottom: 20px;
                         box-shadow: 0 0 3px 0 #dee2e6;
                         padding: 10px;
                         border-radius: 6px;
-                        height: 400px; // Đặt chiều cao cho sản phẩm, bạn có thể thay đổi theo nhu cầu
-
+                        height: 400px;
+                        text-decoration: none;
+                        color: #333;
                         &:hover {
                             border-radius: 6px;
                             border-color: #dee2e680;
@@ -103,6 +104,7 @@
                                 height: 10%;
                                 font-size: 17px;
                                 font-weight: 600;
+                                line-height: 45px;
                             }
 
                             .ctgphone-price {
@@ -110,7 +112,7 @@
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                margin: 0 70px 5px;
+                                margin: 0 85px;
                                 border-radius: 15px;
                                 font-weight: 500;
                                 color: #fff;
@@ -160,8 +162,15 @@
 
                             .ctgphone-descript {
                                 height: 20%;
-                                font-size: 17px;
-                                background-color: #f8f9fa;
+                                font-size: 14px;
+                                background-color: #f0f2f5;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                -webkit-line-clamp: 2;
+                                -webkit-box-orient: vertical;
+                                padding: 15px 0;
                             }
 
                             .ctgphone-btn {

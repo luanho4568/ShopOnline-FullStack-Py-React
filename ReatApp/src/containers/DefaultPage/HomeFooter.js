@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { changeLanguageApp } from "../../store/actions/appActions";
+import "./HomeFooter.scss";
 import payment from "../../assets/footer/payment.png";
 import { FormattedMessage } from "react-intl";
 class HomeFooter extends Component {
@@ -104,7 +105,10 @@ class HomeFooter extends Component {
                         </div>
                     </div>
                     <div className="text-center mt-3">
-                        <small><FormattedMessage id="homepage.copyright" /> &copy; 2024 || <FormattedMessage id="homepage.designed-by" /> SV-UPT || </small>
+                        <small>
+                            <FormattedMessage id="homepage.copyright" /> &copy; 2024 ||{" "}
+                            <FormattedMessage id="homepage.designed-by" /> SV-UPT ||{" "}
+                        </small>
                         <div>
                             <img src={payment} alt="Payment Methods" className="img-fluid mt-2" height="30" />
                         </div>

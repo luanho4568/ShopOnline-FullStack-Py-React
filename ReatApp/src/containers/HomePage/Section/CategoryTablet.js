@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import * as actions from "../../../store/actions";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 class CategoryTablet extends Component {
     constructor(props) {
         super(props);
@@ -39,8 +40,14 @@ class CategoryTablet extends Component {
                 <div className="ctgphone-container">
                     <div className="ctgphone-content">
                         <div className="ctgphone-header">
-                        <span className="title-ctgphone"><FormattedMessage id="homepage.outstanding-tablet"/></span>
-                        <button className="btn-ctgphone"><FormattedMessage id="homepage.view-all-products"/></button>
+                            <span className="title-ctgphone">
+                                <FormattedMessage id="homepage.outstanding-tablet" />
+                            </span>
+                            <Link to="/tablet">
+                                <button className="btn-ctgphone">
+                                    <FormattedMessage id="homepage.view-all-products" />
+                                </button>
+                            </Link>
                         </div>
                         <div className="ctgphone-body">
                             <Slider {...settings}>
@@ -48,7 +55,7 @@ class CategoryTablet extends Component {
                                     arrProductTablet.length > 0 &&
                                     arrProductTablet.map((item) => {
                                         return (
-                                            <div className="ctgphone-customize">
+                                            <Link to={`/product-detail/${item.id}`} className="ctgphone-customize">
                                                 <div className="ctgphone-customize-max-height">
                                                     <div className="ctgphone-image">
                                                         <div className="bg-img">
@@ -90,12 +97,19 @@ class CategoryTablet extends Component {
                                                         </div>
                                                     )}
 
-                                                    <div className="ctgphone-descript">{item.description}</div>
+                                                    <div className="ctgphone-descript">
+                                                        {item.description &&
+                                                            item.description.split("\n").map((item, key) => {
+                                                                return <p key={key}>{item}</p>;
+                                                            })}
+                                                    </div>
                                                     <div className="ctgphone-btn">
-                                                        <button className="btn-buy"><FormattedMessage id="homepage.buy-now"/></button>
+                                                        <button className="btn-buy">
+                                                            <FormattedMessage id="homepage.see-more" />
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         );
                                     })}
                             </Slider>

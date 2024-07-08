@@ -436,3 +436,26 @@ def get_brand_service(data):
     response["errMessage"] = "Get brand success!"
     response["data"] = brand_data
     return response
+# -----------------------------API get detail product--------------------------
+def get_product_details_service(product_id):
+    response = {}
+    is_exist = check_id_product(product_id)
+    if not is_exist:
+        response["errCode"] = 1
+        response["errMessage"] = "Product is not exist."
+        return response
+    
+    product = Product.objects.get(id=product_id)
+    product_data = ProductSerializer(product)
+    if not product_data:
+        response["errCode"] = 2
+        response["errMessage"] = "Product is not found."
+        return response
+    response["errCode"] = 0
+    response["errMessage"] = "Get product is success."
+    response["data"] = product_data.data
+    return response
+    
+    
+    
+    

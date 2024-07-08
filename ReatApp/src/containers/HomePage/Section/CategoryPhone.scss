@@ -41,6 +41,7 @@
     height: 550px;
     margin: 20px 160px;
     cursor: default;
+
     .ctgphone-content {
         box-shadow: 0 0 3px 0 #333;
         border-radius: 6px;
@@ -83,7 +84,8 @@
             height: 460px !important;
             padding: 10px;
             border-radius: 6px;
-
+            text-decoration: none;
+            color: #000;
             &:hover {
                 border-radius: 6px;
                 border-color: #dee2e680;
@@ -129,14 +131,15 @@
                     height: 10%;
                     font-size: 17px;
                     font-weight: 600;
+                    line-height: 45px;
                 }
                 .ctgphone-price {
                     height: 10%;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin: 5px 70px;
-                    border-radius: 15px;
+                    margin: 0 85px;
+                    border-radius: 20px;
                     font-weight: 500;
                     color: #fff;
 
@@ -172,14 +175,21 @@
                         .discount {
                             font-size: 12px;
                             margin: -25px 0 0 55px;
-                            color : #dc2626;
+                            color: #dc2626;
                         }
                     }
                 }
                 .ctgphone-descript {
                     height: 20%;
-                    font-size: 17px;
-                    background-color: #f8f9fa;
+                    font-size: 14px;
+                    background-color: #f0f2f5;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    padding: 15px 0;
                 }
                 .ctgphone-btn {
                     background-color: #f8f9fa;
@@ -187,9 +197,9 @@
                     .btn-buy {
                         border: none;
                         padding: 8px;
-                        width: 160px;
+                        width: 150px;
                         background-color: #cb1c22;
-                        border-radius: 6px;
+                        border-radius: 10px;
                         color: #fff;
                         &:hover {
                             background-color: #ae1427;
