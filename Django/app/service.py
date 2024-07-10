@@ -99,7 +99,7 @@ def update_user_data_service(data, files):
             user_data.save()
             response["errCode"] = 0
             response["errMessage"] = "Update successful!"
-            response["user"] = user_data.data
+            response["data"] = user_data.data
             return response
         else:
             response["errCode"] = 3
@@ -436,6 +436,8 @@ def get_brand_service(data):
     response["errMessage"] = "Get brand success!"
     response["data"] = brand_data
     return response
+
+
 # -----------------------------API get detail product--------------------------
 def get_product_details_service(product_id):
     response = {}
@@ -444,7 +446,7 @@ def get_product_details_service(product_id):
         response["errCode"] = 1
         response["errMessage"] = "Product is not exist."
         return response
-    
+
     product = Product.objects.get(id=product_id)
     product_data = ProductSerializer(product)
     if not product_data:
@@ -455,7 +457,111 @@ def get_product_details_service(product_id):
     response["errMessage"] = "Get product is success."
     response["data"] = product_data.data
     return response
-    
-    
-    
-    
+
+
+# -----------------------------API get detail user--------------------------
+def get_user_details_service(user_id):
+    response = {}
+    is_exist = check_id_user(user_id)
+    if not is_exist:
+        response["errCode"] = 1
+        response["errMessage"] = "User is not exist."
+        return response
+
+    user = User.objects.get(id=user_id)
+    user_data = UserSerializer(user)
+    if not user_data:
+        response["errCode"] = 2
+        response["errMessage"] = "User is not found."
+        return response
+    response["errCode"] = 0
+    response["errMessage"] = "Get User is success."
+    response["data"] = user_data.data
+    return response
+
+
+# -----------------------------API get address user--------------------------
+
+
+def get_address_user_service(user_id):
+    response = {}
+
+    user = User.objects.get(id=user_id)
+    if not user:
+        response["errCode"] = 1
+        response["errMessage"] = "User is not exist."
+        return response
+
+    address = Address.objects.filter(user=user).first()
+    if not address:
+        address = Address.objects.create(
+            user=user,
+            address="",
+            province="",
+        )
+
+    address_data = AddressSerializer(address).data
+    if not address_data:
+        response["errCode"] = 2
+        response["errMessage"] = "Address is not found."
+        return response
+    response["errCode"] = 0
+    response["errMessage"] = "Get address is success."
+    response["data"] = address_data
+    return response
+
+
+# -----------------------------API edit address user--------------------------
+def update_address_data_service(data):
+    response = {}
+    user_id = data.get("user")
+    user = User.objects.get(id=user_id)
+    if not user:
+        response["errCode"] = 1
+        response["errMessage"] = "User does not exist."
+        return response
+    address = Address.objects.filter(user=user).first()
+    if not address:
+        response["errCode"] = 2
+        response["errMessage"] = "Address not found."
+        return response
+
+    address_data = AddressSerializer(address, data=data, partial=True)
+    if address_data.is_valid():
+        address_data.save()
+        response["errCode"] = 0
+        response["errMessage"] = "Update address successful."
+        response["data"] = address_data.data
+        return response
+    else:
+        response["errCode"] = 3
+        response["errMessage"] = "Update address failed."
+        return response
+
+
+# -----------------------------API edit password--------------------------
+# hàm xử lý cập nhật
+def update_password_user_service(data):
+    response = {}
+    user_id = data.get("id")
+
+    if not user_id:
+        response["errCode"] = 1
+        response["errMessage"] = "Missing user ID!"
+        return response
+
+    is_exist = check_id_user(user_id)
+    if is_exist:
+        user = User.objects.get(id=user_id)
+        new_password = data.get("password")
+        hashed_password = make_password(new_password) #băm password
+        user.password = hashed_password
+        user.save()
+
+        response["errCode"] = 0
+        response["errMessage"] = "Update password successful!"
+        return response
+    else:
+        response["errCode"] = 2
+        response["errMessage"] = "User ID does not exist!"
+        return response

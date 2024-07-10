@@ -54,3 +54,8 @@ class BrandSerializer(ModelSerializer):
     class Meta:
         model = Brand
         fields = "__all__"
+
+class AddressSerializer(ModelSerializer):
+    class Meta:
+        model = Address
+        fields = "__all__"

@@ -58,5 +58,12 @@ urlpatterns = [
     path("api/create-new-product", views.CreateProductAPIView.as_view(), name="create-product"),
     # API get details product
     path('api/product-details', views.GetDetailsProductAPIView.as_view(), name='product-details'),
-
+    # API get details user
+    path('api/user-details', views.GetDetailsUserAPIView.as_view(), name='user-details'),
+    # API get address user
+    path('api/address-user', views.GetAddressUserAPIView.as_view(), name='address-user'),
+    # API edit address user
+    path('api/address-edit',views.EditAddressAPIView.as_view(), name='address-edit'),
+    # API update password user
+    path('api/update-password',views.UpdatePasswordAPIView.as_view(), name='update-password'),
 ]

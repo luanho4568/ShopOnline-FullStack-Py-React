@@ -157,7 +157,6 @@ export const editOneUser = (data,role_key) => {
         }
     };
 };
-
 export const editUserSuccess = () => ({
     type: actionTypes.EDIT_USER_SUCCESS,
 });
@@ -165,3 +164,4 @@ export const editUserSuccess = () => ({
 export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED,
 });
+

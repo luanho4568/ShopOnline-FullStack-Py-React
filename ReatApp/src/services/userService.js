@@ -37,6 +37,11 @@ const getAllProductByCategory = (category_key) => {
 const getDetailProduct = (id) => {
     return axios.get(`/api/product-details?id=${id}`);
 };
+//  API GET DETAIL USER BY ID
+
+const getDetailUser = (id) => {
+    return axios.get(`/api/user-details?id=${id}`);
+};
 // API Create New Product
 const createNewProductService = (data) => {
     return axios.post("/api/create-new-product", data);
@@ -53,10 +58,26 @@ const deleteProductService = (id) => {
 const editProductService = (data) => {
     return axios.put(`/api/product-edit`, data);
 };
+// API GET ADDRESS USER
+
+const getUserAddress = (id) => {
+    return axios.get(`/api/address-user?id=${id}`);
+};
+// API EDIT ADDRESS USER
+const editAddressService = (data) => {
+    return axios.put(`/api/address-edit`, data);
+};
+// API UPDATE PASSWORD
+const updatePasswordService = (data) => {
+    return axios.put(`/api/update-password`, data);
+};
 export {
     handleLoginAPI,
     createNewUserService,
     deleteUserService,
+    updatePasswordService,
+    getUserAddress,
+    editAddressService,
     deleteProductService,
     editUserService,
     getAllUserByRole,
@@ -66,4 +87,5 @@ export {
     createNewProductService,
     getBrand,
     getDetailProduct,
+    getDetailUser,
 };

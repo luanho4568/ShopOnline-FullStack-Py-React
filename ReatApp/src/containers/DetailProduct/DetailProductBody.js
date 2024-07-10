@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as actions from "../../store/actions";
 import "./DetailProductBody.scss";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { FormattedMessage } from "react-intl";
 import cart from "../../assets/images/add-to-cart.png";
 class DetailProduct extends Component {
     async componentDidMount() {
@@ -58,7 +59,10 @@ class DetailProduct extends Component {
                                 })}
                         </div>
                         <div className="btn-buy-cart mt-3">
-                            <button className="btn-buy">Mua ngay</button>
+                            <button className="btn-buy">
+                                {" "}
+                                <FormattedMessage id="manage-product.buy-now" />
+                            </button>
                             <button className="btn-cart" style={{ backgroundImage: `url(${cart})` }}></button>
                         </div>
                     </div>

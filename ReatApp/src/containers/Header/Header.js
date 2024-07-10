@@ -7,14 +7,15 @@ import { adminMenu } from "./menuApp";
 import "./Header.scss";
 import { LANGUAGES } from "../../utils";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 class Header extends Component {
     handleChangeLanguage = (language) => {
         this.props.changeLanguageAppRedux(language);
     };
-
     render() {
         const { processLogout, language, userInfo } = this.props;
+        console.log(processLogout);
         return (
             <div className="header-container">
                 {/* thanh navigator */}
@@ -41,9 +42,10 @@ class Header extends Component {
                         EN
                     </span>
                     {/* nút logout */}
-                    <div className="btn btn-logout" onClick={processLogout} title="Logout">
+                    <Link to="/home" className="btn btn-logout">
                         <i className="fas fa-sign-out-alt"></i>
-                    </div>
+                    </Link>
+                    
                 </div>
             </div>
         );

@@ -19,7 +19,7 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
             };
-        
+
         case actionTypes.FETCH_ROLE_SUCCESS:
             state.roles = action.data;
             return {
@@ -40,6 +40,7 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state,
             };
+
         default:
             return state;
     }

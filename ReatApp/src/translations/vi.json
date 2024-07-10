@@ -85,6 +85,17 @@
         "delete" : "Trạng thái hiện thị",
         "in-stock" : "Còn hàng",
         "items": "cái",
-        "out-of-stock" : "Hết hàng"
+        "out-of-stock" : "Hết hàng",
+        "buy-now": "Mua ngay",
+        "brands" : "Thương hiệu",
+        "under-2m" : "Dưới 2 triệu",
+        "2-4m" : "Từ 2 - 4 triệu",
+        "4-7m" : "Từ 4 - 7 triệu",
+        "7-13m" : "Từ 7 - 13 triệu",
+        "13-20m" : "Từ 13 - 20 triệu",
+        "above-20m" : "Trên 20 triệu",
+        "all" : "Tất cả"
+
+
     }
 }

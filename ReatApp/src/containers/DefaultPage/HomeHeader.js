@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import "./HomeHeader.scss";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../utils/constant";
-import { changeLanguageApp } from "../../store/actions/appActions";
+import * as actions from "../../store/actions";
 import { NavLink } from "react-router-dom";
-
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import noavatar from "../../assets/images/no-avatar.jpg";
 class HomeHeader extends Component {
     componentDidMount() {}
 
@@ -14,7 +15,7 @@ class HomeHeader extends Component {
     };
 
     render() {
-        const language = this.props.language;
+        const { language, isLoggedIn, userInfo, processLogout } = this.props;
         return (
             <div className="main">
                 <div className="home-header-container">
@@ -51,11 +52,68 @@ class HomeHeader extends Component {
                             <div className={language === LANGUAGES.EN ? "language-en active" : "language-en"}>
                                 <span onClick={() => this.handleChangeLanguage(LANGUAGES.EN)}>EN</span>
                             </div>
-                            <div className="child-content">
-                                <button className="btn-login">
-                                    <FormattedMessage id="homepage.login" />
-                                </button>
-                            </div>
+                            {isLoggedIn ? (
+                                <>
+                                    <div className="cart">
+                                        <span className="quantity-item">0</span>
+                                    </div>
+                                    <div className="user">
+                                        {userInfo.avatar ? (
+                                            <div
+                                                className="avatar-user"
+                                                style={{
+                                                    backgroundImage: `url(http://localhost:8000/static${userInfo.avatar})`,
+                                                }}
+                                            ></div>
+                                        ) : (
+                                            <div
+                                                className="avatar-user"
+                                                style={{
+                                                    backgroundImage: `url(${noavatar})`,
+                                                }}
+                                            ></div>
+                                        )}
+
+                                        <ul className="info-user">
+                                            <li className="separate-fullname">
+                                                {userInfo.first_name} {userInfo.last_name}
+                                            </li>
+                                            {userInfo.role === "R1" || userInfo.role === "R2" ? (
+                                                <li>
+                                                    <NavLink
+                                                        className="link"
+                                                        to="/system/admin-manage"
+                                                        activeClassName="active"
+                                                    >
+                                                        Quản lý
+                                                    </NavLink>
+                                                </li>
+                                            ) : null}
+                                            <li>
+                                                <NavLink className="link" to="/user-info" activeClassName="active">
+                                                    Thông tin
+                                                </NavLink>
+                                            </li>
+                                            <li>Đơn hàng</li>
+                                            <li onClick={processLogout}>
+                                                <Link
+                                                    onClick={processLogout}
+                                                    className="link separate-logout"
+                                                    to="/home"
+                                                >
+                                                    Đăng xuất
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </>
+                            ) : (
+                                <Link to="/login" className="child-content">
+                                    <button className="btn-login">
+                                        <FormattedMessage id="homepage.login" />
+                                    </button>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -68,12 +126,14 @@ const mapStateToProps = (state) => {
     return {
         isLoggedIn: state.user.isLoggedIn,
         language: state.app.language,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeLanguageRedux: (language) => dispatch(changeLanguageApp(language)),
+        changeLanguageRedux: (language) => dispatch(actions.changeLanguageApp(language)),
+        processLogout: () => dispatch(actions.processLogout()),
     };
 };
 

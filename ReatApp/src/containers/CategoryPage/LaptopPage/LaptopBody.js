@@ -6,13 +6,18 @@ import Stack from "@mui/material/Stack";
 import * as actions from "../../../store/actions";
 import cart from "../../../assets/images/add-to-cart.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { FormattedMessage } from "react-intl";
 class LaptopBody extends Component {
-    state = {
-        currentPage: 1,
-        itemPerPage: 6,
-        selectedBrands: [],
-        selectedPriceRanges: ["all"],
-    };
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentPage: 1,
+            itemPerPage: 6,
+            selectedBrands: [],
+            selectedPriceRanges: ["all"],
+        };
+    }
 
     componentDidMount() {
         this.props.fetchAllProductLaptopStartRedux("C2");
@@ -87,21 +92,23 @@ class LaptopBody extends Component {
         const indexOfLastRecord = currentPage * itemPerPage;
         const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
         const productStatus = listProducts.filter((item) => item.current_status === true);
-        const currentItems = productStatus.slice(indexOfFirstRecord, indexOfLastRecord);
         const filteredByBrandProducts =
             selectedBrands.length > 0
-                ? currentItems.filter((item) => selectedBrands.includes(item.brand))
-                : currentItems;
-        const filteredProducts = this.getPriceFilterProducts(filteredByBrandProducts);
+                ? productStatus.filter((item) => selectedBrands.includes(item.brand))
+                : productStatus;
+        const filterProducts = this.getPriceFilterProducts(filteredByBrandProducts);
+        const currentItems = filterProducts.slice(indexOfFirstRecord, indexOfLastRecord);
 
-        const nPages = Math.ceil(productStatus.length / itemPerPage);
+        const nPages = Math.ceil(filterProducts.length / itemPerPage);
         return (
             <>
                 <div class="container">
                     <div class="content">
                         <div class="row">
                             <div class="col-md-3">
-                                <h3 className="text-center mb-4">Brands</h3>
+                                <h3 className="text-center mb-4">
+                                    <FormattedMessage id="manage-product.brands" />
+                                </h3>
                                 <div className="brands">
                                     {brandRedux &&
                                         brandRedux.length > 0 &&
@@ -118,7 +125,9 @@ class LaptopBody extends Component {
                                             </div>
                                         ))}
                                 </div>
-                                <h3 className="text-center mb-4 mt-4">Price</h3>
+                                <h3 className="text-center mb-4 mt-4">
+                                    <FormattedMessage id="manage-product.price" />
+                                </h3>
 
                                 <div className="price">
                                     <div className="input">
@@ -129,7 +138,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("all")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Tất cả</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.all" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -139,7 +150,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("under-2m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Dưới 2 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.under-2m" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -149,7 +162,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("2-4m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Từ 2 - 4 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.2-4m" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -159,7 +174,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("4-7m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Từ 4 - 7 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.4-7m" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -169,7 +186,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("7-13m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Từ 7 - 13 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.7-13m" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -179,7 +198,9 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("13-20m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Từ 13 - 20 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.13-20m" />
+                                        </label>
                                     </div>
                                     <div className="input">
                                         <input
@@ -189,15 +210,17 @@ class LaptopBody extends Component {
                                             checked={selectedPriceRanges.includes("above-20m")}
                                             onChange={this.handlePriceChange}
                                         />
-                                        <label>Trên 20 triệu</label>
+                                        <label>
+                                            <FormattedMessage id="manage-product.above-20m" />
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div className="product-list">
-                                    {filteredProducts &&
-                                        filteredProducts.length > 0 &&
-                                        filteredProducts.map((item) => (
+                                    {currentItems &&
+                                        currentItems.length > 0 &&
+                                        currentItems.map((item) => (
                                             <Link to={`/product-detail/${item.id}`} className="ctgphone-customize">
                                                 <div className="ctgphone-customize-max-height">
                                                     <div className="ctgphone-image">
@@ -239,7 +262,6 @@ class LaptopBody extends Component {
                                                             <div className="main-price">{item.selling_price}₫</div>
                                                         </div>
                                                     )}
-
                                                     <div className="ctgphone-descript">
                                                         {item.description &&
                                                             item.description.split("\n").map((item, key) => {
@@ -247,7 +269,10 @@ class LaptopBody extends Component {
                                                             })}
                                                     </div>
                                                     <div className="ctgphone-btn">
-                                                        <button className="btn-buy">Mua ngay</button>
+                                                        <button className="btn-buy">
+                                                            {" "}
+                                                            <FormattedMessage id="manage-product.buy-now" />
+                                                        </button>
                                                         <button
                                                             className="btn-cart"
                                                             style={{ backgroundImage: `url(${cart})` }}

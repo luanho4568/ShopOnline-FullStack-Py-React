@@ -15,6 +15,9 @@ import PhonePage from "./CategoryPage/PhonePage/PhonePage";
 import LaptopPage from "./CategoryPage/LaptopPage/LaptopPage";
 import TabletPage from "./CategoryPage/TabletPage/TabletPage";
 import DetailProduct from "./DetailProduct/DetailProduct";
+import UserInfo from "./UserInfo/UserInfoBody/UserInfo";
+import AddressInfo from "./UserInfo/AddressInfo/AddressInfo";
+import ResetPassword from "./UserInfo/ResetPassword/ResetPassword";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -51,6 +54,9 @@ class App extends Component {
                                     <Route path={path.LAPTOPPAGE} component={LaptopPage} />
                                     <Route path={path.TABLETPAGE} component={TabletPage} />
                                     <Route path={path.DETAILPRODUCTPAGE} component={DetailProduct} />
+                                    <Route path={path.USERINFOPAGE} component={UserInfo} />
+                                    <Route path={path.ADDRESSINFOPAGE} component={AddressInfo} />
+                                    <Route path={path.RESETPASSPAGE} component={ResetPassword} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

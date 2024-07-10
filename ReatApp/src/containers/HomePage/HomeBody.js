@@ -8,6 +8,7 @@ import Category from "./Section/Category";
 import CategoryPhone from "./Section/CategoryPhone";
 import CategoryLaptop from "./Section/CategoryLaptop";
 import CategoryTablet from "./Section/CategoryTablet";
+import { FormattedMessage } from "react-intl";
 
 class HomeBody extends Component {
     componentDidMount() {}

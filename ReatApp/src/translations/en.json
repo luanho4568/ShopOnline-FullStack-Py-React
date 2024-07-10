@@ -88,6 +88,16 @@
         "delete": "Delete",
         "in-stock": "In stock",
         "out-of-stock": "Out of stock",
-        "items": "items"
+        "items": "items",
+        "buy-now": "Buy now",
+        "brands" : "Brands",
+        "under-2m" : "Under 2m",
+        "2-4m" : "2-4m",
+        "4-7m" : "4-7m",
+        "7-13m" : "7-13m",
+        "13-20m" : "13-20m",
+        "above-20m" : "Above 20m",
+        "all" : "All"
+
     }
 }

@@ -17,7 +17,6 @@ export const adminMenu = [
         ],
     },
     {
-        
         name: "menu.admin.product",
         menus: [
             {
@@ -35,7 +34,6 @@ export const adminMenu = [
         ],
     },
     {
-        
         name: "menu.admin.order",
         menus: [
             {

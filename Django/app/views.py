@@ -185,14 +185,14 @@ class DeleteProductAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-    
+
 # ----------------------------------API edit product by id---------------------
 class EditProductAPIView(APIView):
     def put(self, request):
         try:
             data = request.data
             files = request.FILES
-            response = service.edit_product_by_id(data , files)
+            response = service.edit_product_by_id(data, files)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
@@ -210,7 +210,7 @@ class CreateProductAPIView(APIView):
         try:
             data = request.data
             files = request.FILES
-            response = service.create_new_product_service(data,files)
+            response = service.create_new_product_service(data, files)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
@@ -220,6 +220,7 @@ class CreateProductAPIView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
+
 
 # -----------------------------API details product--------------------------
 class GetDetailsProductAPIView(APIView):
@@ -238,13 +239,12 @@ class GetDetailsProductAPIView(APIView):
             )
 
 
-# -----------------------------API address user--------------------------
-class CreateAddressAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    def post(self, request):
+# -----------------------------API details user--------------------------
+class GetDetailsUserAPIView(APIView):
+    def get(self, request):
         try:
-            user = request.data
-            response = service.create_address_service(user)
+            user_id = request.query_params.get("id")
+            response = service.get_user_details_service(user_id)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
@@ -255,3 +255,52 @@ class CreateAddressAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+
+# -----------------------------API Get address user--------------------------
+class GetAddressUserAPIView(APIView):
+    def get(self, request):
+        try:
+            user_id = request.query_params.get("id")
+            response = service.get_address_user_service(user_id)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+# -----------------------------API edit address user--------------------------
+class EditAddressAPIView(APIView):
+    def put(self, request):
+        try:
+            data = request.data
+            print(data)
+            response = service.update_address_data_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API edit password--------------------------------
+class UpdatePasswordAPIView(APIView):
+    def put(self, request):
+        try:
+            data = request.data
+            response = service.update_password_user_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

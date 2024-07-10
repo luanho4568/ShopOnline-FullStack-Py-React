@@ -33,7 +33,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "locality", "city", "province"]
+    list_display = ["id", "user", "address", "province"]
     search_fields = ["user"]
 
 
