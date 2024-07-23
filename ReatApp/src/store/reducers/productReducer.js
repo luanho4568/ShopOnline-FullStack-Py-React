@@ -8,6 +8,9 @@ const initialState = {
     productsLaptop: [],
     productsTablet: [],
     productDetail: null,
+    searchProduct: [],
+    cartItems: [],
+    orderItems: [],
 };
 
 const productReducer = (state = initialState, action) => {
@@ -79,6 +82,56 @@ const productReducer = (state = initialState, action) => {
             };
         case actionTypes.FETCH_DETAIL_PRODUCT_FAILED:
             state.productDetail = null;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_SEARCH_PRODUCT_SUCCESS:
+            state.searchProduct = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_SEARCH_PRODUCT_FAILED:
+            state.searchProduct = null;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_LIST_CART_SUCCESS:
+            state.cartItems = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_LIST_CART_FAILED:
+            state.cartItems = [];
+            return {
+                ...state,
+            };
+        case actionTypes.CREATE_ORDER_SUCCESS:
+            state.orderItems = [...state.orderItems, action.data];
+            return {
+                ...state,
+            };
+        case actionTypes.CREATE_ORDER_FAILED:
+            state.orderItems = [];
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_LIST_ORDER_SUCCESS:
+            state.orderItems = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_LIST_ORDER_FAILED:
+            state.orderItems = [];
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_ADD_ITEM_TO_CART_SUCCESS:
+            state.cartItems = action.data;
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_REMOVE_ITEM_TO_CART_SUCCESS:
+            state.cartItems = action.data;
             return {
                 ...state,
             };

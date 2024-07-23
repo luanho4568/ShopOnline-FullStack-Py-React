@@ -1,22 +1,44 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom";
+import * as actions from "../../../store/actions";
 
 class ResetPasswordBody extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isEditing: false,
-            userInfo: { ...this.props.userInfo },
-            isShowPassword: false,
+            userInfo: {
+                id: this.props.userInfo ? this.props.userInfo.id : "",
+                old_password: "",
+                new_password: "",
+                confirm_password: "",
+            },
+            isShowPassword: {
+                old_password: false,
+                new_password: false,
+                confirm_password: false,
+            },
         };
     }
-    componentDidMount() {}
+    componentDidUpdate(prevProps) {
+        if (prevProps.userInfo !== this.props.userInfo) {
+            this.setState({
+                userInfo: {
+                    id: this.props.userInfo ? this.props.userInfo.id : "",
+                    old_password: "",
+                    new_password: "",
+                    confirm_password: "",
+                },
+            });
+        }
+    }
     onChangeInput = (e, id) => {
         const { userInfo } = this.state;
         userInfo[id] = e.target.value;
         this.setState({ userInfo });
     };
+
     handleEdit = () => {
         this.setState({ isEditing: true });
     };
@@ -24,22 +46,41 @@ class ResetPasswordBody extends Component {
     handleCancelEdit = () => {
         this.setState({
             isEditing: false,
-            address: { ...this.props.addressRedux },
+            userInfo: {
+                id: this.props.userInfo ? this.props.userInfo.id : "",
+                old_password: "",
+                new_password: "",
+                confirm_password: "",
+            },
         });
     };
+
     handleSave = async () => {
-        const { address } = this.state;
-        await this.props.editAddressStartRedux(address);
-        this.setState({ isEditing: false });
-    };
-    handleShowHidePass = () => {
+        const { userInfo } = this.state;
+        await this.props.updatePasswordStartRedux(userInfo);
         this.setState({
-            isShowPassword: !this.state.isShowPassword,
+            isEditing: false,
+            userInfo: {
+                id: this.props.userInfo ? this.props.userInfo.id : "",
+                old_password: "",
+                new_password: "",
+                confirm_password: "",
+            },
         });
     };
+
+    handleShowHidePass = (id) => {
+        this.setState((prevState) => ({
+            isShowPassword: {
+                ...prevState.isShowPassword,
+                [id]: !prevState.isShowPassword[id],
+            },
+        }));
+    };
+
     render() {
         const { language } = this.props;
-        const { userInfo, isEditing } = this.state;
+        const { userInfo, isEditing, isShowPassword } = this.state;
         return (
             <>
                 <div className="container">
@@ -71,22 +112,22 @@ class ResetPasswordBody extends Component {
                                         <div className="custom-input-password">
                                             <input
                                                 className="form-control"
-                                                type={this.state.isShowPassword ? "text" : "password"}
-                                                value={userInfo.password}
+                                                type={isShowPassword.old_password ? "text" : "password"}
+                                                value={userInfo.old_password}
                                                 disabled={!isEditing}
-                                                onChange={(e) => this.onChangeInput(e, "password")}
+                                                onChange={(e) => this.onChangeInput(e, "old_password")}
                                             />
-                                            <span
-                                                onClick={() => {
-                                                    this.handleShowHidePass();
-                                                }}
-                                            >
-                                                <i
-                                                    className={
-                                                        this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"
-                                                    }
-                                                ></i>
-                                            </span>
+                                            {isEditing ? (
+                                                <span onClick={() => this.handleShowHidePass("old_password")}>
+                                                    <i
+                                                        className={
+                                                            isShowPassword.old_password
+                                                                ? "far fa-eye"
+                                                                : "far fa-eye-slash"
+                                                        }
+                                                    ></i>
+                                                </span>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
@@ -96,22 +137,22 @@ class ResetPasswordBody extends Component {
                                         <div className="custom-input-password">
                                             <input
                                                 className="form-control"
-                                                type={this.state.isShowPassword ? "text" : "password"}
-                                                value={userInfo.password}
+                                                type={isShowPassword.new_password ? "text" : "password"}
+                                                value={userInfo.new_password}
                                                 disabled={!isEditing}
-                                                onChange={(e) => this.onChangeInput(e, "password")}
+                                                onChange={(e) => this.onChangeInput(e, "new_password")}
                                             />
-                                            <span
-                                                onClick={() => {
-                                                    this.handleShowHidePass();
-                                                }}
-                                            >
-                                                <i
-                                                    className={
-                                                        this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"
-                                                    }
-                                                ></i>
-                                            </span>
+                                            {isEditing ? (
+                                                <span onClick={() => this.handleShowHidePass("new_password")}>
+                                                    <i
+                                                        className={
+                                                            isShowPassword.new_password
+                                                                ? "far fa-eye"
+                                                                : "far fa-eye-slash"
+                                                        }
+                                                    ></i>
+                                                </span>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
@@ -121,22 +162,22 @@ class ResetPasswordBody extends Component {
                                         <div className="custom-input-password">
                                             <input
                                                 className="form-control"
-                                                type={this.state.isShowPassword ? "text" : "password"}
-                                                value={userInfo.password}
+                                                type={isShowPassword.confirm_password ? "text" : "password"}
+                                                value={userInfo.confirm_password}
                                                 disabled={!isEditing}
-                                                onChange={(e) => this.onChangeInput(e, "password")}
+                                                onChange={(e) => this.onChangeInput(e, "confirm_password")}
                                             />
-                                            <span
-                                                onClick={() => {
-                                                    this.handleShowHidePass();
-                                                }}
-                                            >
-                                                <i
-                                                    className={
-                                                        this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"
-                                                    }
-                                                ></i>
-                                            </span>
+                                            {isEditing ? (
+                                                <span onClick={() => this.handleShowHidePass("confirm_password")}>
+                                                    <i
+                                                        className={
+                                                            isShowPassword.confirm_password
+                                                                ? "far fa-eye"
+                                                                : "far fa-eye-slash"
+                                                        }
+                                                    ></i>
+                                                </span>
+                                            ) : null}
                                         </div>
                                     </div>
                                 </div>
@@ -172,6 +213,8 @@ const mapStateToProps = (state) => ({
     userInfo: state.user.userInfo,
 });
 
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    updatePasswordStartRedux: (data) => dispatch(actions.updatePasswordStart(data)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordBody);

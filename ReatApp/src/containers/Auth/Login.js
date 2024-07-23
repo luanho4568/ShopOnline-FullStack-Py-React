@@ -36,10 +36,7 @@ class Login extends Component {
             errMessage: "",
         });
         try {
-            const data = await handleLoginAPI(
-                this.state.username,
-                this.state.password
-            );
+            const data = await handleLoginAPI(this.state.username, this.state.password);
             console.log(data);
             if (data && data.errCode !== 0) {
                 this.setState({
@@ -81,9 +78,12 @@ class Login extends Component {
                                     className="form-control"
                                     placeholder="Enter your username..."
                                     value={this.state.username}
-                                    onChange={(e) =>
-                                        this.handleOnChangeUsername(e)
-                                    }
+                                    onChange={(e) => this.handleOnChangeUsername(e)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            this.handleLogin();
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="col-12 form-group login-input">
@@ -91,16 +91,15 @@ class Login extends Component {
                                 <div className="custom-input-password">
                                     <input
                                         className="form-control"
-                                        type={
-                                            this.state.isShowPassword
-                                                ? "text"
-                                                : "password"
-                                        }
+                                        type={this.state.isShowPassword ? "text" : "password"}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                this.handleLogin();
+                                            }
+                                        }}
                                         placeholder="Enter your password..."
                                         value={this.state.password}
-                                        onChange={(e) =>
-                                            this.handleOnChangePassword(e)
-                                        }
+                                        onChange={(e) => this.handleOnChangePassword(e)}
                                     />
                                     <span
                                         onClick={() => {
@@ -108,11 +107,7 @@ class Login extends Component {
                                         }}
                                     >
                                         <i
-                                            className={
-                                                this.state.isShowPassword
-                                                    ? "far fa-eye"
-                                                    : "far fa-eye-slash"
-                                            }
+                                            className={this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"}
                                         ></i>
                                     </span>
                                 </div>
@@ -121,9 +116,7 @@ class Login extends Component {
                                 {this.state.errMessage}
                             </div>
                             <div className="col-12">
-                                <span className="forgot-password">
-                                    Forgot your password?
-                                </span>
+                                <span className="forgot-password">Forgot your password?</span>
                             </div>
                             <div className="col-12">
                                 <button
@@ -136,9 +129,7 @@ class Login extends Component {
                                 </button>
                             </div>
                             <div className="col-12 text-center mt-3">
-                                <span className="text-other-login">
-                                    Or Login with:
-                                </span>
+                                <span className="text-other-login">Or Login with:</span>
                             </div>
                             <div className="col-12 social-login">
                                 <i className="fab fa-facebook fb"></i>
@@ -162,9 +153,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
         // userLoginFail: () => dispatch(actions.userLoginFail()),
-        userLoginSuccess: (useInfo) =>
-            dispatch(actions.userLoginSuccess(useInfo)),
+        userLoginSuccess: (useInfo) => dispatch(actions.userLoginSuccess(useInfo)),
     };
-};  
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

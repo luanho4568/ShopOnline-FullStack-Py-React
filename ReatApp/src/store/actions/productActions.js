@@ -7,6 +7,12 @@ import {
     getAllCode,
     getAllProductByCategory,
     getDetailProduct,
+    searchProductService,
+    getListCartService,
+    addItemToCardService,
+    removeItemToCardService,
+    orderService,
+    getListOrderService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -265,4 +271,162 @@ export const editProductSuccess = () => ({
 
 export const editProductFailed = () => ({
     type: actionTypes.EDIT_PRODUCT_FAILED,
+});
+
+export const searchProductStart = (title) => {
+    return async (dispatch) => {
+        try {
+            const res = await searchProductService(title);
+            if (res) {
+                dispatch(searchProductSuccess(res));
+            } else {
+                dispatch(searchProductFailed("No products found"));
+            }
+        } catch (error) {
+            dispatch(searchProductFailed(error.message));
+        }
+    };
+};
+
+export const searchProductSuccess = (data) => ({
+    type: actionTypes.FETCH_SEARCH_PRODUCT_SUCCESS,
+    data,
+});
+
+export const searchProductFailed = (error) => ({
+    type: actionTypes.FETCH_SEARCH_PRODUCT_FAILED,
+    error,
+});
+
+export const fetchListCartStart = (user_id) => {
+    return async (dispatch) => {
+        try {
+            const res = await getListCartService(user_id);
+            if (res && res.errCode === 0) {
+                dispatch(fetchListCartSuccess(res.data));
+            } else {
+                dispatch(fetchListCartFailed(res.data));
+            }
+        } catch (error) {
+            toast.error("Fetch list cart failed! : ", error);
+        }
+    };
+};
+
+export const fetchListCartSuccess = (data) => ({
+    type: actionTypes.FETCH_LIST_CART_SUCCESS,
+    data,
+});
+
+export const fetchListCartFailed = (data) => ({
+    type: actionTypes.FETCH_LIST_CART_FAILED,
+    data
+});
+
+export const fetchAddItemToCartStart = (data) => {
+    return async (dispatch) => {
+        try {
+            const res = await addItemToCardService(data);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAddItemToCartSuccess(res.data));
+                toast.success(res.errMessage)
+            } else {
+                toast.error(res.errMessage)
+                dispatch(fetchAddItemToCartFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch add item to cart failed! : ", error);
+        }
+    };
+};
+
+export const fetchAddItemToCartSuccess = (data) => ({
+    type: actionTypes.FETCH_ADD_ITEM_TO_CART_SUCCESS,
+    data,
+});
+
+export const fetchAddItemToCartFailed = () => ({
+    type: actionTypes.FETCH_ADD_ITEM_TO_CART_FAILED,
+});
+
+
+export const fetchRemoveItemToCartStart = (data) => {
+    return async (dispatch) => {
+        try {
+            const res = await removeItemToCardService(data);
+            if (res && res.errCode === 0) {
+                dispatch(fetchRemoveItemToCartSuccess(res.data));
+                toast.success(res.errMessage)
+            } else {
+                toast.error(res.errMessage)
+                dispatch(fetchRemoveItemToCartFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch Remove item to cart failed! : ", error);
+        }
+    };
+};
+
+export const fetchRemoveItemToCartSuccess = (data) => ({
+    type: actionTypes.FETCH_REMOVE_ITEM_TO_CART_SUCCESS,
+    data,
+});
+
+export const fetchRemoveItemToCartFailed = () => ({
+    type: actionTypes.FETCH_REMOVE_ITEM_TO_CART_FAILED,
+});
+
+export const fetchCreateOrderStart = (data) => {
+    return async (dispatch) => {
+        try {
+            const res = await orderService(data);
+            console.log(res);
+            if (res && res.errCode === 0) {
+                dispatch(fetchCreateOrderSuccess(res.data));
+                toast.success(res.errMessage)
+            } else {
+                toast.error(res.errMessage)
+                dispatch(fetchCreateOrderFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch create order failed! : ", error);
+        }
+    };
+};
+
+export const fetchCreateOrderSuccess = (data) => ({
+    type: actionTypes.CREATE_ORDER_SUCCESS,
+    data,
+});
+
+export const fetchCreateOrderFailed = () => ({
+    type: actionTypes.CREATE_ORDER_FAILED,
+});
+
+
+export const fetchListOrderStart = (userId,status_key) => {
+    return async (dispatch) => {
+        try {
+            const res = await getListOrderService(userId,status_key);
+            console.log(res);
+            if (res && res.errCode === 0) {
+                dispatch(fetchListOrderSuccess(res.data));
+            } else {
+                toast.error(res.errMessage);
+                dispatch(fetchListOrderFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch order failed!");
+            dispatch(fetchListOrderFailed());
+        }
+    };
+};
+
+export const fetchListOrderSuccess = (data) => ({
+    type: actionTypes.FETCH_LIST_ORDER_SUCCESS,
+    data,
+});
+
+export const fetchListOrderFailed = () => ({
+    type: actionTypes.FETCH_LIST_ORDER_FAILED,
 });

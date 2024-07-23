@@ -1,16 +1,16 @@
 .main {
     cursor: default;
-    user-select: none;
+
     .home-header-container {
         height: 76px;
         width: 100%;
         background-color: #cd1818;
-        
 
         .home-header-content {
             width: 100%;
             height: 100%;
             display: flex;
+
             .left-content {
                 width: 20%;
 
@@ -22,6 +22,7 @@
                     background-size: 50%;
                 }
             }
+
             .center-content {
                 width: 60%;
                 display: flex;
@@ -34,17 +35,22 @@
                     color: #fff;
                     display: flex;
                     text-decoration: none;
-                    opacity: 0.8;
+                    &.page {
+                        opacity: 0.8;
+                    }
                     &.active {
                         opacity: 1;
                         font-weight: 600;
                     }
+
                     .search {
                         width: fit-content;
                         display: flex;
                         justify-content: center;
+                        align-items: center;
                         border-radius: 25px;
                         background-color: #fff;
+                        position: relative;
 
                         i {
                             color: #333;
@@ -59,10 +65,81 @@
                             padding: 10px;
                             background-color: transparent;
                             outline: none;
+                            width: 300px; /* Thay đổi độ rộng tìm kiếm tùy ý */
+                        }
+
+                        .search-results {
+                            position: absolute;
+                            top: calc(100% + 10px);
+                            left: 0;
+                            width: 100%;
+                            max-height: 260px;
+                            overflow-y: auto;
+                            background-color: #fff;
+                            border-radius: 10px;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                            z-index: 1;
+                            padding: 10px;
+
+                            .search-result-item {
+                                display: flex;
+                                align-items: center;
+                                padding: 5px;
+                                cursor: pointer;
+                                text-decoration: none;
+                                color: #333;
+                                font-size: 12px;
+
+                                &:hover {
+                                    background-color: #f0f0f0;
+                                }
+
+                                img {
+                                    width: 40px;
+                                    height: 40px;
+                                    object-fit: cover;
+                                    border-radius: 5px;
+                                }
+
+                                .search-result-info {
+                                    margin-left: 10px;
+
+                                    .search-result-title {
+                                        font-weight: 600;
+                                        color: #333;
+                                        font-size: 17px;
+                                    }
+
+                                    .search-result-price {
+                                        color: #333;
+                                        font-size: 17px;
+                                        display: flex;
+                                        justify-content: space-between;
+                                        .reduced-price{
+                                            margin-right: 10px;
+                                        }
+                                        .main-price{
+                                            display: flex;
+                                            align-items: center;
+                                            .main-price-discount{
+                                                text-decoration: line-through;
+                                                margin-right: 5px;
+                                                font-size: 14px;
+                                                opacity: 0.8;
+                                            }
+                                            .discount{
+                                                font-size: 12px;
+                                                color: #cd1818;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+
             .right-content {
                 width: 20%;
                 display: flex;
@@ -71,6 +148,7 @@
                 font-size: 20px;
                 color: #fff;
                 font-weight: 500;
+
                 .cart {
                     background-image: url(../../assets/images/cart.png);
                     background-position: center;
@@ -80,21 +158,25 @@
                     height: 40px;
                     object-fit: cover;
                     position: relative;
+                    text-decoration: none;
                     .quantity-item {
                         position: absolute;
                         top: -8px;
-                        right: -10px;
+                        right: -20px;
                         background-color: #333;
                         border-radius: 50%;
                         padding: 0 8px;
+                        color: #fff;
                     }
                 }
+
                 .user {
                     &:hover {
                         .info-user {
                             display: block;
                         }
                     }
+
                     .avatar-user {
                         width: 45px;
                         height: 45px;
@@ -104,6 +186,7 @@
                         background-size: cover;
                         position: relative;
                     }
+
                     .info-user {
                         position: absolute;
                         width: 130px;
@@ -119,6 +202,7 @@
                         padding: 0 0;
                         text-align: center;
                         display: none;
+
                         &::before {
                             content: "";
                             border-width: 20px 15px;
@@ -128,6 +212,7 @@
                             right: 12px;
                             top: -35px;
                         }
+
                         &::after {
                             content: "";
                             display: block;
@@ -137,34 +222,43 @@
                             width: 40%;
                             height: 8px;
                         }
+
                         li {
                             .link {
                                 text-decoration: none;
                                 color: #333;
+
                                 &:hover {
                                     color: #cd1818;
                                 }
+
                                 &.active {
                                     color: #cd1818;
                                     font-weight: 500;
                                 }
                             }
+
                             &.separate-fullname {
                                 border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
                                 &:hover {
                                     color: #333;
                                 }
                             }
+
                             &.separate-logout {
                                 border-top: 1px solid rgba(0, 0, 0, 0.1);
                             }
+
                             &:hover {
                                 color: #cd1818;
                             }
+
                             &:last-child {
                                 border-bottom-left-radius: 10px;
                                 border-bottom-right-radius: 10px;
                             }
+
                             &:first-child {
                                 border-top-left-radius: 10px;
                                 border-top-right-radius: 10px;
@@ -172,29 +266,36 @@
                         }
                     }
                 }
+
                 .language-vi {
                     cursor: pointer;
                     opacity: 0.2;
+
                     &.active {
                         opacity: 1;
+
                         span {
                             color: #fff;
                         }
                     }
+
                     &:hover {
                         opacity: 0.8;
                     }
                 }
+
                 .language-en {
                     cursor: pointer;
                     opacity: 0.2;
 
                     &.active {
                         opacity: 1;
+
                         span {
                             color: #fff;
                         }
                     }
+
                     &:hover {
                         opacity: 0.8;
                     }

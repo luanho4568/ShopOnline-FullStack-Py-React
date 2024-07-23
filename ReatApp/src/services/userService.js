@@ -59,25 +59,63 @@ const editProductService = (data) => {
     return axios.put(`/api/product-edit`, data);
 };
 // API GET ADDRESS USER
-
 const getUserAddress = (id) => {
-    return axios.get(`/api/address-user?id=${id}`);
+    return axios.get(`/api/address-user?user_id=${id}`);
 };
 // API EDIT ADDRESS USER
 const editAddressService = (data) => {
     return axios.put(`/api/address-edit`, data);
 };
+// API CREATE ADDRESS USER
+const createAddressService = (data) => {
+    return axios.post(`/api/create-new-address`, data);
+};
+// API DELETE ADDRESS USER
+const deleteAddressService = (id) => {
+    return axios.delete("/api/delete-address", { data: { id } });
+};
 // API UPDATE PASSWORD
 const updatePasswordService = (data) => {
     return axios.put(`/api/update-password`, data);
 };
+// API SEARCH PRODUCT TITLE
+const searchProductService = (title) => {
+    return axios.get(`/api/search-product?search=${title}`);
+};
+// API GET LIST CART
+const getListCartService = (user_id) => {
+    return axios.get(`/api/list-orderItem?user_id=${user_id}`);
+};
+// API ADD ITEM CART
+const addItemToCardService = (data) => {
+    return axios.post("/api/add-order-item", data);
+};
+// API REMOVE ITEM CART
+const removeItemToCardService = (data) => {
+    return axios.post("/api/remove-order-item", data);
+};
+// API ORDER
+const orderService = (data) => {
+    return axios.post("/api/create_order", data);
+};
+// API GET ORDER
+const getListOrderService = (user_id , status_key) => {
+    return axios.get(`/api/order-list?user_id=${user_id}&status_key=${status_key}`);
+};
 export {
     handleLoginAPI,
+    orderService,
     createNewUserService,
+    addItemToCardService,
     deleteUserService,
+    getListOrderService,
     updatePasswordService,
     getUserAddress,
     editAddressService,
+    getListCartService,
+    removeItemToCardService,
+    searchProductService,
+    createAddressService,
     deleteProductService,
     editUserService,
     getAllUserByRole,
@@ -87,5 +125,6 @@ export {
     createNewProductService,
     getBrand,
     getDetailProduct,
+    deleteAddressService,
     getDetailUser,
 };

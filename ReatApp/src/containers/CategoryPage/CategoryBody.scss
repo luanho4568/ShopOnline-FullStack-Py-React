@@ -53,8 +53,6 @@
                         padding: 10px;
                         border-radius: 6px;
                         height: 400px;
-                        text-decoration: none;
-                        color: #333;
                         &:hover {
                             border-radius: 6px;
                             border-color: #dee2e680;
@@ -69,7 +67,10 @@
                             height: 100%;
                             width: 100%;
                             text-align: center;
-
+                            a {
+                                text-decoration: none;
+                                color: #333;
+                            }
                             .ctgphone-image {
                                 height: 50%;
                                 position: relative;

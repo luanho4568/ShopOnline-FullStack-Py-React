@@ -10,7 +10,6 @@ html {
     font-size: $base-size - 2px;
     height: 100vh;
     overflow: hidden;
-    user-select: none;
 }
 
 .btn {
@@ -20,9 +19,6 @@ html {
     font-weight: 700;
     height: 30px;
     line-height: 30px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
     i {
         font-size: $base-size - 3px;
     }

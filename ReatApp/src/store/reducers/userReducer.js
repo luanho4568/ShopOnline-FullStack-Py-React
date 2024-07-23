@@ -3,7 +3,7 @@ import actionTypes from "../actions/actionTypes";
 const initialState = {
     isLoggedIn: false,
     userInfo: null,
-    addressData: null,
+    addressData: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -51,10 +51,11 @@ const userReducer = (state = initialState, action) => {
                 ...state,
             };
         case actionTypes.FETCH_GET_ADDRESS_FAILED:
-            state.addressData = null;
+            state.addressData = [];
             return {
                 ...state,
             };
+        
         default:
             return state;
     }

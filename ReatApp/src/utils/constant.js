@@ -8,6 +8,8 @@ export const path = {
     USERINFOPAGE: "/user-info",
     ADDRESSINFOPAGE: "/address-info",
     RESETPASSPAGE: "/reset-password",
+    CARTPAGE:'/cart',
+    ORDERPAGE : '/order',
     LOGIN: "/login",
     LOG_OUT: "/logout",
     SYSTEM: "/system",

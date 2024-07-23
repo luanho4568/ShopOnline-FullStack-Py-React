@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, CharField
 from .models import *
 
 
@@ -34,20 +34,45 @@ class AllcodeSerializer(ModelSerializer):
     class Meta:
         model = Allcode
         fields = "__all__"
+
+
 class ProductSerializer(ModelSerializer):
     brand = SerializerMethodField()
     category = SerializerMethodField()
+
     def get_category(self, obj):
         category_key = obj.category
         category = Allcode.objects.filter(type="CATEGORY", key=category_key).first()
         return category.key if category else None
-    def get_brand(self,obj):
+
+    def get_brand(self, obj):
         return obj.brand.name if obj.brand else None
+
     class Meta:
         model = Product
         fields = "__all__"
 
 
+class OrderSerializer(ModelSerializer):
+    status = SerializerMethodField()
+    user = UserSerializer()
+    def get_status(self, obj):
+        status_key = obj.status
+        status = Allcode.objects.filter(type="STATUS", key=status_key).first()
+        return status.key if status else None
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+class OrderItemSerializer(ModelSerializer):
+    product = ProductSerializer()
+    order = OrderSerializer()
+
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
 
 
 class BrandSerializer(ModelSerializer):
@@ -55,7 +80,16 @@ class BrandSerializer(ModelSerializer):
         model = Brand
         fields = "__all__"
 
+
 class AddressSerializer(ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Address
+        fields = "__all__"
+
+
+class ShippingAddressSerializer(ModelSerializer):
+    address = AddressSerializer()
+    class Meta:
+        model = ShippingAddress
         fields = "__all__"

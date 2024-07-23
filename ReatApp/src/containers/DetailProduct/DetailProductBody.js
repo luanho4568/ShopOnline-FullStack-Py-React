@@ -12,15 +12,27 @@ class DetailProduct extends Component {
             await this.props.fetchDetailProductStartRedux(product_id);
         }
     }
+    async componentDidUpdate(prevProps) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            const product_id = this.props.match.params.id;
+            await this.props.fetchDetailProductStartRedux(product_id);
+        }
+    }
+    handleAddToCart = async (productId) => {
+        const { userInfo, fetchAddItemToCartStartRedux, fetchListCartStartRedux } = this.props;
+        const data = {
+            user: userInfo.id,
+            product: productId,
+            quantity: 1,
+        };
+        await fetchAddItemToCartStartRedux(data);
+        await fetchListCartStartRedux(userInfo.id);
+    };
     render() {
         const { detailProductRedux } = this.props;
         if (!detailProductRedux) {
             return <div className="loading-circle"></div>;
         }
-
-        console.log(detailProductRedux);
-        console.log(this.props.match.params.id);
-
         return (
             <div className="product-container">
                 <div className="product-content">
@@ -63,7 +75,11 @@ class DetailProduct extends Component {
                                 {" "}
                                 <FormattedMessage id="manage-product.buy-now" />
                             </button>
-                            <button className="btn-cart" style={{ backgroundImage: `url(${cart})` }}></button>
+                            <button
+                                onClick={() => this.handleAddToCart(detailProductRedux.id)}
+                                className="btn-cart"
+                                style={{ backgroundImage: `url(${cart})` }}
+                            ></button>
                         </div>
                     </div>
                 </div>
@@ -74,10 +90,13 @@ class DetailProduct extends Component {
 
 const mapStateToProps = (state) => ({
     detailProductRedux: state.product.productDetail,
+    userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     fetchDetailProductStartRedux: (productId) => dispatch(actions.fetchDetailProductStart(productId)),
+    fetchAddItemToCartStartRedux: (productId) => dispatch(actions.fetchAddItemToCartStart(productId)),
+    fetchListCartStartRedux: (user_id) => dispatch(actions.fetchListCartStart(user_id)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailProduct));

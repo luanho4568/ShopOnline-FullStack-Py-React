@@ -19,7 +19,6 @@ class UserInfoBody extends Component {
 
     async componentDidMount() {
         await this.props.fetchGenderRedux();
-        
     }
 
     componentDidUpdate(prevProps) {

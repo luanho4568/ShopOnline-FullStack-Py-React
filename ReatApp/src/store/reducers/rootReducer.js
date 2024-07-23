@@ -19,12 +19,17 @@ const persistCommonConfig = {
 const userPersistConfig = {
     ...persistCommonConfig,
     key: "user",
-    whitelist: ["isLoggedIn", "userInfo","addressData"],
+    whitelist: ["isLoggedIn", "userInfo", "addressData"],
 };
 const appPersistConfig = {
     ...persistCommonConfig,
     key: "app",
     whitelist: ["language"],
+};
+const productPersistConfig = {
+    ...persistCommonConfig,
+    key: "product",
+    whitelist: ["cartItems"],
 };
 export default (history) =>
     combineReducers({
@@ -32,5 +37,5 @@ export default (history) =>
         user: persistReducer(userPersistConfig, userReducer),
         app: persistReducer(appPersistConfig, appReducer),
         admin: adminReducer,
-        product: productReducer,
+        product: persistReducer(productPersistConfig, productReducer),
     });

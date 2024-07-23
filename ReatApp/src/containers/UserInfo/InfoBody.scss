@@ -58,6 +58,13 @@
                             }
                         }
                     }
+                    .form-control {
+                        width: 178.6px;
+                        font-size: 16px;
+                        &.large {
+                            width: 200px;
+                        }
+                    }
                     .lb-avatar {
                         display: block;
                         text-align: center;
@@ -105,7 +112,62 @@
                         }
                     }
                 }
+                .address-header {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding: 20px 30px;
+                    align-items: center;
+                    .btn-new-address {
+                        border: none;
+                        background-color: #cd1818;
+                        color: #fff;
+                        padding: 10px;
+                        border-radius: 10px;
+                        font-size: 20px;
+                        &:hover {
+                            background-color: #ae1427;
+                        }
+                    }
+                    .title-address {
+                        font-size: 25px;
+                    }
+                }
+                .address-item {
+                    display: flex;
+                    width: 100%;
+                    box-shadow: 0 0 3px 0 #9fa9b3;
+                    margin: 10px 0;
+                    padding: 20px 30px;
+                    font-size: 18px;
+                    justify-content: space-between;
+                    align-items: center;
+                    .address-item-right {
+                        .address-actions {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            .btn-default {
+                                border: 1px solid rgba(0, 0, 0, 0.26);
+                                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+                                color: rgba(0, 0, 0, 0.87);
+                                font-size: 14px;
+                                height: 28px;
+                                line-height: 1.25rem;
+                                min-width: 0;
+                                padding: 4px 12px;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+}
+.modal .modal-dialog .modal-content .modal-header {
+    background-color: #cd1818 !important;
+}
+.btn-save {
+    background-color: #cd1818 !important;
 }

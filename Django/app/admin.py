@@ -33,6 +33,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class AddressAdmin(admin.ModelAdmin):
+    transaction_id = models.CharField(max_length=200, null=True)
     list_display = ["id", "user", "address", "province"]
     search_fields = ["user"]
 
@@ -45,6 +46,8 @@ class ProductAdmin(admin.ModelAdmin):
         "discount",
         "brand",
         "category",
+        "quatity_stock",
+        "current_status",
         "created_date",
         "updated_date",
     ]
@@ -60,12 +63,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "date_oder", "status", "transaction_id"]
+    list_display = ["id", "user", "created_date", "updated_date", "status"]
     search_fields = ["user"]
 
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ["id", "order", "product", "quantity", "date_added"]
+    list_display = ["id", "order", "product", "quantity", "selling_price", "date_added"]
 
 
 class ShippingAddressAdmin(admin.ModelAdmin):
@@ -74,11 +77,11 @@ class ShippingAddressAdmin(admin.ModelAdmin):
 
 
 class AllcodesAdmin(admin.ModelAdmin):
-    list_display = ["id","type","key","valueEn","valueVi"]
+    list_display = ["id", "type", "key", "valueEn", "valueVi"]
 
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ["id","name"]
+    list_display = ["id", "name"]
 
 
 # Register your models here.

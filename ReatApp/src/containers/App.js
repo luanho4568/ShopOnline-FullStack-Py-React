@@ -18,6 +18,8 @@ import DetailProduct from "./DetailProduct/DetailProduct";
 import UserInfo from "./UserInfo/UserInfoBody/UserInfo";
 import AddressInfo from "./UserInfo/AddressInfo/AddressInfo";
 import ResetPassword from "./UserInfo/ResetPassword/ResetPassword";
+import CartPage from "./Cart/CartPage";
+import OderPage from "./Order/OderPage";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -57,6 +59,8 @@ class App extends Component {
                                     <Route path={path.USERINFOPAGE} component={UserInfo} />
                                     <Route path={path.ADDRESSINFOPAGE} component={AddressInfo} />
                                     <Route path={path.RESETPASSPAGE} component={ResetPassword} />
+                                    <Route path={path.CARTPAGE} component={CartPage} />
+                                    <Route path={path.ORDERPAGE} component={OderPage} />
                                 </Switch>
                             </CustomScrollbars>
                         </div>

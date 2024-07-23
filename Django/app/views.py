@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
-from .models import Brand
-from . import service
-from .serializers import BrandSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status , generics ,filters
+from .models import Product
+from . import service,serializers
 
 
 # Create your views here.
@@ -260,7 +258,7 @@ class GetDetailsUserAPIView(APIView):
 class GetAddressUserAPIView(APIView):
     def get(self, request):
         try:
-            user_id = request.query_params.get("id")
+            user_id = request.query_params.get("user_id")
             response = service.get_address_user_service(user_id)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
@@ -278,8 +276,37 @@ class EditAddressAPIView(APIView):
     def put(self, request):
         try:
             data = request.data
-            print(data)
             response = service.update_address_data_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API delete address user--------------------------
+class DeleteAddressAPIView(APIView):
+    def delete(self, request):
+        try:
+            data = request.data
+            response = service.delete_address_user_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API create address user--------------------------
+class CreateAddressAPIView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            response = service.create_address_data_service(data)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
@@ -295,6 +322,91 @@ class UpdatePasswordAPIView(APIView):
         try:
             data = request.data
             response = service.update_password_user_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+# -----------------------------API search title product--------------------------------
+class ProductSearchAPIView(generics.ListAPIView):
+    search_fields = ['title']
+    filter_backends = (filters.SearchFilter,)
+    queryset = Product.objects.all()
+    serializer_class = serializers.ProductSerializer
+    
+# -----------------------------API get order-------------------------------
+class GetOrderItemListAPIView(APIView):
+    def get(self, request):
+        try:
+            user_id = request.query_params.get("user_id")
+            response = service.get_order_item_list_service(user_id)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API add item order-------------------------------
+class AddOrderItemAPIView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            response = service.add_order_item__service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API remove item order-------------------------------
+class RemoveOrderItemAPIView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            response = service.remove_order_item__service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API order-------------------------------
+class CreateOrderAPIView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            response = service.create_order_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+# -----------------------------API API list order-------------------------------
+class GetListOrderAPIView(APIView):
+    def get(self, request):
+        try:
+            user_id = request.query_params.get("user_id")
+            status_key = request.query_params.get("status_key")
+            response = service.get_list_order_service(user_id , status_key)
             return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(

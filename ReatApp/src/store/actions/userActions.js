@@ -1,5 +1,5 @@
 import actionTypes from "./actionTypes";
-import { getDetailUser, editUserService, getUserAddress, editAddressService, updatePasswordService } from "../../services/userService";
+import { getDetailUser, editUserService, getUserAddress, editAddressService, updatePasswordService, createAddressService, deleteAddressService } from "../../services/userService";
 import { toast } from "react-toastify";
 export const addUserSuccess = () => ({
     type: actionTypes.ADD_USER_SUCCESS,
@@ -22,7 +22,7 @@ export const fetchDetailUserStart = (id) => {
     return async (dispatch) => {
         try {
             const res = await getDetailUser(id);
-            console.log(res);
+            
             if (res && res.errCode === 0) {
                 dispatch(fetchDetailUserSuccess(res.data));
             } else {
@@ -71,15 +71,14 @@ export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED,
 });
 
-export const fetchGetAddressUser = (id) => {
+export const fetchGetAddressUser = (user_id) => {
     return async (dispatch) => {
         try {
-            const res = await getUserAddress(id);
-            console.log(res);
+            const res = await getUserAddress(user_id);
+            
             if (res && res.errCode === 0) {
                 dispatch(getAddressUserSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(getAddressUserFailed());
             }
         } catch (error) {
@@ -98,14 +97,16 @@ export const getAddressUserFailed = () => ({
     type: actionTypes.FETCH_GET_ADDRESS_FAILED,
 });
 
-export const editAddressStart = (data) => {
+export const editAddressStart = (data , user_id) => {
     return async (dispatch) => {
         try {
             const res = await editAddressService(data);
-            console.log(res);
+            
             if (res && res.errCode === 0) {
                 dispatch(editAddressSuccess(res.data));
                 toast.success(res.errMessage);
+                dispatch(fetchGetAddressUser(user_id));
+                
             } else {
                 toast.error(res.errMessage);
                 dispatch(editAddressFailed());
@@ -128,12 +129,13 @@ export const editAddressFailed = () => ({
 
 
 
-export const updatePassword = (data) => {
+export const updatePasswordStart = (data) => {
     return async (dispatch) => {
         try {
             const res = await updatePasswordService(data);
+            
             if (res && res.errCode === 0) {
-                dispatch(updatePasswordSuccess());
+                dispatch(updatePasswordSuccess(res.data));
                 toast.success(res.errMessage);
             } else {
                 toast.error(res.errMessage);
@@ -148,8 +150,71 @@ export const updatePassword = (data) => {
 };
 export const updatePasswordSuccess = (data) => ({
     type: actionTypes.UPDATE_PASSWORD_SUCCESS,
+    data
 });
 
 export const updatePasswordFailed = () => ({
     type: actionTypes.UPDATE_PASSWORD_FAILED,
+});
+
+
+export const createAddressStart = (data , user_id) => {
+    return async (dispatch) => {
+        try {
+            const res = await createAddressService(data);
+            
+            if (res && res.errCode === 0) {
+                dispatch(createAddressSuccess(res.data));
+                toast.success(res.errMessage);
+                dispatch(fetchGetAddressUser(user_id));
+                
+            } else {
+                toast.error(res.errMessage);
+                dispatch(createAddressFailed());
+            }
+        } catch (error) {
+            toast.error("Create a Address failed!");
+            dispatch(createAddressFailed());
+            console.log("CreateAddressFailed", error);
+        }
+    };
+};
+export const createAddressSuccess = (data) => ({
+    type: actionTypes.CREATE_ADDRESS_SUCCESS,
+    data,
+});
+
+export const createAddressFailed = () => ({
+    type: actionTypes.CREATE_ADDRESS_FAILED,
+});
+
+
+export const deleteAddressStart = (data , user_id) => {
+    return async (dispatch) => {
+        try {
+            const res = await deleteAddressService(data);
+            
+            if (res && res.errCode === 0) {
+                dispatch(deleteAddressSuccess(res.data));
+                toast.success(res.errMessage);
+                dispatch(fetchGetAddressUser(user_id));
+                
+            } else {
+                toast.error(res.errMessage);
+                dispatch(deleteAddressFailed());
+            }
+        } catch (error) {
+            toast.error("Delete a Address failed!");
+            dispatch(deleteAddressFailed());
+            console.log("DeleteAddressFailed", error);
+        }
+    };
+};
+export const deleteAddressSuccess = (data) => ({
+    type: actionTypes.DELETE_ADDRESS_SUCCESS,
+    data,
+});
+
+export const deleteAddressFailed = () => ({
+    type: actionTypes.DELETE_ADDRESS_FAILED,
 });

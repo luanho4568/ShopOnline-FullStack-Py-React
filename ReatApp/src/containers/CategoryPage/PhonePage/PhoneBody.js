@@ -89,12 +89,23 @@ class PhoneBody extends Component {
             });
         });
     };
+
+    handleAddToCart = async (productId) => {
+        const { userInfo, fetchAddItemToCartStartRedux , fetchListCartStartRedux } = this.props;
+        const data = {
+            user: userInfo.id,
+            product: productId,
+            quantity: 1,
+        };
+        await fetchAddItemToCartStartRedux(data);
+        await fetchListCartStartRedux(userInfo.id);
+    };
     render() {
         const { listProducts, brandRedux } = this.props;
         const { currentPage, itemPerPage, selectedBrands, selectedPriceRanges } = this.state;
         const indexOfLastRecord = currentPage * itemPerPage;
         const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
-        const productStatus = listProducts.filter((item) => item.current_status === true);
+        const productStatus = listProducts.filter((item) => item.current_status === true && item.quatity_stock > 0);
         const filteredByBrandProducts =
             selectedBrands.length > 0
                 ? productStatus.filter((item) => selectedBrands.includes(item.brand))
@@ -224,54 +235,57 @@ class PhoneBody extends Component {
                                     {currentItems &&
                                         currentItems.length > 0 &&
                                         currentItems.map((item) => (
-                                            <Link to={`/product-detail/${item.id}`} className="ctgphone-customize">
+                                            <div className="ctgphone-customize">
                                                 <div className="ctgphone-customize-max-height">
-                                                    <div className="ctgphone-image">
-                                                        <div className="bg-img">
-                                                            <div
-                                                                className="img"
-                                                                style={{
-                                                                    backgroundImage: `URL(http://localhost:8000/static${item.product_image})`,
-                                                                }}
-                                                            ></div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="ctgphone-name">{item.title}</div>
-                                                    {item.discount && item.discount > 0 ? (
-                                                        <div className="ctgphone-price-discount">
-                                                            <div
-                                                                className="reduced-price"
-                                                                style={{
-                                                                    background: `linear-gradient(to left, #E58D90  ${
-                                                                        item.discount
-                                                                    }%, #cb1c22 ${100 - item.discount}%)`,
-                                                                }}
-                                                            >
-                                                                {item.selling_price * ((100 - item.discount) / 100)}₫
+                                                    <Link to={`/product-detail/${item.id}`}>
+                                                        <div className="ctgphone-image">
+                                                            <div className="bg-img">
+                                                                <div
+                                                                    className="img"
+                                                                    style={{
+                                                                        backgroundImage: `URL(http://localhost:8000/static${item.product_image})`,
+                                                                    }}
+                                                                ></div>
                                                             </div>
-
-                                                            <div className="main-price">
-                                                                <div className="main-price-discount">
-                                                                    {item.selling_price}₫{" "}
+                                                        </div>
+                                                        <div className="ctgphone-name">{item.title}</div>
+                                                        {item.discount && item.discount > 0 ? (
+                                                            <div className="ctgphone-price-discount">
+                                                                <div
+                                                                    className="reduced-price"
+                                                                    style={{
+                                                                        background: `linear-gradient(to left, #E58D90  ${
+                                                                            item.discount
+                                                                        }%, #cb1c22 ${100 - item.discount}%)`,
+                                                                    }}
+                                                                >
+                                                                    {item.selling_price * ((100 - item.discount) / 100)}
+                                                                    ₫
                                                                 </div>
-                                                                <span className="discount"> {-item.discount}%</span>
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            className="ctgphone-price"
-                                                            style={{ backgroundColor: "#cb1c22" }}
-                                                        >
-                                                            <div className="main-price">{item.selling_price}₫</div>
-                                                        </div>
-                                                    )}
 
-                                                    <div className="ctgphone-descript">
-                                                        {item.description &&
-                                                            item.description.split("\n").map((item, key) => {
-                                                                return <p key={key}>{item}</p>;
-                                                            })}
-                                                    </div>
+                                                                <div className="main-price">
+                                                                    <div className="main-price-discount">
+                                                                        {item.selling_price}₫{" "}
+                                                                    </div>
+                                                                    <span className="discount"> {-item.discount}%</span>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div
+                                                                className="ctgphone-price"
+                                                                style={{ backgroundColor: "#cb1c22" }}
+                                                            >
+                                                                <div className="main-price">{item.selling_price}₫</div>
+                                                            </div>
+                                                        )}
+
+                                                        <div className="ctgphone-descript">
+                                                            {item.description &&
+                                                                item.description.split("\n").map((item, key) => {
+                                                                    return <p key={key}>{item}</p>;
+                                                                })}
+                                                        </div>
+                                                    </Link>
                                                     <div className="ctgphone-btn">
                                                         <button className="btn-buy">
                                                             {" "}
@@ -280,10 +294,11 @@ class PhoneBody extends Component {
                                                         <button
                                                             className="btn-cart"
                                                             style={{ backgroundImage: `url(${cart})` }}
+                                                            onClick={() => this.handleAddToCart(item.id)}
                                                         ></button>
                                                     </div>
                                                 </div>
-                                            </Link>
+                                            </div>
                                         ))}
                                 </div>
                                 <Stack spacing={2} className="mt-4">
@@ -307,11 +322,14 @@ class PhoneBody extends Component {
 const mapStateToProps = (state) => ({
     listProducts: state.product.productsPhone,
     brandRedux: state.product.brands,
+    userInfo: state.user.userInfo,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     fetchAllProductPhoneStartRedux: (category_key) => dispatch(actions.fetchAllProductPhoneStart(category_key)),
     fetchBrandStartRedux: () => dispatch(actions.fetchBrandStart()),
+    fetchAddItemToCartStartRedux: (data) => dispatch(actions.fetchAddItemToCartStart(data)),
+    fetchListCartStartRedux: (user_id) => dispatch(actions.fetchListCartStart(user_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhoneBody);
