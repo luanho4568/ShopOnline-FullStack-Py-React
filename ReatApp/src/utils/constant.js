@@ -5,6 +5,8 @@ export const path = {
     LAPTOPPAGE: "/laptop",
     TABLETPAGE: "/tablet",
     DETAILPRODUCTPAGE: "/product-detail/:id",
+    DETAILORDERPAGE: "/order-detail/:id",
+    REPURCHASEPAGE:"/repurchase/:id",
     USERINFOPAGE: "/user-info",
     ADDRESSINFOPAGE: "/address-info",
     RESETPASSPAGE: "/reset-password",

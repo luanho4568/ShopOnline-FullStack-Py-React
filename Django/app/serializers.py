@@ -56,6 +56,7 @@ class ProductSerializer(ModelSerializer):
 class OrderSerializer(ModelSerializer):
     status = SerializerMethodField()
     user = UserSerializer()
+
     def get_status(self, obj):
         status_key = obj.status
         status = Allcode.objects.filter(type="STATUS", key=status_key).first()
@@ -83,6 +84,11 @@ class BrandSerializer(ModelSerializer):
 
 class AddressSerializer(ModelSerializer):
     user = UserSerializer()
+    province = SerializerMethodField()
+
+    def get_province(self, obj):
+        return obj.get_province_display()
+
     class Meta:
         model = Address
         fields = "__all__"
@@ -90,6 +96,7 @@ class AddressSerializer(ModelSerializer):
 
 class ShippingAddressSerializer(ModelSerializer):
     address = AddressSerializer()
+
     class Meta:
         model = ShippingAddress
         fields = "__all__"

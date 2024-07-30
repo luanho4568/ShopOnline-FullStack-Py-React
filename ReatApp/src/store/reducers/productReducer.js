@@ -11,10 +11,21 @@ const initialState = {
     searchProduct: [],
     cartItems: [],
     orderItems: [],
+    orderDetails: [],
 };
 
 const productReducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.FETCH_DETAIL_ORDER_SUCCESS:
+            state.orderDetails = action.data
+            return {
+                ...state,
+            };
+        case actionTypes.FETCH_DETAIL_ORDER_FAILED:
+            state.orderDetails =[]
+            return {
+                ...state,
+            };
         case actionTypes.FETCH_PRODUCTS_PHONE_SUCCESS:
             return {
                 ...state,

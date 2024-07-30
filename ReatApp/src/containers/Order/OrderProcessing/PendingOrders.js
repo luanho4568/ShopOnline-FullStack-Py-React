@@ -29,11 +29,8 @@ class PendingOrders extends Component {
 
     groupOrderItems = (orderItems) => {
         const groupedItems = {};
-        console.log("OrderItems: ", orderItems);
         orderItems.forEach((orderItem) => {
-            console.log("OrderItems 2: ", orderItems);
             orderItem.forEach((item) => {
-                console.log("OrderItems 3: ", item);
                 const orderId = item.order.id;
                 // kiểm tra order trong orderItem
                 // Nếu không có thì tạo ra order mới lấy từ item
@@ -53,7 +50,11 @@ class PendingOrders extends Component {
         // Trả về mảng có các giá trị của groupedItems
         return Object.values(groupedItems);
     };
-
+    handleCancelOrder = async (order_id) => {
+        const { fetchCancelOrderStartRedux, userInfo, fetchListOrderStartRedux } = this.props;
+        await fetchCancelOrderStartRedux(order_id);
+        await fetchListOrderStartRedux(userInfo.id, "S3");
+    };
     render() {
         const { orderItemsRedux } = this.props;
         const { isData } = this.state;
@@ -80,7 +81,9 @@ class PendingOrders extends Component {
                             <div key={order.orderId} className="main-order">
                                 <div className="header-order">
                                     <div className="header-order-left">
-                                        <button className="info-item">Xem chi tiết</button>
+                                        <Link to={`/order-detail/${order.orderId}`}>
+                                            <button className="info-item">Xem chi tiết</button>
+                                        </Link>
                                     </div>
                                     <div className="header-order-right">
                                         <span className="title-toast-pending">Chờ xác nhận</span>
@@ -138,7 +141,12 @@ class PendingOrders extends Component {
                                     </div>
                                     <div className="btn-handle">
                                         <button className="btn-wait">Chờ</button>
-                                        <button className="btn-canceled">Huỷ đơn hàng</button>
+                                        <button
+                                            className="btn-canceled"
+                                            onClick={() => this.handleCancelOrder(order.orderId)}
+                                        >
+                                            Huỷ đơn hàng
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -160,6 +168,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchListOrderStartRedux: (user_id, status_key) => dispatch(actions.fetchListOrderStart(user_id, status_key)),
+    fetchCancelOrderStartRedux: (order_id) => dispatch(actions.fetchCancelOrderStart(order_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PendingOrders);

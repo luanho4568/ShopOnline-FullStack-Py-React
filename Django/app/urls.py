@@ -82,6 +82,9 @@ urlpatterns = [
     # API create order
     path('api/create_order', views.CreateOrderAPIView.as_view(), name='create_order'),
     # API get list order
-    path('api/order-list', views.GetListOrderAPIView.as_view(), name='order-list'),
-
+    path('api/list-order', views.GetListOrderAPIView.as_view(), name='list-order'),
+    # API cancel order
+    path('api/cancel-order', views.CancelOrderAPIView.as_view(), name='cancel-order'),
+    # API detail order
+    path('api/detail-order', views.GetDetailOrderAPIView.as_view(), name='detail-order'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

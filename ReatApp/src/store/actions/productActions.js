@@ -13,6 +13,8 @@ import {
     removeItemToCardService,
     orderService,
     getListOrderService,
+    cancelOrderService,
+    getDetailOrderService,
 } from "../../services/userService";
 import { toast } from "react-toastify";
 
@@ -320,7 +322,7 @@ export const fetchListCartSuccess = (data) => ({
 
 export const fetchListCartFailed = (data) => ({
     type: actionTypes.FETCH_LIST_CART_FAILED,
-    data
+    data,
 });
 
 export const fetchAddItemToCartStart = (data) => {
@@ -329,9 +331,9 @@ export const fetchAddItemToCartStart = (data) => {
             const res = await addItemToCardService(data);
             if (res && res.errCode === 0) {
                 dispatch(fetchAddItemToCartSuccess(res.data));
-                toast.success(res.errMessage)
+                toast.success(res.errMessage);
             } else {
-                toast.error(res.errMessage)
+                toast.error(res.errMessage);
                 dispatch(fetchAddItemToCartFailed());
             }
         } catch (error) {
@@ -349,16 +351,15 @@ export const fetchAddItemToCartFailed = () => ({
     type: actionTypes.FETCH_ADD_ITEM_TO_CART_FAILED,
 });
 
-
 export const fetchRemoveItemToCartStart = (data) => {
     return async (dispatch) => {
         try {
             const res = await removeItemToCardService(data);
             if (res && res.errCode === 0) {
                 dispatch(fetchRemoveItemToCartSuccess(res.data));
-                toast.success(res.errMessage)
+                toast.success(res.errMessage);
             } else {
-                toast.error(res.errMessage)
+                toast.error(res.errMessage);
                 dispatch(fetchRemoveItemToCartFailed());
             }
         } catch (error) {
@@ -383,13 +384,14 @@ export const fetchCreateOrderStart = (data) => {
             console.log(res);
             if (res && res.errCode === 0) {
                 dispatch(fetchCreateOrderSuccess(res.data));
-                toast.success(res.errMessage)
+                toast.success(res.errMessage);
             } else {
-                toast.error(res.errMessage)
+                toast.error(res.errMessage);
                 dispatch(fetchCreateOrderFailed());
             }
         } catch (error) {
             toast.error("Fetch create order failed! : ", error);
+            toast.error("Fetch create order failed! : ", error.message);
         }
     };
 };
@@ -403,16 +405,13 @@ export const fetchCreateOrderFailed = () => ({
     type: actionTypes.CREATE_ORDER_FAILED,
 });
 
-
-export const fetchListOrderStart = (userId,status_key) => {
+export const fetchListOrderStart = (userId, status_key) => {
     return async (dispatch) => {
         try {
-            const res = await getListOrderService(userId,status_key);
-            console.log(res);
+            const res = await getListOrderService(userId, status_key);
             if (res && res.errCode === 0) {
                 dispatch(fetchListOrderSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(fetchListOrderFailed());
             }
         } catch (error) {
@@ -429,4 +428,57 @@ export const fetchListOrderSuccess = (data) => ({
 
 export const fetchListOrderFailed = () => ({
     type: actionTypes.FETCH_LIST_ORDER_FAILED,
+});
+
+
+export const fetchCancelOrderStart = (order_id) => {
+    return async (dispatch) => {
+        try {
+            const res = await cancelOrderService(order_id);
+            if (res && res.errCode === 0) {
+                dispatch(fetchCancelOrderSuccess());
+                toast.success(res.errMessage);
+            } else {
+                toast.error(res.errMessage);
+                dispatch(fetchCancelOrderFailed());
+            }
+        } catch (error) {
+            toast.error("Fetch cancel order failed!");
+            dispatch(fetchCancelOrderFailed());
+        }
+    };
+};
+
+export const fetchCancelOrderSuccess = () => ({
+    type: actionTypes.FETCH_CANCEL_ORDER_SUCCESS,
+});
+
+export const fetchCancelOrderFailed = () => ({
+    type: actionTypes.FETCH_CANCEL_ORDER_FAILED,
+});
+
+export const fetchDetailOrderStart = (order_id) => {
+    return async (dispatch) => {
+        try {
+            const res = await getDetailOrderService(order_id);
+            console.log(res);
+            if (res && res.errCode === 0) {
+                dispatch(fetchDetailOrderSuccess(res.data));
+            } else {
+                dispatch(fetchDetailOrderFailed());
+            }
+        } catch (error) {
+            toast.error(error);
+            dispatch(fetchDetailOrderFailed());
+        }
+    };
+};
+
+export const fetchDetailOrderSuccess = (data) => ({
+    type: actionTypes.FETCH_DETAIL_ORDER_SUCCESS,
+    data,
+});
+
+export const fetchDetailOrderFailed = () => ({
+    type: actionTypes.FETCH_DETAIL_ORDER_FAILED,
 });

@@ -97,7 +97,7 @@ class HomeHeader extends Component {
                                                         <div className="search-result-title">{product.title}</div>
                                                         {product.discount === 0 ? (
                                                             <div className="search-result-price">
-                                                                ${product.selling_price}
+                                                                {product.selling_price}₫
                                                             </div>
                                                         ) : (
                                                             <div className="search-result-price">

@@ -697,7 +697,7 @@ def add_order_item__service(data):
     )
     # không tạo tức là đã có
     if not created:
-        # cập nhật số lượng và giá bán rồi lưu lại        
+        # cập nhật số lượng và giá bán rồi lưu lại
         order_item.quantity += quantity
         order_item.selling_price = selling_price
         order_item.save()
@@ -836,7 +836,9 @@ def create_order_service(data):
     order.status = new_status
     order.save()
 
-    shipping_address = ShippingAddress.objects.filter(user=order.user, order=order).first()
+    shipping_address = ShippingAddress.objects.filter(
+        user=order.user, order=order
+    ).first()
     if shipping_address:
         # Nếu đã tồn tại, cập nhật địa chỉ giao hàng hiện có
         shipping_address.address = address
@@ -863,7 +865,7 @@ def create_order_service(data):
 
 
 # -----------------------------API list orders --------------------------
-def get_list_order_service(user_id, status_key=None):
+def get_list_order_service(user_id, status_key):
     response = {}
     user = User.objects.filter(id=user_id).first()
     if not user:
@@ -893,7 +895,9 @@ def get_list_order_service(user_id, status_key=None):
             total_order = 0
             for item in order_items_data:
                 product = item["product"]
-                selling_price = product["selling_price"] * ((100 - product["discount"]) / 100)
+                selling_price = product["selling_price"] * (
+                    (100 - product["discount"]) / 100
+                )
                 quantity = item["quantity"]
                 total_price = selling_price * quantity
                 total_order += total_price
@@ -901,9 +905,13 @@ def get_list_order_service(user_id, status_key=None):
             all_order_items.append(order_items_data)
 
         # Lấy ra địa chỉ giao hàng đầu tiên của đơn hàng và người dùng của đơn hàng đó
-        shipping_address = ShippingAddress.objects.filter(user=user, order=order).first()
+        shipping_address = ShippingAddress.objects.filter(
+            user=user, order=order
+        ).first()
         if shipping_address:
-            shipping_address_data.append(ShippingAddressSerializer(shipping_address).data)
+            shipping_address_data.append(
+                ShippingAddressSerializer(shipping_address).data
+            )
 
     if not all_order_items:
         response["errCode"] = 3
@@ -914,7 +922,7 @@ def get_list_order_service(user_id, status_key=None):
         response["errCode"] = 4
         response["errMessage"] = "Shipping address not found."
         return response
-    
+
     response["errCode"] = 0
     response["errMessage"] = "Order retrieved successfully!"
     response["data"] = {
@@ -925,3 +933,71 @@ def get_list_order_service(user_id, status_key=None):
     return response
 
 
+# -----------------------------API canceled orders --------------------------
+def cancel_order_service(order_id):
+    response = {}
+    order = Order.objects.get(id=order_id)
+    if not order:
+        response["errCode"] = 1
+        response["errMessage"] = "Order not found."
+        return response
+    new_status = Allcode.objects.get(type="STATUS", key="S6")
+    order.status = new_status
+    order.save()
+    # Cập nhật số lượng sản phẩm trong kho
+    order_items = OrderItem.objects.filter(order=order)
+    if not order_items.exists():
+        response["errCode"] = 2
+        response["errMessage"] = "No items found in the order."
+        return response
+    for item in order_items:
+        product = Product.objects.get(id=item.product.id)
+        product.quatity_stock += item.quantity
+        product.save()
+    response["errCode"] = 0
+    response["errMessage"] = "Order canceled successfully!"
+    return response
+
+
+# -----------------------------API detail orders --------------------------
+def get_detail_order_service(order_id):
+    response = {}
+    order = Order.objects.get(id=order_id)
+    if not order:
+        response["errCode"] = 1
+        response["errMessage"] = "Order not found."
+        return response
+    order_items = OrderItem.objects.filter(order=order)
+    if not order_items.exists():
+        response["errCode"] = 2
+        response["errMessage"] = "Order items not found."
+        return response
+    order_items_data = OrderItemSerializer(order_items, many=True).data
+    total_order = 0
+    total_quantity = 0
+    for item in order_items_data:
+        product = item["product"]
+        selling_price = product["selling_price"] * ((100 - product["discount"]) / 100)
+        quantity = item["quantity"]
+        total_price = selling_price * quantity
+        total_order += total_price
+        total_quantity += quantity
+        item["total_order"] = total_price
+        item["total_quantity"] = total_quantity
+
+    # Lấy ra địa chỉ giao hàng của đơn hàng
+    shipping_address = ShippingAddress.objects.filter(order=order).first()
+    shipping_address_data = (
+        ShippingAddressSerializer(shipping_address).data if shipping_address else None
+    )
+
+    response["errCode"] = 0
+    response["errMessage"] = "Order details retrieved successfully!"
+    response["data"] = {
+        "orderItems": order_items_data,
+        "shippingAddress": shipping_address_data,
+        "totalOrder": total_order,
+        "totalQuantity" : total_quantity
+    }
+
+    return response

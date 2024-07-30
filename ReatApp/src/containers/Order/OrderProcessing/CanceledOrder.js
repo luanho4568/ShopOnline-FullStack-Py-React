@@ -1,91 +1,151 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, NavLink } from "react-router-dom/cjs/react-router-dom.min";
-import { FormattedMessage } from "react-intl";
+import { Link, NavLink } from "react-router-dom";
 import * as actions from "../../../store/actions";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
 class CanceledOrder extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            isData: false,
+        };
     }
-    async componentDidMount() {}
-    async componentDidUpdate(prevProps) {}
+
+    async componentDidMount() {
+        if (this.props.userInfo && this.props.userInfo.id) {
+            await this.props.fetchListOrderStartRedux(this.props.userInfo.id, "S6");
+            this.setState({ isData: true });
+        }
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.userInfo !== this.props.userInfo && this.props.userInfo && this.props.userInfo.id) {
+            await this.props.fetchListOrderStartRedux(this.props.userInfo.id, "S6");
+            this.setState({ isData: true });
+        }
+    }
+
+    groupOrderItems = (orderItems) => {
+        const groupedItems = {};
+        orderItems.forEach((orderItem) => {
+            orderItem.forEach((item) => {
+                const orderId = item.order.id;
+                // kiểm tra order trong orderItem
+                // Nếu không có thì tạo ra order mới lấy từ item
+                if (!groupedItems[orderId]) {
+                    groupedItems[orderId] = {
+                        orderId: orderId,
+                        status: item.order.status,
+                        created_date: item.order.created_date,
+                        updated_date: item.order.updated_date,
+                        user: item.order.user,
+                        items: [], // tạo ra 1 mảng rỗng để truyền các tham số trên vào
+                    };
+                }
+                groupedItems[orderId].items.push(item);
+            });
+        });
+        // Trả về mảng có các giá trị của groupedItems
+        return Object.values(groupedItems);
+    };
 
     render() {
-        const { cartItemsRedux } = this.props;
-        let totalQuantity = 0;
-        let totalPrice = 0;
-        if (cartItemsRedux && cartItemsRedux.length > 0) {
-            cartItemsRedux.forEach((item) => {
-                totalQuantity += item.quantity;
-                totalPrice += item.total_price;
-            });
+        const { orderItemsRedux } = this.props;
+        const { isData } = this.state;
+        const orderItems =
+            orderItemsRedux && Array.isArray(orderItemsRedux.orderItems) ? orderItemsRedux.orderItems : [];
+        const groupedOrderItems = this.groupOrderItems(orderItems);
+
+        if (!isData) {
+            return <div className="text-center">Loading...</div>;
         }
-        const cartItemsStatus = cartItemsRedux.filter((item) => item.order.status === "S6");
+
         return (
             <>
-                {cartItemsStatus && cartItemsStatus.length > 0 ? (
-                    cartItemsStatus.map((item) => (
-                        <div className="main-order">
-                            <div className="header-order">
-                                <div className="header-order-left">
-                                    <button className="info-item">Xem chi tiết</button>
+                {groupedOrderItems.length > 0 ? (
+                    groupedOrderItems.map((order) => {
+                        let totalPrice = 0;
+                        let totalQuantity = 0;
+                        order.items.forEach((item) => {
+                            totalQuantity += item.quantity;
+                            totalPrice += item.total_order;
+                        });
+
+                        return (
+                            <div key={order.orderId} className="main-order">
+                                <div className="header-order">
+                                    <div className="header-order-left">
+                                        <Link to={`/order-detail/${order.orderId}`}>
+                                            <button className="info-item">Xem chi tiết</button>
+                                        </Link>
+                                    </div>
+                                    <div className="header-order-right">
+                                        <span className="title-toast-pending">Đã huỷ</span>
+                                    </div>
                                 </div>
-                                <div className="header-order-right">
-                                    <span className="title-toast-pending">Đã huỷ</span>
-                                </div>
-                            </div>
-                            <div className="body-order">
-                                <div className="item-container">
-                                    <div className="row">
-                                        <div className="col-2">
-                                            <img
-                                                src={`http://localhost:8000/static${item.product.product_image}`}
-                                                alt={item.product.title}
-                                            />
-                                        </div>
-                                        <div className="col-7">
-                                            <div className="body-item">
-                                                <div className="title-item">{item.product.title}</div>
-                                                <div className="quantity-item">x{item.quantity}</div>
-                                                <div className="toast-item">
-                                                    <span>Trả hàng miễn phí 15 ngày</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-3">
-                                            {item.product.discount && item.product.discount > 0 ? (
-                                                <div className="item-price-discount">
-                                                    <div className="main-price">{item.product.selling_price}₫</div>
-                                                    <div className="reduced-price">
-                                                        {item.selling_price * ((100 - item.product.discount) / 100)}₫
+                                <div className="body-order">
+                                    {order.items.length > 0 &&
+                                        order.items.map((item) => (
+                                            <div key={item.id} className="item-container">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <img
+                                                            src={`http://localhost:8000/static${item.product.product_image}`}
+                                                            alt={item.product.title}
+                                                        />
+                                                    </div>
+                                                    <div className="col-7">
+                                                        <div className="body-item">
+                                                            <div className="title-item">{item.product.title}</div>
+                                                            <div className="quantity-item">x{item.quantity}</div>
+                                                            <div className="toast-item">
+                                                                <span>Trả hàng miễn phí 15 ngày</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-3">
+                                                        {item.product.discount && item.product.discount > 0 ? (
+                                                            <div className="item-price-discount">
+                                                                <div className="main-price">
+                                                                    {item.product.selling_price}₫
+                                                                </div>
+                                                                <div className="reduced-price">
+                                                                    {item.product.selling_price *
+                                                                        ((100 - item.product.discount) / 100)}
+                                                                    ₫ ₫
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="item-price">
+                                                                <div className="main-price">
+                                                                    {item.product.selling_price}₫
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
-                                            ) : (
-                                                <div className="item-price">
-                                                    <div className="main-price">{item.product.selling_price}₫</div>
-                                                </div>
-                                            )}
-                                        </div>
+                                            </div>
+                                        ))}
+                                </div>
+                                <div className="footer-order">
+                                    <div className="total-item">
+                                        <i className="fas fa-money-bill"></i>
+                                        <span className="text-total-bill">Thành tiền:</span>
+                                        <span className="total-bill">{totalPrice}₫</span>
+                                    </div>
+                                    <div className="btn-handle">
+                                        <Link to={`/repurchase/${order.orderId}`}>
+                                            <button className="btn-buy">Mua lại</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
-                            <div className="footer-order">
-                                <div className="total-item">
-                                    <i class="fas fa-money-bill"></i>
-                                    <span className="text-total-bill">Thành tiền:</span>
-                                    <span className="total-bill">{totalPrice}₫</span>
-                                </div>
-                                <div className="btn-handle">
-                                    <button className="btn-buy">Mua lại</button>
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                        );
+                    })
                 ) : (
-                    <div className="text-toast-not-order">Bạn chưa có đơn nào huỷ</div>
+                    <div className="text-toast-not-order">Bạn chưa có đơn hàng nào</div>
                 )}
             </>
         );
@@ -95,11 +155,11 @@ class CanceledOrder extends Component {
 const mapStateToProps = (state) => ({
     language: state.app.language,
     userInfo: state.user.userInfo,
-    cartItemsRedux: state.product.cartItems,
+    orderItemsRedux: state.product.orderItems,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchListCartStartRedux: (user_id) => dispatch(actions.fetchListCartStart(user_id)),
+    fetchListOrderStartRedux: (user_id, status_key) => dispatch(actions.fetchListOrderStart(user_id, status_key)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CanceledOrder);

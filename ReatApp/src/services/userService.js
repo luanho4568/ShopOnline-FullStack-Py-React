@@ -99,12 +99,22 @@ const orderService = (data) => {
     return axios.post("/api/create_order", data);
 };
 // API GET ORDER
-const getListOrderService = (user_id , status_key) => {
-    return axios.get(`/api/order-list?user_id=${user_id}&status_key=${status_key}`);
+const getListOrderService = (user_id, status_key) => {
+    return axios.get(`/api/list-order?user_id=${user_id}&status_key=${status_key}`);
 };
+// API CANCELED ORDER
+const cancelOrderService = (order_id) => {
+    return axios.post(`/api/cancel-order?order_id=${order_id}`);
+};
+// API GET DETAIL ORDER BY ID
+const getDetailOrderService = (id) => {
+    return axios.get(`/api/detail-order?id=${id}`);
+};
+
 export {
     handleLoginAPI,
     orderService,
+    getDetailOrderService,
     createNewUserService,
     addItemToCardService,
     deleteUserService,
@@ -112,6 +122,7 @@ export {
     updatePasswordService,
     getUserAddress,
     editAddressService,
+    cancelOrderService,
     getListCartService,
     removeItemToCardService,
     searchProductService,
