@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import * as actions from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
+import { toast } from "react-toastify";
 
 class ModalUser extends Component {
     constructor(props) {
@@ -74,7 +75,7 @@ class ModalUser extends Component {
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
-                alert(`This input is required: ${arrCheck[i]}`);
+                toast.error(`This input is required: ${arrCheck[i]}`);
                 break;
             }
         }

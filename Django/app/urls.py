@@ -39,6 +39,8 @@ urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),
     # API login
     path("api/login", views.LoginAPIView.as_view(), name="login"),
+    # API register
+    path("api/register", views.RegisterUserAPIView.as_view(), name="register"),
     # API user
     path("api/edit-user", views.EditUserAPIView.as_view(), name="edit"),
     path("api/create-new-user", views.CreateUserAPIView.as_view(), name="create"),

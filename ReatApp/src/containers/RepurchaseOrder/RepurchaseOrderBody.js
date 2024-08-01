@@ -25,33 +25,29 @@ class RepurchaseOrderBody extends Component {
             await this.props.fetchDetailOrderStartRedux(order_id);
         }
     }
-    async componentDidUpdate(prevProps) {
-        const { userInfo } = this.props;
-        if (prevProps.cartItemsRedux !== this.props.cartItemsRedux) {
-            if (this.props.userInfo && this.props.userInfo.id && this.props.userInfo.id !== prevProps.userInfo?.id) {
-                await this.props.fetchListCartStartRedux(userInfo.id);
-            }
-        }
-    }
+    async componentDidUpdate(prevProps) {}
 
     handleSelectAddress = (addressId) => {
         this.setState({ selectedAddress: addressId });
     };
 
-    handleOrder = async () => {
-        // const { userInfo, fetchCreateOrderStartRedux, cartItemsRedux } = this.props;
-        // const { selectedAddress } = this.state;
-        // cartItemsRedux.forEach(async (item) => {
-        //     const orderData = {
-        //         address: selectedAddress,
-        //         order: item.order.id,
-        //     };
-        //     await fetchCreateOrderStartRedux(orderData);
-        // });
-    };
     handleGoBack = () => {
         this.props.history.goBack();
     };
+    handleOrder = async () => {
+        const { fetchCreateOrderStartRedux, orderDetailsRedux } = this.props;
+        const { selectedAddress } = this.state;
+        const orderItems = orderDetailsRedux.orderItems;
+        
+        const orderData = {
+            address: selectedAddress,
+            order: orderItems[0].order.id, 
+        };
+    
+        await fetchCreateOrderStartRedux(orderData).then(() => this.handleGoBack());
+    };
+    
+
     render() {
         let { orderDetailsRedux, addressRedux } = this.props;
         const { selectedAddress } = this.state;
@@ -59,7 +55,7 @@ class RepurchaseOrderBody extends Component {
         if (!addressRedux) {
             return null;
         }
-        console.log(orderDetailsRedux);
+        console.log();
 
         return (
             <>

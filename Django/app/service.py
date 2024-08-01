@@ -3,6 +3,7 @@ from .models import *
 from .serializers import *
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
+import re
 
 # --------------------------------Login user--------------------------------------------#
 
@@ -112,6 +113,23 @@ def update_user_data_service(data, files):
 
 
 # -------------------------------Create new user--------------------------------------#
+# regex email
+def validate_email(email):
+    email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    return re.match(email_regex, email) is not None
+
+
+# regex password
+def validate_password(password):
+    password_regex = r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$])[\w\d@#$]{6,}$"
+    return re.match(password_regex, password) is not None
+
+
+# regex phone
+def validate_phone(phone):
+    phone_regex = r'^0\d{9,10}$'
+    return re.match(phone_regex, phone) is not None
+
 
 
 # Kiểm tra email có tồn tại hay không
@@ -138,9 +156,26 @@ def create_new_user_service(data, files):
             "Username || Email || Phone already exists. Pls try another email!"
         )
         return response
-    if username == "" or email == "" or password == "":
+    if not username or not email or not password:
         response["errCode"] = 2
-        response["errMessage"] = "Username || email || password cannot null"
+        response["errMessage"] = "Username, email, and password cannot be null."
+        return response
+    # Kiểm tra định dạng email, phone và password
+    if not validate_email(email):
+        response["errCode"] = 6
+        response["errMessage"] = "Invalid email format."
+        return response
+
+    if not validate_phone(phone):
+        response["errCode"] = 7
+        response["errMessage"] = "Invalid phone number format."
+        return response
+
+    if not validate_password(password):
+        response["errCode"] = 8
+        response["errMessage"] = (
+            "Password must have 6 characters or more and include lowercase and uppercase letters, numbers, and special characters."
+        )
         return response
 
     hashed_password = make_password(password)  # băm password
@@ -156,7 +191,7 @@ def create_new_user_service(data, files):
         gender_instance = Allcode.objects.get(type="GENDER", key=gender_key)
     else:
         response["errCode"] = 5
-        response["errMessage"] = "Role does not exist"
+        response["errMessage"] = "Gender does not exist"
         return response
 
     user = User.objects.create(
@@ -182,6 +217,82 @@ def create_new_user_service(data, files):
         response["errMessage"] = "Create new user failed!"
         return response
 
+# hàm xử lý create new user
+def register_user_service(data):
+    response = {}
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    phone_number = data.get("phone_number")
+    if check_phone(phone_number):
+        response["errCode"] = 1
+        response["errMessage"] = (
+            "Phone  already exists. Pls try another Phone!"
+        )
+        return response
+    if check_email(email):
+        response["errCode"] = 1
+        response["errMessage"] = (
+            "Email  already exists. Pls try another email!"
+        )
+        return response
+    if check_username(username):
+        response["errCode"] = 1
+        response["errMessage"] = (
+            "Username  already exists. Pls try another Username!"
+        )
+        return response
+    if not username or not email or not password:
+        response["errCode"] = 2
+        response["errMessage"] = "Username, email, and password cannot be null."
+        return response
+    # Kiểm tra định dạng email, phone và password
+    if not validate_email(email):
+        response["errCode"] = 5
+        response["errMessage"] = "Invalid email format."
+        return response
+    if len(password) < 6 :
+        response["errCode"] = 4
+        response["errMessage"] = "Password must have at least 6 characters."
+        return response
+    if not validate_password(password):
+        response["errCode"] = 6
+        response["errMessage"] = (
+            "Password must contain lowercase and uppercase letters, numbers and special characters."
+        )
+        return response
+    if not validate_phone(phone_number):
+        response["errCode"] = 7
+        response["errMessage"] = "Invalid phone number format."
+        return response
+    default_role = Allcode.objects.get(type="ROLE", key="R3")
+    gender_key = data.get("gender")
+    if gender_key:
+        gender_instance = Allcode.objects.get(type="GENDER", key=gender_key)
+    else:
+        response["errCode"] = 5
+        response["errMessage"] = "Gender does not exist"
+        return response
+    hashed_password = make_password(password)  # băm password
+    user = User.objects.create(
+        username=username,
+        email=email,
+        password=hashed_password,
+        role = default_role,
+        gender = gender_instance,
+        phone_number=phone_number,
+    )
+
+    # kiểm tra user vừa tạo có thành công không
+    if user.id:
+        response["errCode"] = 0
+        response["errMessage"] = "Create new user successful!"
+        response["user"] = UserSerializer(user).data
+        return response
+    else:
+        response["errCode"] = 3
+        response["errMessage"] = "Create new user failed!"
+        return response
 
 # -------------------------------Delete user--------------------------------------#
 def delete_user_service(data):
@@ -824,17 +935,40 @@ def create_order_service(data):
         response["errCode"] = 2
         response["errMessage"] = "Order not found."
         return response
+    status_s5 = Allcode.objects.get(type="STATUS", key="S5")
+    status_s6 = Allcode.objects.get(type="STATUS", key="S6")
+    if order.status == status_s5 or order.status == status_s6:
+        # tìm các sản phẩm từ đơn hàng cũ và lấy nó ra
+        order_items = OrderItem.objects.filter(order=order)
+        if not order_items.exists():
+            response["errCode"] = 4
+            response["errMessage"] = "There are no products in the order!"
+            return response
 
+        # Tạo đơn hàng mới
+        new_status = Allcode.objects.get(type="STATUS", key="S3")
+        new_order = Order.objects.create(user=order.user, status=new_status)
+
+        # Sao chép các sản phẩm từ đơn hàng cũ vào đơn hàng mới
+        for item in order_items:
+            OrderItem.objects.create(
+                order=new_order,
+                product=item.product,
+                quantity=item.quantity,
+                selling_price=item.selling_price,
+            )
+
+        order = new_order
+    else:
+        # Cập nhật trạng thái đơn hàng
+        new_status = Allcode.objects.get(type="STATUS", key="S3")
+        order.status = new_status
+        order.save()
     address = Address.objects.get(id=address_id)
     if not address:
         response["errCode"] = 3
         response["errMessage"] = "Address not found."
         return response
-
-    # Cập nhật trạng thái đơn hàng
-    new_status = Allcode.objects.get(type="STATUS", key="S3")
-    order.status = new_status
-    order.save()
 
     shipping_address = ShippingAddress.objects.filter(
         user=order.user, order=order
@@ -852,8 +986,11 @@ def create_order_service(data):
 
     # Lấy tất cả các OrderItem liên quan đến đơn hàng
     order_items = OrderItem.objects.filter(order=order)
+    if not order_items.exists():
+        response["errCode"] = 4
+        response["errMessage"] = "There are no products in the order!."
+        return response
     order_items_data = OrderItemSerializer(order_items, many=True).data
-
     response["errCode"] = 0
     response["errMessage"] = "Create Order successfully!"
     response["data"] = {
@@ -997,7 +1134,7 @@ def get_detail_order_service(order_id):
         "orderItems": order_items_data,
         "shippingAddress": shipping_address_data,
         "totalOrder": total_order,
-        "totalQuantity" : total_quantity
+        "totalQuantity": total_quantity,
     }
 
     return response

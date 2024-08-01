@@ -2,9 +2,9 @@
     background: linear-gradient(#2a00b7, #4300c6);
     height: 100vh;
 
-    .login-container {
+    .register-container {
         width: 450px;
-        max-height: 350px;
+        max-height: 80%;
         background-color: white;
         border-radius: 10px;
         margin: auto;
@@ -14,16 +14,16 @@
         right: 0;
         bottom: 0;
 
-        .login-content {
+        .register-content {
             padding: 35px;
-            .text-login {
+            .text-register {
                 text-align: center;
                 font-weight: 600;
                 font-size: 30px;
                 color: #3d009c;
             }
 
-            .login-input {
+            .register-input {
                 margin: 8px 0;
                 display: flex;
                 align-items: center;
@@ -31,6 +31,21 @@
                     margin-right: 10px;
                     font-size: 35px;
                     color: #9fa9b3;
+                    width: 30px;
+                }
+                .gender-container {
+                    display: flex;
+                    align-items: center;
+
+                    .form-check {
+                        margin: 0 45%;
+                        .form-check-input {
+                            font-size: 20px;
+                        }
+                        .form-check-label{
+                            font-size: 20px;
+                        }
+                    }
                 }
                 .form-control {
                     padding: 20px 20px;
@@ -49,10 +64,10 @@
                 }
             }
 
-            .btn-login {
+            .btn-register {
                 width: 70%;
                 height: 50px;
-                margin: 15px 60px;
+                margin: 0 60px;
                 border-radius: 25px;
                 border: none;
                 background: #3d009c;
@@ -64,7 +79,8 @@
             .btn-sign-up {
                 width: 70%;
                 height: 50px;
-                margin: 15px 20px;
+                margin: 0 20px;
+                margin-bottom: 10px;
                 border-radius: 25px;
                 border: none;
                 color: #fff;

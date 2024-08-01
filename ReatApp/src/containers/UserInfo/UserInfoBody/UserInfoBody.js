@@ -41,6 +41,7 @@ class UserInfoBody extends Component {
         const { userInfo } = this.state;
         userInfo[id] = e.target.value;
         this.setState({ userInfo });
+        console.log(userInfo);
     };
 
     handleEdit = () => {
@@ -89,6 +90,7 @@ class UserInfoBody extends Component {
         if (!userInfo) {
             return null;
         }
+        console.log(userInfo);
         return (
             <div className="container">
                 <div className="content">

@@ -4,12 +4,15 @@ import axios from "../axios";
 const handleLoginAPI = (username, password) => {
     return axios.post("/api/login", { username, password });
 };
+// API REGISTER
+const registerUserService = (data) => {
+    return axios.post("/api/register", data);
+};
 
-// API GET ALL USERS
+// API CREATE USER
 const createNewUserService = (data) => {
     return axios.post("/api/create-new-user", data);
 };
-
 // API DELETE USER
 const deleteUserService = (id) => {
     return axios.delete("/api/delete-user", { data: { id } });
@@ -134,6 +137,7 @@ export {
     editProductService,
     getAllProductByCategory,
     createNewProductService,
+    registerUserService,
     getBrand,
     getDetailProduct,
     deleteAddressService,

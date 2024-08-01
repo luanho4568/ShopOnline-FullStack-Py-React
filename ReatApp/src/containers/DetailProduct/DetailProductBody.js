@@ -28,8 +28,11 @@ class DetailProduct extends Component {
         await fetchAddItemToCartStartRedux(data);
         await fetchListCartStartRedux(userInfo.id);
     };
+    handleLogin = () => {
+        this.props.history.push("/login");
+    };
     render() {
-        const { detailProductRedux } = this.props;
+        const { detailProductRedux , userInfo } = this.props;
         if (!detailProductRedux) {
             return <div className="loading-circle"></div>;
         }
@@ -76,7 +79,11 @@ class DetailProduct extends Component {
                                 <FormattedMessage id="manage-product.buy-now" />
                             </button>
                             <button
-                                onClick={() => this.handleAddToCart(detailProductRedux.id)}
+                                onClick={
+                                    userInfo
+                                        ? () => this.handleAddToCart(detailProductRedux.id)
+                                        : () => this.handleLogin()
+                                }
                                 className="btn-cart"
                                 style={{ backgroundImage: `url(${cart})` }}
                             ></button>

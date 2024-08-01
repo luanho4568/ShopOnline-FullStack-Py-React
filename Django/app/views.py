@@ -40,8 +40,6 @@ class LoginAPIView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-
-
 # -----------------------------API user--------------------------------
 # API Edit user
 class EditUserAPIView(APIView):
@@ -78,7 +76,21 @@ class CreateUserAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
-
+# API Create
+class RegisterUserAPIView(APIView):
+    def post(self, request):
+        try:
+            data = request.data
+            response = service.register_user_service(data)
+            return Response(response, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {
+                    "errCode": 500,
+                    "errMessage": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 # API delete
 class DeleteUserAPIView(APIView):
     def delete(self, request):

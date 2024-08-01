@@ -22,6 +22,7 @@ import CartPage from "./Cart/CartPage";
 import OderPage from "./Order/OderPage";
 import RepurchaseOrder from "./RepurchaseOrder/RepurchaseOrder";
 import DetailOrder from "./Order/OrderDetail/DetailOrder";
+import Register from "./Auth/Register";
 
 class App extends Component {
     handlePersistorState = () => {
@@ -52,6 +53,7 @@ class App extends Component {
                                 <Switch>
                                     <Route path={path.HOME} exact component={Home} />
                                     <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
+                                    <Route path={path.REGISTER} component={userIsNotAuthenticated(Register)} />
                                     <Route path={path.SYSTEM} component={userIsAuthenticated(System)} />
                                     <Route path={path.HOMEPAGE} component={HomePage} />
                                     <Route path={path.PHONEPAGE} component={PhonePage} />

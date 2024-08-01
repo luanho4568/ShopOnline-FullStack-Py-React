@@ -127,7 +127,7 @@ BRAND_CHOICES = (
 
 class Allcode(models.Model):
     type = models.CharField(max_length=50)
-    key = models.CharField(max_length=5)
+    key = models.CharField(max_length=5 , default="")
     valueEn = models.CharField(max_length=50)
     valueVi = models.CharField(max_length=50)
 
@@ -136,7 +136,7 @@ class Allcode(models.Model):
 
 
 class User(AbstractUser):
-    phone_number = models.CharField(max_length=11, blank=True, null=True)
+    phone_number = models.CharField(max_length=11, blank=True, null=True , default="")
     role = models.ForeignKey(
         Allcode,
         on_delete=models.SET_NULL,

@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import * as actions from "../../../store/actions";
 import cart from "../../../assets/images/add-to-cart.png";
 import { FormattedMessage } from "react-intl";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, withRouter } from "react-router-dom/cjs/react-router-dom.min";
 class PhoneBody extends Component {
     constructor(props) {
         super(props);
@@ -89,9 +89,11 @@ class PhoneBody extends Component {
             });
         });
     };
-
+    handleLogin = () => {
+        this.props.history.push("/login");
+    };
     handleAddToCart = async (productId) => {
-        const { userInfo, fetchAddItemToCartStartRedux , fetchListCartStartRedux } = this.props;
+        const { userInfo, fetchAddItemToCartStartRedux, fetchListCartStartRedux } = this.props;
         const data = {
             user: userInfo.id,
             product: productId,
@@ -101,7 +103,7 @@ class PhoneBody extends Component {
         await fetchListCartStartRedux(userInfo.id);
     };
     render() {
-        const { listProducts, brandRedux } = this.props;
+        const { listProducts, brandRedux ,userInfo} = this.props;
         const { currentPage, itemPerPage, selectedBrands, selectedPriceRanges } = this.state;
         const indexOfLastRecord = currentPage * itemPerPage;
         const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
@@ -294,7 +296,11 @@ class PhoneBody extends Component {
                                                         <button
                                                             className="btn-cart"
                                                             style={{ backgroundImage: `url(${cart})` }}
-                                                            onClick={() => this.handleAddToCart(item.id)}
+                                                            onClick={
+                                                                userInfo
+                                                                    ? () => this.handleAddToCart(item.id)
+                                                                    : () => this.handleLogin()
+                                                            }
                                                         ></button>
                                                     </div>
                                                 </div>
@@ -332,4 +338,4 @@ const mapDispatchToProps = (dispatch) => ({
     fetchListCartStartRedux: (user_id) => dispatch(actions.fetchListCartStart(user_id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhoneBody);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PhoneBody));

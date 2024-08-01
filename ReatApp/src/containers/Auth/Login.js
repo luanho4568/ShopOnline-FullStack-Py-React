@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLoginAPI } from "../../services/userService";
-
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -72,11 +72,11 @@ class Login extends Component {
                         <div className="login-content row">
                             <div className="col-12 text-login">Login</div>
                             <div className="col-12 form-group login-input">
-                                <label>Username:</label>
+                                <i class="fas fa-user"></i>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="Enter your username..."
+                                    placeholder="UserName"
                                     value={this.state.username}
                                     onChange={(e) => this.handleOnChangeUsername(e)}
                                     onKeyDown={(e) => {
@@ -87,7 +87,7 @@ class Login extends Component {
                                 />
                             </div>
                             <div className="col-12 form-group login-input">
-                                <label>Password:</label>
+                                <i class="fas fa-lock"></i>
                                 <div className="custom-input-password">
                                     <input
                                         className="form-control"
@@ -97,7 +97,7 @@ class Login extends Component {
                                                 this.handleLogin();
                                             }
                                         }}
-                                        placeholder="Enter your password..."
+                                        placeholder="Password"
                                         value={this.state.password}
                                         onChange={(e) => this.handleOnChangePassword(e)}
                                     />
@@ -112,13 +112,11 @@ class Login extends Component {
                                     </span>
                                 </div>
                             </div>
-                            <div className="col-12" style={{ color: "red" }}>
+                            <div className="col-12 text-center" style={{ color: "red" }}>
                                 {this.state.errMessage}
                             </div>
-                            <div className="col-12">
-                                <span className="forgot-password">Forgot your password?</span>
-                            </div>
-                            <div className="col-12">
+                            <div className="col-12"></div>
+                            <div className="col-6">
                                 <button
                                     className="btn-login"
                                     onClick={() => {
@@ -128,12 +126,10 @@ class Login extends Component {
                                     Login
                                 </button>
                             </div>
-                            <div className="col-12 text-center mt-3">
-                                <span className="text-other-login">Or Login with:</span>
-                            </div>
-                            <div className="col-12 social-login">
-                                <i className="fab fa-facebook fb"></i>
-                                <i className="fab fa-google-plus gg"></i>
+                            <div className="col-6">
+                                <Link to="/register">
+                                    <button className="btn-sign-up">Sign Up</button>
+                                </Link>{" "}
                             </div>
                         </div>
                     </div>
@@ -152,7 +148,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
-        // userLoginFail: () => dispatch(actions.userLoginFail()),
+        userLoginFail: () => dispatch(actions.userLoginFail()),
         userLoginSuccess: (useInfo) => dispatch(actions.userLoginSuccess(useInfo)),
     };
 };

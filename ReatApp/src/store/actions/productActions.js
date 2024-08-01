@@ -99,7 +99,6 @@ export const fetchAllProductStart = (category_key) => {
             if (res && res.errCode === 0) {
                 dispatch(fetchAllProductSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(fetchAllProductFailed());
             }
         } catch (error) {
@@ -149,11 +148,9 @@ export const fetchAllProductPhoneStart = (category_key) => {
             if (res && res.errCode === 0) {
                 dispatch(fetchAllProductPhoneSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(fetchAllProductPhoneFailed());
             }
         } catch (error) {
-            toast.error("Fetch all Product failed!");
             dispatch(fetchAllProductPhoneFailed());
             console.log("fetchAllProductFailed", error);
         }
@@ -174,11 +171,9 @@ export const fetchAllProductLaptopStart = (category_key) => {
             if (res && res.errCode === 0) {
                 dispatch(fetchAllProductLaptopSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(fetchAllProductLaptopFailed());
             }
         } catch (error) {
-            toast.error("Fetch all Product failed!");
             dispatch(fetchAllProductLaptopFailed());
             console.log("fetchAllProductFailed", error);
         }
@@ -200,11 +195,9 @@ export const fetchAllProductTabletStart = (category_key) => {
             if (res && res.errCode === 0) {
                 dispatch(fetchAllProductTabletSuccess(res.data));
             } else {
-                toast.error(res.errMessage);
                 dispatch(fetchAllProductTabletFailed());
             }
         } catch (error) {
-            toast.error("Fetch all Product failed!");
             dispatch(fetchAllProductTabletFailed());
             console.log("fetchAllProductFailed", error);
         }
@@ -231,7 +224,6 @@ export const deleteOneProduct = (data, category_key) => {
                 dispatch(deleteProductFailed());
             }
         } catch (error) {
-            toast.error("Delete a Product failed!");
             dispatch(deleteProductFailed());
             console.log("DeleteProductFailed", error);
         }
@@ -260,7 +252,6 @@ export const editOneProduct = (data, category_key) => {
                 dispatch(editProductFailed());
             }
         } catch (error) {
-            toast.error("Update a Product failed!");
             dispatch(editProductFailed());
             console.log("UpdateProductFailed", error);
         }
@@ -391,7 +382,6 @@ export const fetchCreateOrderStart = (data) => {
             }
         } catch (error) {
             toast.error("Fetch create order failed! : ", error);
-            toast.error("Fetch create order failed! : ", error.message);
         }
     };
 };

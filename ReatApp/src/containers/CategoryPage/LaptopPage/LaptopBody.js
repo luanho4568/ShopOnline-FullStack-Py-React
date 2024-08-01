@@ -7,6 +7,8 @@ import * as actions from "../../../store/actions";
 import cart from "../../../assets/images/add-to-cart.png";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FormattedMessage } from "react-intl";
+import { withRouter } from 'react-router-dom';
+
 class LaptopBody extends Component {
     constructor(props) {
         super(props);
@@ -85,6 +87,9 @@ class LaptopBody extends Component {
             });
         });
     };
+    handleLogin = () => {
+        this.props.history.push("/login");
+    };
     handleAddToCart = async (productId) => {
         const { userInfo, fetchAddItemToCartStartRedux, fetchListCartStartRedux } = this.props;
         const data = {
@@ -96,7 +101,7 @@ class LaptopBody extends Component {
         await fetchListCartStartRedux(userInfo.id);
     };
     render() {
-        const { listProducts, brandRedux } = this.props;
+        const { listProducts, brandRedux, userInfo } = this.props;
         const { currentPage, itemPerPage, selectedBrands, selectedPriceRanges } = this.state;
         const indexOfLastRecord = currentPage * itemPerPage;
         const indexOfFirstRecord = indexOfLastRecord - itemPerPage;
@@ -283,12 +288,15 @@ class LaptopBody extends Component {
                                                     </Link>
                                                     <div className="ctgphone-btn">
                                                         <button className="btn-buy">
-                                                            {" "}
                                                             <FormattedMessage id="manage-product.buy-now" />
                                                         </button>
                                                         <button
                                                             className="btn-cart"
-                                                            onClick={() => this.handleAddToCart(item.id)}
+                                                            onClick={
+                                                                userInfo
+                                                                    ? () => this.handleAddToCart(item.id)
+                                                                    : () => this.handleLogin()
+                                                            }
                                                             style={{ backgroundImage: `url(${cart})` }}
                                                         ></button>
                                                     </div>
@@ -327,4 +335,4 @@ const mapDispatchToProps = (dispatch) => ({
     fetchListCartStartRedux: (user_id) => dispatch(actions.fetchListCartStart(user_id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LaptopBody);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LaptopBody));

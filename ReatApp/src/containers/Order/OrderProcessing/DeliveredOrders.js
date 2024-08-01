@@ -139,7 +139,9 @@ class DeliveredOrders extends Component {
                                         <span className="total-bill">{totalPrice}₫</span>
                                     </div>
                                     <div className="btn-handle">
-                                        <button className="btn-buy">Mua lại</button>
+                                        <Link to={`/repurchase/${order.orderId}`}>
+                                            <button className="btn-buy">Mua lại</button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

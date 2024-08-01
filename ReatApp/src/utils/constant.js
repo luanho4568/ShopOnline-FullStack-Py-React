@@ -1,3 +1,4 @@
+
 export const path = {
     HOME: "/",
     HOMEPAGE: "/home",
@@ -13,6 +14,7 @@ export const path = {
     CARTPAGE:'/cart',
     ORDERPAGE : '/order',
     LOGIN: "/login",
+    REGISTER: "/register",
     LOG_OUT: "/logout",
     SYSTEM: "/system",
 };
